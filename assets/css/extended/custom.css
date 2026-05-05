@@ -1,0 +1,26 @@
+.social-icons {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    line-height: 0;
+}
+
+.social-icons a svg {
+    display: block;
+    height: 26px;
+    width: 26px;
+}
+
+.home-info {
+    display: block;
+    min-height: 0;
+    justify-content: flex-start;
+    margin: 0 0 var(--gap) 0;
+}
