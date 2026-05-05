@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Docker安装各种环境 | Beaulo&#39;s Blog</title>
+<meta name="keywords" content="tech">
+<meta name="description" content="使用docker安装一些中间件">
+<meta name="author" content="Beaulo">
+<link rel="canonical" href="https://ISheepp.github.io/posts/docker-install-anything/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.090f06d52e46e231eebdf90a3ba366b19694815b39f8aa73b1d67235f8e58075.css" integrity="sha256-CQ8G1S5G4jHuvfkKO6NmsZaUgVs5&#43;KpzsdZyNfjlgHU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ISheepp.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ISheepp.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ISheepp.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ISheepp.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ISheepp.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://ISheepp.github.io/posts/docker-install-anything/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://ISheepp.github.io/posts/docker-install-anything/">
+  <meta property="og:site_name" content="Beaulo&#39;s Blog">
+  <meta property="og:title" content="Docker安装各种环境">
+  <meta property="og:description" content="使用docker安装一些中间件">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2021-04-18T09:49:00+00:00">
+    <meta property="article:modified_time" content="2021-04-18T09:49:00+00:00">
+    <meta property="article:tag" content="Tech">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Docker安装各种环境">
+  <meta name="twitter:description" content="使用docker安装一些中间件">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://ISheepp.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Docker安装各种环境",
+      "item": "https://ISheepp.github.io/posts/docker-install-anything/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Docker安装各种环境",
+  "name": "Docker安装各种环境",
+  "description": "使用docker安装一些中间件",
+  "keywords": [
+    "tech"
+  ],
+  "articleBody": " 由Portainer管理容器\n安装Redis 首先去官网下载redis.conf文件并且编辑 修改redis.conf配置文件： 主要配置的如下：\nbind 127.0.0.1 #注释掉这部分，使redis可以外部访问 daemonize no #用守护线程的方式启动（设置为yes会导致redis一启动就马上停止） requirepass 你的密码#给redis设置密码 appendonly yes#redis持久化　默认是no tcp-keepalive 300 #防止出现远程主机强迫关闭了一个现有的连接的错误 默认是300 创建本地与docker映射的目录，即本地存放的位置 创建本地存放redis的位置;\n可以自定义，因为我的docker的一些配置文件都是存放在/mydata目录下面的，所以我依然在/mydata目录下创建一个redis目录，这样是为了方便后期管理。 mkdir /data/redis mkdir /data/redis/data 把配置文件拷贝到刚才创建好的文件里\n文件授权 chmod 777 redis.conf\n启动redis docker run -p 6379:6379 --name redis -v /mydata/redis/redis.conf:/etc/redis/redis.conf -v /mydata/redis/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes 参数解释：\n-p 6379:6379:把容器内的6379端口映射到宿主机6379端口 -v /data/redis/redis.conf:/etc/redis/redis.conf：把宿主机配置好的redis.conf放到容器内的这个位置中 -v /data/redis/data:/data：把redis持久化的数据在宿主机内显示，做数据备份 redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无配置启动，而是按照这个redis.conf的配置启动 –appendonly yes：redis启动后数据持久化\n安装Elasticsearch7.9.3 Kibana选择了安装在本地（不想吃服务器资源）\n拉取镜像 docker pull elasticsearch:7.9.3 创建所需文件夹和文件 mkdir -p /mydata/elasticsearch/config mkdir -p /mydata/elasticsearch/data echo \"http.host: 0.0.0.0\"\u003e\u003e/mydata/elasticsearch/config/elasticsearch.yml 文件夹赋权限 chmod -R 777 /mydata/elasticsearch/ 创建并启动elasticsearch容器 docker run --name elasticsearch -p 9200:9200 \\ -p 9300:9300 \\ -e \"discovery.type=single-node\" \\ -e ES_JAVA_OPTS=\"-Xms64m -Xmx128m\" \\ -v /mydata/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml \\ -v /mydata/elasticsearch/data:/usr/share/elasticsearch/data \\ -v /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins \\ -d elasticsearch:7.9.3 设置容器自启动 docker update elasticsearch --restart=always 安装IK中文分词器 cd /mydata/elasticsearch/plugins/ wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.9.3/elasticsearch-analysis-ik-7.9.3.zip mkdir ik unzip -d ik/ elasticsearch-analysis-ik-7.9.3.zip docker restart elasticsearch 放行端口号 firewall-cmd --zone=public --add-port=9200/tcp --permanent systemctl restart firewalld.service 安装Kafka和Zookeeper 掘金教程 安装kafka\ndocker run -d --name kafka -p 9092:9092 -e KAFKA_BROKER_ID=0 -e KAFKA_ZOOKEEPER_CONNECT=服务器ip:2181 -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://服务器ip:9092 -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092 -e KAFKA_HEAP_OPTS=\"-Xmx256M -Xms128M\" -t wurstmeister/kafka ",
+  "wordCount" : "160",
+  "inLanguage": "en",
+  "datePublished": "2021-04-18T09:49:00Z",
+  "dateModified": "2021-04-18T09:49:00Z",
+  "author":{
+    "@type": "Person",
+    "name": "Beaulo"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ISheepp.github.io/posts/docker-install-anything/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Beaulo's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ISheepp.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://ISheepp.github.io/" accesskey="h" title="Beaulo&#39;s Blog (Alt + H)">Beaulo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ISheepp.github.io/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/posts/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">Posts</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      Docker安装各种环境
+    </h1>
+    <div class="post-meta">
+
+<span title='2021-04-18 09:49:00 +0000 UTC'>April 18, 2021</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>160 words</span>&nbsp;·&nbsp;<span>Beaulo</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#安装redis">安装Redis</a>
+      <ul>
+        <li><a href="#首先去官网下载redisconf文件并且编辑">首先去官网下载redis.conf文件并且编辑</a></li>
+        <li><a href="#创建本地与docker映射的目录即本地存放的位置">创建本地与docker映射的目录，即本地存放的位置</a></li>
+        <li><a href="#文件授权">文件授权</a></li>
+        <li><a href="#启动redis">启动redis</a></li>
+      </ul>
+    </li>
+    <li><a href="#安装elasticsearch793">安装Elasticsearch7.9.3</a></li>
+    <li><a href="#安装kafka和zookeeper">安装Kafka和Zookeeper</a></li>
+  </ul>
+</nav>
+    </div>
+</details>
+
+  <div class="post-content md-content"><blockquote>
+<p>由<a href="https://www.portainer.io/">Portainer</a>管理容器</p>
+</blockquote>
+<h2 id="安装redis">安装Redis<a hidden class="anchor" aria-hidden="true" href="#安装redis">#</a></h2>
+<h3 id="首先去官网下载redisconf文件并且编辑">首先去官网下载redis.conf文件并且编辑<a hidden class="anchor" aria-hidden="true" href="#首先去官网下载redisconf文件并且编辑">#</a></h3>
+<p>修改redis.conf配置文件：
+主要配置的如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span> bind 127.0.0.1 <span style="color:#75715e">#注释掉这部分，使redis可以外部访问</span>
+</span></span><span style="display:flex;"><span> daemonize no <span style="color:#75715e">#用守护线程的方式启动（设置为yes会导致redis一启动就马上停止）</span>
+</span></span><span style="display:flex;"><span> requirepass 你的密码#给redis设置密码
+</span></span><span style="display:flex;"><span> appendonly yes#redis持久化　　默认是no
+</span></span><span style="display:flex;"><span> tcp-keepalive <span style="color:#ae81ff">300</span> <span style="color:#75715e">#防止出现远程主机强迫关闭了一个现有的连接的错误 默认是300</span>
+</span></span></code></pre></div><h3 id="创建本地与docker映射的目录即本地存放的位置">创建本地与docker映射的目录，即本地存放的位置<a hidden class="anchor" aria-hidden="true" href="#创建本地与docker映射的目录即本地存放的位置">#</a></h3>
+<p>创建本地存放redis的位置;</p>
+<p>可以自定义，因为我的docker的一些配置文件都是存放在/mydata目录下面的，所以我依然在/mydata目录下创建一个redis目录，这样是为了方便后期管理。
+<code>mkdir /data/redis</code>
+<code>mkdir /data/redis/data</code>
+把配置文件拷贝到刚才创建好的文件里</p>
+<h3 id="文件授权">文件授权<a hidden class="anchor" aria-hidden="true" href="#文件授权">#</a></h3>
+<p><code>chmod 777 redis.conf</code></p>
+<h3 id="启动redis">启动redis<a hidden class="anchor" aria-hidden="true" href="#启动redis">#</a></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run -p 6379:6379 --name redis -v /mydata/redis/redis.conf:/etc/redis/redis.conf  -v /mydata/redis/data:/data -d redis redis-server /etc/redis/redis.conf --appendonly yes
+</span></span></code></pre></div><p>参数解释：</p>
+<blockquote>
+<p>-p 6379:6379:把容器内的6379端口映射到宿主机6379端口
+-v /data/redis/redis.conf:/etc/redis/redis.conf：把宿主机配置好的redis.conf放到容器内的这个位置中
+-v /data/redis/data:/data：把redis持久化的数据在宿主机内显示，做数据备份
+redis-server /etc/redis/redis.conf：这个是关键配置，让redis不是无配置启动，而是按照这个redis.conf的配置启动
+–appendonly yes：redis启动后数据持久化</p>
+</blockquote>
+<h2 id="安装elasticsearch793">安装Elasticsearch7.9.3<a hidden class="anchor" aria-hidden="true" href="#安装elasticsearch793">#</a></h2>
+<blockquote>
+<p>Kibana选择了安装在本地（不想吃服务器资源）</p>
+</blockquote>
+<ol>
+<li>拉取镜像</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker pull elasticsearch:7.9.3
+</span></span></code></pre></div><ol start="2">
+<li>创建所需文件夹和文件</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>mkdir -p /mydata/elasticsearch/config
+</span></span><span style="display:flex;"><span>mkdir -p /mydata/elasticsearch/data
+</span></span><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;http.host: 0.0.0.0&#34;</span>&gt;&gt;/mydata/elasticsearch/config/elasticsearch.yml
+</span></span></code></pre></div><ol start="3">
+<li>文件夹赋权限</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>chmod -R <span style="color:#ae81ff">777</span> /mydata/elasticsearch/
+</span></span></code></pre></div><ol start="4">
+<li>创建并启动elasticsearch容器</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run --name elasticsearch -p 9200:9200 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> -p 9300:9300 <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> -e <span style="color:#e6db74">&#34;discovery.type=single-node&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> -e ES_JAVA_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xms64m -Xmx128m&#34;</span> <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> -v /mydata/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> -v /mydata/elasticsearch/data:/usr/share/elasticsearch/data <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> -v /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins <span style="color:#ae81ff">\
+</span></span></span><span style="display:flex;"><span> -d elasticsearch:7.9.3
+</span></span></code></pre></div><ol start="5">
+<li>设置容器自启动</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker update elasticsearch --restart<span style="color:#f92672">=</span>always
+</span></span></code></pre></div><ol start="6">
+<li>安装IK中文分词器</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>cd /mydata/elasticsearch/plugins/
+</span></span><span style="display:flex;"><span>wget https://github.com/medcl/elasticsearch-analysis-ik/releases/download/v7.9.3/elasticsearch-analysis-ik-7.9.3.zip
+</span></span><span style="display:flex;"><span>mkdir ik
+</span></span><span style="display:flex;"><span>unzip -d ik/ elasticsearch-analysis-ik-7.9.3.zip 
+</span></span><span style="display:flex;"><span>docker restart elasticsearch
+</span></span></code></pre></div><ol start="7">
+<li>放行端口号</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>firewall-cmd --zone<span style="color:#f92672">=</span>public --add-port<span style="color:#f92672">=</span>9200/tcp --permanent
+</span></span><span style="display:flex;"><span>systemctl  restart firewalld.service
+</span></span></code></pre></div><h2 id="安装kafka和zookeeper">安装Kafka和Zookeeper<a hidden class="anchor" aria-hidden="true" href="#安装kafka和zookeeper">#</a></h2>
+<p><a href="https://juejin.cn/post/6844903829624848398">掘金教程</a>
+安装kafka</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docker run  -d --name kafka -p 9092:9092 -e KAFKA_BROKER_ID<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> -e KAFKA_ZOOKEEPER_CONNECT<span style="color:#f92672">=</span>服务器ip:2181 -e KAFKA_ADVERTISED_LISTENERS<span style="color:#f92672">=</span>PLAINTEXT://服务器ip:9092 -e KAFKA_LISTENERS<span style="color:#f92672">=</span>PLAINTEXT://0.0.0.0:9092 -e KAFKA_HEAP_OPTS<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;-Xmx256M -Xms128M&#34;</span> -t wurstmeister/kafka
+</span></span></code></pre></div>
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://ISheepp.github.io/tags/tech/">Tech</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://ISheepp.github.io/posts/engine/">
+    <span class="title">« Prev</span>
+    <span>【转载】内燃机原理</span>
+  </a>
+  <a class="next" href="https://ISheepp.github.io/posts/2020-report/">
+    <span class="title">Next »</span>
+    <span>2020年终总结</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://ISheepp.github.io/">Beaulo&#39;s Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>年终总结 on Beaulo&#39;s Blog</title>
+    <link>https://ISheepp.github.io/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/</link>
+    <description>Recent content in 年终总结 on Beaulo&#39;s Blog</description>
+    <generator>Hugo</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 28 Dec 2022 13:31:00 +0000</lastBuildDate>
+    <atom:link href="https://ISheepp.github.io/tags/%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>魔幻2022</title>
+      <link>https://ISheepp.github.io/posts/2022-report/</link>
+      <pubDate>Wed, 28 Dec 2022 13:31:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/2022-report/</guid>
+      <description>今年是魔幻的一年</description>
+    </item>
+    <item>
+      <title>二〇二一 · 迷茫 、恐慌</title>
+      <link>https://ISheepp.github.io/posts/2021-report/</link>
+      <pubDate>Mon, 31 Jan 2022 15:19:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/2021-report/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;我们都应该为当下开心。因为未来很长一段时间里的每一年跟之后比，都会是最好的一年。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;2021&#34;&gt;2021&lt;/h2&gt;
+&lt;p&gt;2021 7月开始，决定通过&lt;a href=&#34;https://github.com/isheepp/2021&#34;&gt;&lt;strong&gt;Github仓库&lt;/strong&gt;&lt;/a&gt;的issue记录剩下的半年，现在有了数据就很有意思了，其中&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;TODO list&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;all todo count: 306
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;done: 201
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;undone: 105
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;done rate: 65.&lt;span style=&#34;color:#a6e22e&#34;&gt;69&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;完成率只有65%？wtf，效率是真的低，拖延症严重&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;周记写了28篇，大多数在骂人吐槽&lt;/li&gt;
+&lt;li&gt;工作记录写了21篇，大多数是半残记录&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可能最有用的数据还是TODO的完成数，希望2022年能保持高一点&lt;/p&gt;
+&lt;p&gt;2022年的&lt;a href=&#34;https://github.com/isheepp/2022&#34;&gt;&lt;strong&gt;仓库&lt;/strong&gt;&lt;/a&gt;开了两个action来统计&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/isheepp/2022/issues/12&#34;&gt;&lt;strong&gt;起床记录&lt;/strong&gt;&lt;/a&gt;通过ios的快捷指令记录起床时间和心情&lt;/li&gt;
+&lt;li&gt;所有的git 操作(push、add……)更新README&lt;/li&gt;
+&lt;li&gt;通过ZenHub管理更多的issue&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;回顾&#34;&gt;回顾&lt;/h2&gt;
+&lt;p&gt;2021年，经历了毕业，正式上工；疫情由好变差；见证了519，经历了124；了解了什么是白资、黑钱，什么是&amp;rsquo;&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E7%94%B5%E4%BF%A1%E8%AF%88%E9%AA%97&#34;&gt;&lt;strong&gt;剧本杀&lt;/strong&gt;&lt;/a&gt;&amp;lsquo;等无尽黑暗的成熟产业的运作方式；学习了&lt;a href=&#34;https://www.youtube.com/watch?v=rFV7wdEX-Mo&#34;&gt;&lt;strong&gt;现代经济系统&lt;/strong&gt;&lt;/a&gt;；学习了blockchain……&lt;/p&gt;
+&lt;p&gt;2021年3月我从上家辞职，从西湖来到滨江。究其原因无非就是我觉得双修只会让我越来越烂，前端太难、太乱了，让我写CSS简直头疼。脱离了原先的羽毛球群体，很难想象我在2个半月的时间内能在西湖区的羽毛球圈子里能有一些稳定的球友兼朋友，当然这百分之八十的功劳都是叶妈和其他小伙伴们的热情和包容。事实证明，能融入他们并不是我自己的能力，也并不是说我球打的有多好。在滨江快一年了，我没有加入任何固定的群体，一直都在乱跑，打社交球，很明显想融入一个圈子是很困难的如果没有贵人相助的话，还是非常感谢西湖的小伙伴，能在我来到江的另一边生活之后还能经常记得我，叫我打球吃饭。很抱歉我经常鸽子，我真的想好好努力回到江的那头或者是能拥有一个属于自己的交通工具，可以说我每周都会想去和他们打球，但是来回时间成本、疲惫程度真的让我很难每周跑这么远。&lt;/p&gt;
+&lt;p&gt;2021年6月我毕业了，我的毕设——Github上clone的、毕业论文——两天肝完的。答辩一次就过了，我印象还是非常深刻，我引导了老师问我一个问题，问我是如何实现文本不可选中的状态，我说用CSS样式，然后他让我给他看代码，当时就想“哎呀真遇到这么操蛋的事情，这种东西不都是网上查的么，谁记那么牢，幸好做功课了”。总之答辩不是特别顺利，但是也让我过了。没有拍毕业照，没有跟同学们聚餐，因为我跟他们3年几乎没有讲过话，他们觉得我很奇怪，同样我也觉得他们有些人很奇怪，这种现象我在2021年体会异常深刻……总的来说学校给我留下唯一的好印象就是让我住了新造好的王子楼，其他恶心的事情不愿想起，不过我的车辆专业室友、球友之间关系都是非常好的，很多现在也一直在联系。&lt;/p&gt;
+&lt;p&gt;2021年7月我签人生第一份劳动合同，当时看到3年，还特意让读法的同学看了下，原来是我多虑。然后经历了2周&lt;strong&gt;培训&lt;/strong&gt;，现在让我评价这个培训我还是想说毫无意义且浪费时间，我学到的唯一教训就是我tm的讲话太直接了，以后不能这样，做人还是不能太方了。&lt;/p&gt;
+&lt;p&gt;接下来的6个月，开始进入工作，对我而言，我喜欢做我在做的事情，我从事coding的唯一原因是有趣。所以说，目前任何事情都阻挠不了我。&lt;/p&gt;
+&lt;h2 id=&#34;羽球&#34;&gt;🏸羽球&lt;/h2&gt;
+&lt;p&gt;今年打过的比赛&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;5月京东杯   &amp;ndash;》两轮游&lt;/li&gt;
+&lt;li&gt;6月尤尼克斯王者之志 &amp;ndash;》两轮游&lt;/li&gt;
+&lt;li&gt;6月威克多双雄会   &amp;ndash;》专业组一轮游，见到了柴彪，遗憾未与其对线&lt;/li&gt;
+&lt;li&gt;7月栎刻动平民英雄 &amp;ndash;》一轮游&lt;/li&gt;
+&lt;li&gt;8月公司比赛，难得拿了冠军，感谢我的搭档&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可以说大部分的比赛都是在上半年，下半年由于疫情比赛少，当然主要原因还是我打球变少了，一周最少3次变成了一周最多1次，体能下降很多，核心力量减弱，手臂力量缺失，膝盖无力……种种原因让我开始在完成一天的工作后开始感到疲惫、腰酸。11月份开始在家进行核心锻炼，坚持一个月后逐渐忘记这件事&amp;hellip;虽然球打的少了，但是身体还得保护好。&lt;/p&gt;
+&lt;p&gt;2021年我已经想清楚了，羽球对我来说已沦为社交的工具，我很难再去通过大量的训练来提升（除非1个月封闭训练），羽球是我爸可以骄傲地讲给他孙辈的故事，而我注定在接下来的几年也超越不了他。&lt;/p&gt;
+&lt;h2 id=&#34;阅读&#34;&gt;📕阅读&lt;/h2&gt;
+&lt;p&gt;今年看过的书&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;《Maven实战》&lt;/li&gt;
+&lt;li&gt;《MySQL必知必会》&lt;/li&gt;
+&lt;li&gt;《如何用一年时间获得十年的经验》Tinyfool老师，强调了终身学习的重要性&lt;/li&gt;
+&lt;li&gt;《被讨厌的勇气》没看完……&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;书籍方面其实很多想看的书都没看，而且发现现在买书很难，非常困难，还可能会引狼入室，孔夫子旧书网就是这么个例子
+明年想看&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://book.douban.com/subject/30333767/&#34;&gt; 《动力神话》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.com/Art-Impossible-Peak-Performance-Primer/dp/0062977539&#34;&gt;《不可能的技艺》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://book.douban.com/subject/35546622/&#34;&gt;《置身事内：中国政府与经济发展》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://book.douban.com/subject/35231636/&#34;&gt;《我在深圳当市长》&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中最后一本希望能从子彬身上看到如何用管理企业的方式管理城市，当然，最重要的是看看厉害国的黑暗。&lt;/p&gt;
+&lt;h2 id=&#34;投资&#34;&gt;💵投资&lt;/h2&gt;
+&lt;p&gt;2021从赌狗变成韭菜，心态变好，毕竟以前一脚飞门就是好几万，现在腰斩也毫无波澜。&lt;/p&gt;
+&lt;p&gt;毕竟资金量太小了&lt;/p&gt;
+&lt;p&gt;爆过仓，倒卖NFT也赚过钱，虽然总体亏本，但是发现研究白皮书是个很有意思的事情，既能看到各种天花乱坠割韭菜的技巧，也能看到项目方美好的愿景。&lt;/p&gt;
+&lt;p&gt;没有被骗过，但总是看见有人看到空投就脑子一热授权钱包直接u被黑完。反正我认为，天上不会掉馅饼。&lt;/p&gt;
+&lt;p&gt;感受最深的就是每到关键点位就出现多空互道傻逼的现象，生活中也是巨多这种现象，其实，把后果想清楚，能接受，那你想怎么操作就怎么操作。&lt;/p&gt;
+&lt;p&gt;2022不碰9倍以上合约、知行合一、想好后果再做事。&lt;/p&gt;
+&lt;p&gt;目标：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;找到一个归零币&lt;/li&gt;
+&lt;li&gt;聊天不fomo&lt;/li&gt;
+&lt;li&gt;远离所有scam&lt;/li&gt;
+&lt;li&gt;屯币不被hack&lt;/li&gt;
+&lt;li&gt;转账少交gas&lt;/li&gt;
+&lt;li&gt;好好研究项目&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;coding&#34;&gt;💻Coding&lt;/h2&gt;
+&lt;p&gt;首先看下waka time 的&lt;a href=&#34;https://wakatime.com/a-look-back-at-2021/c6540739-c623-4453-a671-de80f848b5ac/fvngneenxj&#34;&gt;&lt;strong&gt;年度统计&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>2020年终总结</title>
+      <link>https://ISheepp.github.io/posts/2020-report/</link>
+      <pubDate>Tue, 02 Feb 2021 10:12:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/2020-report/</guid>
+      <description>&lt;p&gt;2020对很多人来说是一定无法忘记的一年，对我更是如此&lt;/p&gt;
+&lt;h2 id=&#34;考研&#34;&gt;考研&lt;/h2&gt;
+&lt;p&gt;可能今年做过最大的决定就是9月份决定不考研想直接去工作了，其实家里估计暑假就看出来了，在9月开学去火车站的路上就挺想说的终究还是不敢。他们每天说那些鸡汤我是真的一点都听不进去，也侧面反映了我们家很少能面对面好好的交流未来或者是复盘，总是依靠文字，但能保证看得进去吗？今天又重新翻了猪窝的聊天记录，字里行间看到的还是他们的无奈。&lt;/p&gt;
+&lt;p&gt;同学都觉得我‘放弃’可惜，每次我都说我这是止损。好好想了下，一个是我暑假偷懒了，天天晚上打球，白天想着晚上怎么打，落后了很多进度。最重要的是我怕了，感觉没有技术，基础也薄弱，没考上能干嘛呢，回家吗？那个连打球都不会进步的地方早已放弃了。计算机确实卷，但是我觉得都没什么好怕的，就像每次跟宁海生活的朋友说我规划的未来一样，永远都是劝退我，要么就是说我看不起宁海。我对别人的看法已经无所谓了，反正说这些话能让他们开心的话那也算积德了。&lt;/p&gt;
+&lt;h2 id=&#34;生活&#34;&gt;生活&lt;/h2&gt;
+&lt;p&gt;整个大三过的很快，经历了最长的寒假，所以说今年在家里的时间也很长，很多想做的事情，一件也没有做成。比如学习框架、和爸爸学做菜，练球，练核心……最好的时间段都被我拿来在床上和球场上。就每年好像都是这种死循环，所有我才没有成功过吧。就跟玩游戏一样，我也是玩不好的那种，打球更不用说了，十几年了都是这样没有任何球路。&lt;/p&gt;
+&lt;p&gt;下半年回到学校后，我被老学院的辅导员直接强行赶出老寝室换到楼上的现学院的寝室。上学期我们还商量的很好说是需要我搬会提前通知我，这样来看他跟土匪有什么区别呢？只知道完成任务然后舔上级。整个四年学校给我最好的印象可能就是让我住到了刚造好的王子楼了吧，其他是真的毫无人性可言，教育看起来也是早已崩塌的那种。&lt;/p&gt;
+&lt;p&gt;今年下半年很幸运，车辆的一个同学给我申请到了实验室的一个座位，接下来3个月我就是寝室食堂实验室球场，也在结课的那个礼拜顺利的找到了实习。能找到一个喜欢交流技术同样喜欢打球的人是真的三生有幸，感谢这个同学带我入坑计算机。&lt;/p&gt;
+&lt;h2 id=&#34;工作&#34;&gt;工作&lt;/h2&gt;
+&lt;p&gt;面试的那天我就感觉非常糟糕，地铁上我还非常自信，甚至想好了一大串话来吹嘘我的个人项目和憧憬。到了之后就是一连串的基础问题被问倒了，框架等技术几乎没问，回去之后我也反思了很多。能做出东西、只是会用还是太浅了，基础才是基石。&lt;/p&gt;
+&lt;p&gt;2020也就350左右的提交量而且大部分都是划水提交，真想好好做个开源项目的时候是在下半年，可惜后来就去实习了，发现自己及其菜，希望21年能好好开发一个好的开源项目。&lt;/p&gt;
+&lt;p&gt;每周的写写代码时间也变长了，实习前其实一直就是在CRUD。这两个月跟我的mentor也学到了非常多，总体感觉就是跟不上他的思想，永远在他后面用最烂的解决办法解决问题。&lt;/p&gt;
+&lt;p&gt;21年春招希望可以认真把握一下。&lt;/p&gt;
+&lt;h2 id=&#34;heading&#34;&gt;💻🏸&lt;/h2&gt;
+&lt;h3 id=&#34;影视&#34;&gt;影视&lt;/h3&gt;
+&lt;p&gt;年初看完了《纸钞屋》最新季，真不喜欢这种拉屎拉到一般截断的感觉&lt;/p&gt;
+&lt;p&gt;年度最佳番剧《进击的巨人》&lt;/p&gt;
+&lt;p&gt;暑假诺兰月看了3部烧脑片，二刷《盗梦空间》、《星际穿越》，《信条》只看了一遍，没看懂。&lt;/p&gt;
+&lt;p&gt;8月看了《八佰》，10月《夺冠》（有种前几年看李宗伟的感觉）、跨年夜《送你一所小红花》&lt;/p&gt;
+&lt;h3 id=&#34;游戏&#34;&gt;游戏&lt;/h3&gt;
+&lt;p&gt;20年游戏玩的不多，台式机一直放在学校吃灰……不过回学校就玩了几天就不想玩了&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;只狼3周目&lt;/li&gt;
+&lt;li&gt;彩虹六号终于上白金一次&lt;/li&gt;
+&lt;li&gt;2077（2小时hhh）&lt;/li&gt;
+&lt;li&gt;胡闹厨房2（就是吵架厨房）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;音乐&#34;&gt;音乐&lt;/h3&gt;
+&lt;p&gt;Youtube music真的香，自从看了1million，听歌就是看着手机听了&lt;/p&gt;
+&lt;p&gt;年度歌单&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;2020歌单&#34; loading=&#34;lazy&#34; src=&#34;https://ISheepp.github.io/posts/2020-report/attachments/bafybeictz6eafajdvbdjlied3e4e7iqhio23zp345tlbcppyszkz3q7j3u.png&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;摄影&#34;&gt;摄影&lt;/h3&gt;
+&lt;p&gt;卖了相机和无人机之后就没有拍视频拍照片的欲望了，可能我也不是这块料吧，当时还是冲动了，像是买了个玩具，买来就吃灰。以后有机会的话希望能报班学习一下。暂时也拿不出闲钱和时间搞这些了。&lt;/p&gt;
+&lt;h3 id=&#34;羽球&#34;&gt;羽球&lt;/h3&gt;
+&lt;p&gt;20年应该算是打的最多的一年了，也是大运会后最燃的一年。最好的练球时光已经过去了，再也没有了，不过也没什么好后悔的了，希望以后打球能带点脑子，学习一下父亲的打法。&lt;/p&gt;
+&lt;h2 id=&#34;heading-1&#34;&gt;🐏&lt;/h2&gt;
+&lt;p&gt;最后是感谢来到城西之后新认识的朋友们啦，大家人都很好，竟然又遇到了老乡。感觉从小到大没有一段社交是我从零开始经营的，可能这也是一种幸运吧，承蒙大家照顾了。&lt;/p&gt;
+&lt;p&gt;感谢陪我玩游戏的室友&lt;/p&gt;
+&lt;p&gt;感谢陪我打球的朋友们&lt;/p&gt;
+&lt;p&gt;感谢父母理解和尊重我的决定。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2021，希望能变得自律，向着目标前进！&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

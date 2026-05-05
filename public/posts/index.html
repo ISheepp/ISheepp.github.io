@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="auto" data-theme="auto">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<head><meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="index, follow">
@@ -9,17 +9,17 @@
 <meta name="keywords" content="">
 <meta name="description" content="Posts - Beaulo&#39;s Blog">
 <meta name="author" content="Beaulo">
-<link rel="canonical" href="http://localhost:1313/posts/">
-<link crossorigin="anonymous" href="/assets/css/stylesheet.a1a1b118b3e83435265dc39da18e54244bcc0e5481d1d034aadc0c899c51e15c.css" integrity="sha256-oaGxGLPoNDUmXcOdoY5UJEvMDlSB0dA0qtwMiZxR4Vw=" rel="preload stylesheet" as="style">
-<link rel="icon" href="http://localhost:1313/favicon.ico">
-<link rel="icon" type="image/png" sizes="16x16" href="http://localhost:1313/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="http://localhost:1313/favicon-32x32.png">
-<link rel="apple-touch-icon" href="http://localhost:1313/apple-touch-icon.png">
-<link rel="mask-icon" href="http://localhost:1313/safari-pinned-tab.svg">
+<link rel="canonical" href="https://ISheepp.github.io/posts/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.090f06d52e46e231eebdf90a3ba366b19694815b39f8aa73b1d67235f8e58075.css" integrity="sha256-CQ8G1S5G4jHuvfkKO6NmsZaUgVs5&#43;KpzsdZyNfjlgHU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ISheepp.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ISheepp.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ISheepp.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ISheepp.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ISheepp.github.io/safari-pinned-tab.svg">
 <meta name="theme-color" content="#2e2e33">
 <meta name="msapplication-TileColor" content="#2e2e33">
-<link rel="alternate" type="application/rss+xml" href="http://localhost:1313/posts/index.xml" title="rss">
-<link rel="alternate" hreflang="en" href="http://localhost:1313/posts/">
+<link rel="alternate" type="application/rss+xml" href="https://ISheepp.github.io/posts/index.xml" title="rss">
+<link rel="alternate" hreflang="en" href="https://ISheepp.github.io/posts/">
 <noscript>
     <style>
         #theme-toggle,
@@ -65,7 +65,7 @@
         document.querySelector("html").dataset.theme = 'light';
     }
 
-</script><meta property="og:url" content="http://localhost:1313/posts/">
+</script><meta property="og:url" content="https://ISheepp.github.io/posts/">
   <meta property="og:site_name" content="Beaulo&#39;s Blog">
   <meta property="og:title" content="Posts">
   <meta property="og:description" content="记录开发、AI Agent、创业项目和技术思考。">
@@ -86,7 +86,7 @@
       "@type": "ListItem",
       "position":  1 ,
       "name": "Posts",
-      "item": "http://localhost:1313/posts/"
+      "item": "https://ISheepp.github.io/posts/"
     }
   ]
 }
@@ -96,7 +96,7 @@
     <header class="header">
     <nav class="header-nav">
         <div class="logo">
-            <a href="http://localhost:1313/" accesskey="h" title="Beaulo&#39;s Blog (Alt + H)">Beaulo&#39;s Blog</a>
+            <a href="https://ISheepp.github.io/" accesskey="h" title="Beaulo&#39;s Blog (Alt + H)">Beaulo&#39;s Blog</a>
             <div class="logo-switches">
                 <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
                     <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
@@ -122,23 +122,28 @@
         </div>
         <ul id="menu" class="menu">
             <li>
-                <a href="http://localhost:1313/posts/" title="文章">
+                <a href="https://ISheepp.github.io/posts/" title="文章">
                     <span class="active">文章</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/archives/" title="归档">
+                <a href="https://ISheepp.github.io/archives/" title="归档">
                     <span>归档</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/tags/" title="标签">
+                <a href="https://ISheepp.github.io/tags/" title="标签">
                     <span>标签</span>
                 </a>
             </li>
             <li>
-                <a href="http://localhost:1313/search/" title="搜索">
+                <a href="https://ISheepp.github.io/search/" title="搜索 (Alt &#43; /)" accesskey=/>
                     <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/posts/about/" title="关于">
+                    <span>关于</span>
                 </a>
             </li>
         </ul>
@@ -167,22 +172,197 @@
 
 <article class="post-entry"> 
   <header class="entry-header">
-    <h2 class="entry-hint-parent">Hello World
+    <h2 class="entry-hint-parent">vegeta压测使用
     </h2>
   </header>
   <div class="entry-content">
-    <p>这是我的第一篇 Hugo 博客。
+    <p>vegeta是一个HTTP压力测试工具，使用Go编写，用命令行交互，并且可以生成汇总和图表作为结果分析。
+https://github.com/tsenart/vegeta
+基本使用 详细使用方式可以参考README里的内容。可以分为两种方式使用：命令行交互和作为库引入Go程序。我这边使用了brew安装了vegeta，整个测试过程是使用Go编写了一个脚本来进行测试，具体可以参考代码片段
+我并没有使用库的形式来引入，而是使用exec.Command()函数来执行命令行。
+具体使用到的vegeta命令
+attack: 调用API的命令，rate代表每秒调用次数，duration表示调用几秒，body指的是post请求的请求体，name是指为这次测试命名「可不填」，tee是生成bin原始文件「类似raw格式照片，可以用bin转换成很多别的格式」，report是生成报告，这里是在命令行输出。 echo &#34;POST http://172.17.1.36:30898/hello&#34; | vegeta attack -rate=2000 -duration=1s -body=query.json -timeout=0 -name=hello | tee ./result/results-null.bin | vegeta report 生成报告文件，这里是根据bin原始文件生成txt文件 vegeta report -type=text results-query.bin &gt; repost.txt 生成分析图表，使用plot可以生成可交互的图表，需要将多个结果合并到一个图表的时候需要注意，在使用第一个命令的时候务必加上-name参数为其命名。 vegeta plot results-null.bin results-sleep.bin results-query.bin &gt; plot-all.html 测试场景 使用Java和Go编写两个REST服务，分别测试3个API，在k8s中单副本和5副本的情况。API信息如下：
+直接返回 sleep 2秒再返回 查询Elasticsearch的10000条数据，每条数据500字节 Elasticsearch集群信息
+节点数量：2 版本：7.4.1 CPU：8个Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz，每个1 core 内存：31G Kubernetes信息
+版本：1.16.15 节点数量：7「1 master, 6 worker」 指定Deployment调度到同一个节点，两个Deploymnet都分配了2G的内存
+测试步骤 将Go脚本打包好后，在同目录下创建配置文件config.ini
+[address] null = &#34;POST http://172.17.1.36:30898/hello&#34; sleep = &#34;POST http://172.17.1.36:30898/sleep&#34; query = &#34;POST http://172.17.1.36:30898/es&#34; [param] rate = 2000 其中address指的是要调用的API地址和方法，rate指的是每秒调用的次数「我这里是只调用了1s」
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-01-10 12:31:34.642 +0000 UTC'>January 10, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>210 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to vegeta压测使用" href="https://ISheepp.github.io/posts/vegeta/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 正确处理重启实例自动挂载卷的方式
+起因 操作系统Amazon Linux 2023 实例类型t2.micro 想给EC2挂载一个新卷，但是重启实例的时候发现挂载的卷不见了，然后网上找了下如何重启自动挂载。试了下修改/etc/fstab文件，然后重启发现ssh一直连不上，看了下日志才发现进入紧急模式…交互界面也进不去了「很明显第一次就改坏了」
+一开始我以为是我的proxy出了问题，不过关闭之后还是连不上
+打开系统日志
+但是AWS也提供了启动失败的解决方案，下面有一行小字
+结果
+一开始我一直在看文档，查找哪种类型能支持，去更改实例类型，但是不知道为什么还是连接不上…最后找到了一种通过临时启动一个用于恢复的实例来把改坏的文件修改回去的方法。
+恢复方式 基本上分为这几步 1.停止启动失败的实例 2. 从启动失败的实例分离root卷 3. 在同个区内创建新的EC2实例 4. 挂载root卷到新的实例 5. 修改/etc/fstab文件
+停止实例 等待停止即可，目的是为了分离卷 分离卷 找到挂载在根「/」目录下的卷，点击分离
+启动一个新的实例 配置就最简单的就行，目的只是为了挂载上一步分离出来的卷
+记得要指定子网「目的是选择和卷一样的可用区，比如我的就是us-west-1b」
+挂载卷 在AWS管理页面挂载刚刚分离的卷到新的实例上，并ssh到新的实例挂载
+这里就能看到我们刚刚改错的内容了
+使用vim直接修改fstab文件，改好之后分离卷，挂载回启动不了的实例。注意挂载回去的时候名字输入xvda「与之前一样，目前我看到的AWS默认根卷都是这个名字」
+最后启动老的实例，刚刚新建的实例可以删除了
+成功！
+参考 排查 EC2 Linux 实例处于紧急模式的问题 | AWS </p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2024-01-03 11:26:30.704 +0000 UTC'>January 3, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>43 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复" href="https://ISheepp.github.io/posts/recovery-aws-ec2-emergency-mode/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">特种兵🏸️
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> gaming、badminton filled vacation
+国庆还是一如既往地躺在家里，陪伴家人和休息，游戏和打球。从我目前的状态来看，做这几件事情非常的舒服，也很解压。
+换了一个金属保持器，现在只需要晚上睡觉的时候戴一下就可以了，白天可以解放牙齿了。
+假期一直在玩FTK，消磨时间的好游戏。
+临走前买了一台Marshall Stanmore III放在家里，可以让父母听播客或者放音乐，出发前一小时拿到货，稍微把玩了一下。不过对我自己来讲似乎已经对这些东西暂时没有兴趣，声音么就听个响。
+🏸️ 算上请假我放了9天，回来要连上6天。第一天上班就出差，满打满算一天搞定。现在有些摆烂，以前我会把出差排的很紧，想尽快完成任务。我猜以前应该是好奇和激情所驱动吧……
+第一个周末就安排了2天的早球，打早球有个好处就是不会睡懒觉，增加了一天的时间，早上打完中午洗澡吃饭下午晚上还有大把的时间来做想做的时候。以往我都是起床就快中午了，然后晚上打球，就是说只有下午的时间是自己的了。
+第一周就断了两根线…然后买了一支新拍，小戴的白金利爪，很是好看。
+第二周也算是两个早球，周六回学校参加了比赛，很幸运拿到了冠军，白嫖了一支拍子。 周日早上也是约了早球，打完后来到城北参加下午场。下午这场算社交球吧，没什么对抗，但也正好让我休息一下，和朋友们叙叙旧。
+至此算是连续20天没睡过懒觉了，但是高强度的打球让身体有点吃不消。推拿师傅手一捏就说两侧腰怎么按起来不太一样😅
+现在只剩下一块拍子没断线了，打算休息一段时间「天气冷了开始摆烂」，只在家里锻炼下核心好了。
 </p>
   </div>
   <footer class="entry-footer">
 
-<span title='2026-05-05 13:00:00 +0900 +0900'>May 5, 2026</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>3 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
-  <a class="entry-link" aria-label="post link to Hello World" href="http://localhost:1313/posts/hello-world/"></a>
+<span title='2023-11-11 06:43:57.25 +0000 UTC'>November 11, 2023</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>17 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 特种兵🏸️" href="https://ISheepp.github.io/posts/te-zhong-bing/"></a>
 </article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">挫与乐：五六月记录
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>这两个月过的飞快，工作上发生的事情恍如隔世。 今年开始就没有 Code for fun 了，而是 Report for kpi……
+工作#
+五一回来后，组内发生了一些比较大的人事变动，直接后果就是会议增多，文档工作飙升；此外每天早上早起了半小时只因 9 点一定要坐到工位上「25…
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-06-26 12:48:00.95 +0000 UTC'>June 26, 2023</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>19 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 挫与乐：五六月记录" href="https://ISheepp.github.io/posts/setback-joy/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">久违的小长假
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>我已经长达 6 年保持几乎每个月回次家，而这次时隔长达 3 个多月 今年的五一假期放了 6 天，也是能自由出行的第一个小长假，高铁像早高峰的地铁一样拥挤。我没有出去旅行，没有写代码，回家打了一场比赛，高速练车，维系社交、家庭关系，休息……
+🏸️ 羽球、练车
+假期头两天参加了…
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-05-04 14:48:21.581 +0000 UTC'>May 4, 2023</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>31 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 久违的小长假" href="https://ISheepp.github.io/posts/jiu-wei-de-xiao-chang-jia/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">The meme of ChatGPT
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>GPT对于我这种略懂技术、会写代码；不会讲话、茶艺不精的人会造成什么impact</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-03-26 13:20:55.033 +0000 UTC'>March 26, 2023</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>164 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to The meme of ChatGPT" href="https://ISheepp.github.io/posts/the-meme-of-chatgpt/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">借贷 - On Chain
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>信贷 - 现代金融体系的神奇工具，也是形成经济周期的一大因素</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2023-02-09 15:59:01.18 +0000 UTC'>February 9, 2023</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>100 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 借贷 - On Chain" href="https://ISheepp.github.io/posts/decentralized-lend/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">魔幻2022
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>今年是魔幻的一年</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-12-28 13:31:00 +0000 UTC'>December 28, 2022</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>162 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 魔幻2022" href="https://ISheepp.github.io/posts/2022-report/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">感染Covid经历
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>终于来了！</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-12-20 20:56:36.704 +0000 UTC'>December 20, 2022</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>39 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 感染Covid经历" href="https://ISheepp.github.io/posts/infect-covid/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">我眼中的防疫
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>面对命中注定的Covid</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-12-11 13:57:00 +0000 UTC'>December 11, 2022</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>34 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 我眼中的防疫" href="https://ISheepp.github.io/posts/covid--in-my-eye/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="next" href="https://ISheepp.github.io/posts/page/2/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
     </main>
     
 <footer class="footer">
-        <span>&copy; 2026 <a href="http://localhost:1313/">Beaulo&#39;s Blog</a></span> · 
+        <span>&copy; 2026 <a href="https://ISheepp.github.io/">Beaulo&#39;s Blog</a></span> · 
 
     
     

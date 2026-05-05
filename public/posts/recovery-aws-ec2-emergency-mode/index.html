@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复 | Beaulo&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="
+正确处理重启实例自动挂载卷的方式
+
+起因
+
+操作系统Amazon Linux 2023
+实例类型t2.micro
+
+想给EC2挂载一个新卷，但是重启实例的时候发现挂载的卷不见了，然后网上找了下如何重启自动挂载。试了下修改/etc/fstab文件，然后重启发现ssh一直连不上，看了下日志才发现进入紧急模式&hellip;交互界面也进不去了「很明显第一次就改坏了」
+
+一开始我以为是我的proxy出了问题，不过关闭之后还是连不上
+
+打开系统日志
+
+
+但是AWS也提供了启动失败的解决方案，下面有一行小字
+
+结果
+
+一开始我一直在看文档，查找哪种类型能支持，去更改实例类型，但是不知道为什么还是连接不上&hellip;最后找到了一种通过临时启动一个用于恢复的实例来把改坏的文件修改回去的方法。
+恢复方式
+基本上分为这几步
+1.停止启动失败的实例
+2. 从启动失败的实例分离root卷
+3. 在同个区内创建新的EC2实例
+4. 挂载root卷到新的实例
+5. 修改/etc/fstab文件
+停止实例
+等待停止即可，目的是为了分离卷
+
+分离卷
+找到挂载在根「/」目录下的卷，点击分离
+
+启动一个新的实例
+配置就最简单的就行，目的只是为了挂载上一步分离出来的卷
+记得要指定子网「目的是选择和卷一样的可用区，比如我的就是us-west-1b」
+
+挂载卷
+在AWS管理页面挂载刚刚分离的卷到新的实例上，并ssh到新的实例挂载
+
+这里就能看到我们刚刚改错的内容了
+
+使用vim直接修改fstab文件，改好之后分离卷，挂载回启动不了的实例。注意挂载回去的时候名字输入xvda「与之前一样，目前我看到的AWS默认根卷都是这个名字」
+
+最后启动老的实例，刚刚新建的实例可以删除了
+
+成功！
+参考
+排查 EC2 Linux 实例处于紧急模式的问题 | AWS ">
+<meta name="author" content="Beaulo">
+<link rel="canonical" href="https://ISheepp.github.io/posts/recovery-aws-ec2-emergency-mode/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.090f06d52e46e231eebdf90a3ba366b19694815b39f8aa73b1d67235f8e58075.css" integrity="sha256-CQ8G1S5G4jHuvfkKO6NmsZaUgVs5&#43;KpzsdZyNfjlgHU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ISheepp.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ISheepp.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ISheepp.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ISheepp.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ISheepp.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://ISheepp.github.io/posts/recovery-aws-ec2-emergency-mode/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://ISheepp.github.io/posts/recovery-aws-ec2-emergency-mode/">
+  <meta property="og:site_name" content="Beaulo&#39;s Blog">
+  <meta property="og:title" content="AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复">
+  <meta property="og:description" content="正确处理重启实例自动挂载卷的方式
+起因 操作系统Amazon Linux 2023 实例类型t2.micro 想给EC2挂载一个新卷，但是重启实例的时候发现挂载的卷不见了，然后网上找了下如何重启自动挂载。试了下修改/etc/fstab文件，然后重启发现ssh一直连不上，看了下日志才发现进入紧急模式…交互界面也进不去了「很明显第一次就改坏了」
+一开始我以为是我的proxy出了问题，不过关闭之后还是连不上
+打开系统日志
+但是AWS也提供了启动失败的解决方案，下面有一行小字
+结果
+一开始我一直在看文档，查找哪种类型能支持，去更改实例类型，但是不知道为什么还是连接不上…最后找到了一种通过临时启动一个用于恢复的实例来把改坏的文件修改回去的方法。
+恢复方式 基本上分为这几步 1.停止启动失败的实例 2. 从启动失败的实例分离root卷 3. 在同个区内创建新的EC2实例 4. 挂载root卷到新的实例 5. 修改/etc/fstab文件
+停止实例 等待停止即可，目的是为了分离卷 分离卷 找到挂载在根「/」目录下的卷，点击分离
+启动一个新的实例 配置就最简单的就行，目的只是为了挂载上一步分离出来的卷
+记得要指定子网「目的是选择和卷一样的可用区，比如我的就是us-west-1b」
+挂载卷 在AWS管理页面挂载刚刚分离的卷到新的实例上，并ssh到新的实例挂载
+这里就能看到我们刚刚改错的内容了
+使用vim直接修改fstab文件，改好之后分离卷，挂载回启动不了的实例。注意挂载回去的时候名字输入xvda「与之前一样，目前我看到的AWS默认根卷都是这个名字」
+最后启动老的实例，刚刚新建的实例可以删除了
+成功！
+参考 排查 EC2 Linux 实例处于紧急模式的问题 | AWS">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-01-03T11:26:30+00:00">
+    <meta property="article:modified_time" content="2024-01-03T11:26:30+00:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复">
+  <meta name="twitter:description" content="正确处理重启实例自动挂载卷的方式
+起因 操作系统Amazon Linux 2023 实例类型t2.micro 想给EC2挂载一个新卷，但是重启实例的时候发现挂载的卷不见了，然后网上找了下如何重启自动挂载。试了下修改/etc/fstab文件，然后重启发现ssh一直连不上，看了下日志才发现进入紧急模式…交互界面也进不去了「很明显第一次就改坏了」
+一开始我以为是我的proxy出了问题，不过关闭之后还是连不上
+打开系统日志
+但是AWS也提供了启动失败的解决方案，下面有一行小字
+结果
+一开始我一直在看文档，查找哪种类型能支持，去更改实例类型，但是不知道为什么还是连接不上…最后找到了一种通过临时启动一个用于恢复的实例来把改坏的文件修改回去的方法。
+恢复方式 基本上分为这几步 1.停止启动失败的实例 2. 从启动失败的实例分离root卷 3. 在同个区内创建新的EC2实例 4. 挂载root卷到新的实例 5. 修改/etc/fstab文件
+停止实例 等待停止即可，目的是为了分离卷 分离卷 找到挂载在根「/」目录下的卷，点击分离
+启动一个新的实例 配置就最简单的就行，目的只是为了挂载上一步分离出来的卷
+记得要指定子网「目的是选择和卷一样的可用区，比如我的就是us-west-1b」
+挂载卷 在AWS管理页面挂载刚刚分离的卷到新的实例上，并ssh到新的实例挂载
+这里就能看到我们刚刚改错的内容了
+使用vim直接修改fstab文件，改好之后分离卷，挂载回启动不了的实例。注意挂载回去的时候名字输入xvda「与之前一样，目前我看到的AWS默认根卷都是这个名字」
+最后启动老的实例，刚刚新建的实例可以删除了
+成功！
+参考 排查 EC2 Linux 实例处于紧急模式的问题 | AWS">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://ISheepp.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复",
+      "item": "https://ISheepp.github.io/posts/recovery-aws-ec2-emergency-mode/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复",
+  "name": "AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复",
+  "description": " 正确处理重启实例自动挂载卷的方式\n起因 操作系统Amazon Linux 2023 实例类型t2.micro 想给EC2挂载一个新卷，但是重启实例的时候发现挂载的卷不见了，然后网上找了下如何重启自动挂载。试了下修改/etc/fstab文件，然后重启发现ssh一直连不上，看了下日志才发现进入紧急模式\u0026hellip;交互界面也进不去了「很明显第一次就改坏了」\n一开始我以为是我的proxy出了问题，不过关闭之后还是连不上\n打开系统日志\n但是AWS也提供了启动失败的解决方案，下面有一行小字\n结果\n一开始我一直在看文档，查找哪种类型能支持，去更改实例类型，但是不知道为什么还是连接不上\u0026hellip;最后找到了一种通过临时启动一个用于恢复的实例来把改坏的文件修改回去的方法。\n恢复方式 基本上分为这几步 1.停止启动失败的实例 2. 从启动失败的实例分离root卷 3. 在同个区内创建新的EC2实例 4. 挂载root卷到新的实例 5. 修改/etc/fstab文件\n停止实例 等待停止即可，目的是为了分离卷 分离卷 找到挂载在根「/」目录下的卷，点击分离\n启动一个新的实例 配置就最简单的就行，目的只是为了挂载上一步分离出来的卷\n记得要指定子网「目的是选择和卷一样的可用区，比如我的就是us-west-1b」\n挂载卷 在AWS管理页面挂载刚刚分离的卷到新的实例上，并ssh到新的实例挂载\n这里就能看到我们刚刚改错的内容了\n使用vim直接修改fstab文件，改好之后分离卷，挂载回启动不了的实例。注意挂载回去的时候名字输入xvda「与之前一样，目前我看到的AWS默认根卷都是这个名字」\n最后启动老的实例，刚刚新建的实例可以删除了\n成功！\n参考 排查 EC2 Linux 实例处于紧急模式的问题 | AWS ",
+  "keywords": [
+    
+  ],
+  "articleBody": " 正确处理重启实例自动挂载卷的方式\n起因 操作系统Amazon Linux 2023 实例类型t2.micro 想给EC2挂载一个新卷，但是重启实例的时候发现挂载的卷不见了，然后网上找了下如何重启自动挂载。试了下修改/etc/fstab文件，然后重启发现ssh一直连不上，看了下日志才发现进入紧急模式…交互界面也进不去了「很明显第一次就改坏了」\n一开始我以为是我的proxy出了问题，不过关闭之后还是连不上\n打开系统日志\n但是AWS也提供了启动失败的解决方案，下面有一行小字\n结果\n一开始我一直在看文档，查找哪种类型能支持，去更改实例类型，但是不知道为什么还是连接不上…最后找到了一种通过临时启动一个用于恢复的实例来把改坏的文件修改回去的方法。\n恢复方式 基本上分为这几步 1.停止启动失败的实例 2. 从启动失败的实例分离root卷 3. 在同个区内创建新的EC2实例 4. 挂载root卷到新的实例 5. 修改/etc/fstab文件\n停止实例 等待停止即可，目的是为了分离卷 分离卷 找到挂载在根「/」目录下的卷，点击分离\n启动一个新的实例 配置就最简单的就行，目的只是为了挂载上一步分离出来的卷\n记得要指定子网「目的是选择和卷一样的可用区，比如我的就是us-west-1b」\n挂载卷 在AWS管理页面挂载刚刚分离的卷到新的实例上，并ssh到新的实例挂载\n这里就能看到我们刚刚改错的内容了\n使用vim直接修改fstab文件，改好之后分离卷，挂载回启动不了的实例。注意挂载回去的时候名字输入xvda「与之前一样，目前我看到的AWS默认根卷都是这个名字」\n最后启动老的实例，刚刚新建的实例可以删除了\n成功！\n参考 排查 EC2 Linux 实例处于紧急模式的问题 | AWS ",
+  "wordCount" : "43",
+  "inLanguage": "en",
+  "datePublished": "2024-01-03T11:26:30.704Z",
+  "dateModified": "2024-01-03T11:26:30.704Z",
+  "author":{
+    "@type": "Person",
+    "name": "Beaulo"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ISheepp.github.io/posts/recovery-aws-ec2-emergency-mode/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Beaulo's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ISheepp.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://ISheepp.github.io/" accesskey="h" title="Beaulo&#39;s Blog (Alt + H)">Beaulo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ISheepp.github.io/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/posts/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">Posts</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-01-03 11:26:30.704 +0000 UTC'>January 3, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>43 words</span>&nbsp;·&nbsp;<span>Beaulo</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#起因">起因</a></li>
+    <li><a href="#恢复方式">恢复方式</a>
+      <ul>
+        <li><a href="#停止实例">停止实例</a></li>
+        <li><a href="#分离卷">分离卷</a></li>
+        <li><a href="#启动一个新的实例">启动一个新的实例</a></li>
+        <li><a href="#挂载卷">挂载卷</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+    </div>
+</details>
+
+  <div class="post-content md-content"><blockquote>
+<p><a href="https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot">正确处理重启实例自动挂载卷的方式</a></p>
+</blockquote>
+<h2 id="起因">起因<a hidden class="anchor" aria-hidden="true" href="#起因">#</a></h2>
+<ol>
+<li>操作系统Amazon Linux 2023</li>
+<li>实例类型t2.micro</li>
+</ol>
+<p>想给EC2挂载一个新卷，但是重启实例的时候发现挂载的卷不见了，然后网上找了下如何重启自动挂载。试了下修改<code>/etc/fstab</code>文件，然后重启发现ssh一直连不上，看了下日志才发现进入紧急模式&hellip;交互界面也进不去了「很明显第一次就改坏了」</p>
+<p><img alt="image" loading="lazy" src="./attachments/Qmcua5nThgJTaa3Hiv6ev2gShKhLYPzD31LDVqH5KtwJ5e">
+一开始我以为是我的proxy出了问题，不过关闭之后还是连不上</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmZdWiyaxwwTCpMzpvb8aqvvFn3eobqSMxjNPx298DHGdr"></p>
+<p>打开系统日志</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmNNM3Se2dxnyY52ceu5QB4e8aQu6BBfV25XX5Xq3eyn5X"></p>
+<p><img alt="image" loading="lazy" src="./attachments/QmRZoZSQGSEEnJNkbExafjomJGpHqt6jpCjBesBBdkahhK"></p>
+<p>但是AWS也提供了启动失败的解决方案，下面有一行小字</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmWDy3QHPVqiMjgQFtjSYHQJ5ocyQNg2PHe1J139EKHcg3"></p>
+<p>结果</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmbyheZ91wACkYg7QCsYTGLw2E1WFFZPdSD8rJF82QCsjH"></p>
+<p>一开始我一直在看文档，查找哪种类型能支持，去更改实例类型，但是不知道为什么还是连接不上&hellip;最后找到了一种通过临时启动一个用于恢复的实例来把改坏的文件修改回去的方法。</p>
+<h2 id="恢复方式">恢复方式<a hidden class="anchor" aria-hidden="true" href="#恢复方式">#</a></h2>
+<p>基本上分为这几步
+1.停止启动失败的实例
+2. 从启动失败的实例分离root卷
+3. 在同个区内创建新的EC2实例
+4. 挂载root卷到新的实例
+5. 修改<code>/etc/fstab</code>文件</p>
+<h3 id="停止实例">停止实例<a hidden class="anchor" aria-hidden="true" href="#停止实例">#</a></h3>
+<p>等待停止即可，目的是为了分离卷
+<img alt="image" loading="lazy" src="./attachments/QmcVZxSVcutWLaKikz9twFK76a8VAmXnEv9Lap5SkZwXL8"></p>
+<h3 id="分离卷">分离卷<a hidden class="anchor" aria-hidden="true" href="#分离卷">#</a></h3>
+<p>找到挂载在根「/」目录下的卷，点击分离</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmTxwDExyeEPLVgNsYpoTp8iwdYUUjuusDm26W5PJBCuwx"></p>
+<h3 id="启动一个新的实例">启动一个新的实例<a hidden class="anchor" aria-hidden="true" href="#启动一个新的实例">#</a></h3>
+<p>配置就最简单的就行，目的只是为了挂载上一步分离出来的卷</p>
+<p>记得要指定子网「目的是选择和卷一样的可用区，比如我的就是us-west-1b」</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmTfyac18hCVcdow9LtLCCHDuTdDC265uvR3vRFwm6aqBQ"></p>
+<h3 id="挂载卷">挂载卷<a hidden class="anchor" aria-hidden="true" href="#挂载卷">#</a></h3>
+<p>在AWS管理页面挂载刚刚分离的卷到新的实例上，并ssh到新的实例挂载</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmYL5iDc1Dvio5Jm4Q6NuEkiG8LEkR3jef82Lkk8VEakjo"></p>
+<p>这里就能看到我们刚刚改错的内容了</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmVKPW37AGLcZ2tsvooussPWoh7TyZ2Wqs4zw4TkCThf5q"></p>
+<p>使用vim直接修改fstab文件，改好之后分离卷，挂载回启动不了的实例。注意挂载回去的时候名字输入xvda「与之前一样，目前我看到的AWS默认根卷都是这个名字」</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmaZKcS28GdNN33rRQEFjhk47vggj5pzWq2ZHbdwfSjXSo"></p>
+<p>最后启动老的实例，刚刚新建的实例可以删除了</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmUWGc7asoUnKe2Fkyqo6nKf9sEWMNfnYmrJYki9MGJp75">
+成功！</p>
+<h2 id="参考">参考<a hidden class="anchor" aria-hidden="true" href="#参考">#</a></h2>
+<p><a href="https://repost.aws/zh-Hans/knowledge-center/ec2-linux-emergency-mode">排查 EC2 Linux 实例处于紧急模式的问题 | AWS </a></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://ISheepp.github.io/posts/vegeta/">
+    <span class="title">« Prev</span>
+    <span>vegeta压测使用</span>
+  </a>
+  <a class="next" href="https://ISheepp.github.io/posts/te-zhong-bing/">
+    <span class="title">Next »</span>
+    <span>特种兵🏸️</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://ISheepp.github.io/">Beaulo&#39;s Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

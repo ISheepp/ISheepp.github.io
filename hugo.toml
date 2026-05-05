@@ -29,11 +29,23 @@ disableSpecial1stPost = false
 
 [params.homeInfoParams]
 Title = "Hi, 我是 Beaulo 👋"
-Content = "这里记录我的开发经验、AI Agent 实践、Go 后端、React Native、创业项目和一些技术思考。"
+Content = "独立开发者 / 后端工程师，长期关注 AI Agent、Go 后端、React Native 和创业项目。这里记录我做产品、写代码、踩坑复盘和持续迭代中的思考。\n\n邮箱：[lzyoutlook@gamil.com](mailto:lzyoutlook@gamil.com)  ·  X：[ISheep_L](https://twitter.com/ISheep_L)  ·  Instagram：[isheep.p](https://www.instagram.com/isheep.p/)"
 
 [[params.socialIcons]]
 name = "github"
 url = "https://github.com/ISheepp"
+
+[[params.socialIcons]]
+name = "x"
+url = "https://twitter.com/ISheep_L"
+
+[[params.socialIcons]]
+name = "instagram"
+url = "https://www.instagram.com/isheep.p/"
+
+[[params.socialIcons]]
+name = "email"
+url = "mailto:lzyoutlook@gamil.com"
 
 [[menu.main]]
 identifier = "posts"
@@ -58,6 +70,12 @@ identifier = "search"
 name = "搜索"
 url = "/search/"
 weight = 40
+
+[[menu.main]]
+identifier = "about"
+name = "关于"
+url = "/posts/about/"
+weight = 50
 
 [outputs]
 home = ["HTML", "RSS", "JSON"]

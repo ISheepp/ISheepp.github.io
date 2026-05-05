@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>vegeta压测使用 | Beaulo&#39;s Blog</title>
+<meta name="keywords" content="">
+<meta name="description" content="vegeta是一个HTTP压力测试工具，使用Go编写，用命令行交互，并且可以生成汇总和图表作为结果分析。
+https://github.com/tsenart/vegeta
+基本使用
+详细使用方式可以参考README里的内容。可以分为两种方式使用：命令行交互和作为库引入Go程序。我这边使用了brew安装了vegeta，整个测试过程是使用Go编写了一个脚本来进行测试，具体可以参考代码片段
+我并没有使用库的形式来引入，而是使用exec.Command()函数来执行命令行。
+具体使用到的vegeta命令
+
+attack: 调用API的命令，rate代表每秒调用次数，duration表示调用几秒，body指的是post请求的请求体，name是指为这次测试命名「可不填」，tee是生成bin原始文件「类似raw格式照片，可以用bin转换成很多别的格式」，report是生成报告，这里是在命令行输出。
+
+echo &#34;POST http://172.17.1.36:30898/hello&#34; | vegeta attack -rate=2000 -duration=1s -body=query.json -timeout=0 -name=hello | tee ./result/results-null.bin | vegeta report
+
+生成报告文件，这里是根据bin原始文件生成txt文件
+
+vegeta report -type=text results-query.bin &gt; repost.txt
+
+生成分析图表，使用plot可以生成可交互的图表，需要将多个结果合并到一个图表的时候需要注意，在使用第一个命令的时候务必加上-name参数为其命名。
+
+vegeta plot results-null.bin results-sleep.bin results-query.bin &gt; plot-all.html
+
+测试场景
+使用Java和Go编写两个REST服务，分别测试3个API，在k8s中单副本和5副本的情况。API信息如下：
+
+直接返回
+sleep 2秒再返回
+查询Elasticsearch的10000条数据，每条数据500字节
+
+Elasticsearch集群信息
+
+节点数量：2
+版本：7.4.1
+CPU：8个Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz，每个1 core
+内存：31G
+
+Kubernetes信息
+
+版本：1.16.15
+节点数量：7「1 master, 6 worker」
+
+指定Deployment调度到同一个节点，两个Deploymnet都分配了2G的内存
+测试步骤
+将Go脚本打包好后，在同目录下创建配置文件config.ini
+[address]
+null = &#34;POST http://172.17.1.36:30898/hello&#34;
+sleep = &#34;POST http://172.17.1.36:30898/sleep&#34;
+query = &#34;POST http://172.17.1.36:30898/es&#34;
+[param]
+rate = 2000
+其中address指的是要调用的API地址和方法，rate指的是每秒调用的次数「我这里是只调用了1s」">
+<meta name="author" content="Beaulo">
+<link rel="canonical" href="https://ISheepp.github.io/posts/vegeta/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.090f06d52e46e231eebdf90a3ba366b19694815b39f8aa73b1d67235f8e58075.css" integrity="sha256-CQ8G1S5G4jHuvfkKO6NmsZaUgVs5&#43;KpzsdZyNfjlgHU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ISheepp.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ISheepp.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ISheepp.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ISheepp.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ISheepp.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://ISheepp.github.io/posts/vegeta/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://ISheepp.github.io/posts/vegeta/">
+  <meta property="og:site_name" content="Beaulo&#39;s Blog">
+  <meta property="og:title" content="vegeta压测使用">
+  <meta property="og:description" content="vegeta是一个HTTP压力测试工具，使用Go编写，用命令行交互，并且可以生成汇总和图表作为结果分析。
+https://github.com/tsenart/vegeta
+基本使用 详细使用方式可以参考README里的内容。可以分为两种方式使用：命令行交互和作为库引入Go程序。我这边使用了brew安装了vegeta，整个测试过程是使用Go编写了一个脚本来进行测试，具体可以参考代码片段
+我并没有使用库的形式来引入，而是使用exec.Command()函数来执行命令行。
+具体使用到的vegeta命令
+attack: 调用API的命令，rate代表每秒调用次数，duration表示调用几秒，body指的是post请求的请求体，name是指为这次测试命名「可不填」，tee是生成bin原始文件「类似raw格式照片，可以用bin转换成很多别的格式」，report是生成报告，这里是在命令行输出。 echo &#34;POST http://172.17.1.36:30898/hello&#34; | vegeta attack -rate=2000 -duration=1s -body=query.json -timeout=0 -name=hello | tee ./result/results-null.bin | vegeta report 生成报告文件，这里是根据bin原始文件生成txt文件 vegeta report -type=text results-query.bin &gt; repost.txt 生成分析图表，使用plot可以生成可交互的图表，需要将多个结果合并到一个图表的时候需要注意，在使用第一个命令的时候务必加上-name参数为其命名。 vegeta plot results-null.bin results-sleep.bin results-query.bin &gt; plot-all.html 测试场景 使用Java和Go编写两个REST服务，分别测试3个API，在k8s中单副本和5副本的情况。API信息如下：
+直接返回 sleep 2秒再返回 查询Elasticsearch的10000条数据，每条数据500字节 Elasticsearch集群信息
+节点数量：2 版本：7.4.1 CPU：8个Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz，每个1 core 内存：31G Kubernetes信息
+版本：1.16.15 节点数量：7「1 master, 6 worker」 指定Deployment调度到同一个节点，两个Deploymnet都分配了2G的内存
+测试步骤 将Go脚本打包好后，在同目录下创建配置文件config.ini
+[address] null = &#34;POST http://172.17.1.36:30898/hello&#34; sleep = &#34;POST http://172.17.1.36:30898/sleep&#34; query = &#34;POST http://172.17.1.36:30898/es&#34; [param] rate = 2000 其中address指的是要调用的API地址和方法，rate指的是每秒调用的次数「我这里是只调用了1s」">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-01-10T12:31:34+00:00">
+    <meta property="article:modified_time" content="2024-01-10T12:31:34+00:00">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="vegeta压测使用">
+  <meta name="twitter:description" content="vegeta是一个HTTP压力测试工具，使用Go编写，用命令行交互，并且可以生成汇总和图表作为结果分析。
+https://github.com/tsenart/vegeta
+基本使用 详细使用方式可以参考README里的内容。可以分为两种方式使用：命令行交互和作为库引入Go程序。我这边使用了brew安装了vegeta，整个测试过程是使用Go编写了一个脚本来进行测试，具体可以参考代码片段
+我并没有使用库的形式来引入，而是使用exec.Command()函数来执行命令行。
+具体使用到的vegeta命令
+attack: 调用API的命令，rate代表每秒调用次数，duration表示调用几秒，body指的是post请求的请求体，name是指为这次测试命名「可不填」，tee是生成bin原始文件「类似raw格式照片，可以用bin转换成很多别的格式」，report是生成报告，这里是在命令行输出。 echo &#34;POST http://172.17.1.36:30898/hello&#34; | vegeta attack -rate=2000 -duration=1s -body=query.json -timeout=0 -name=hello | tee ./result/results-null.bin | vegeta report 生成报告文件，这里是根据bin原始文件生成txt文件 vegeta report -type=text results-query.bin &gt; repost.txt 生成分析图表，使用plot可以生成可交互的图表，需要将多个结果合并到一个图表的时候需要注意，在使用第一个命令的时候务必加上-name参数为其命名。 vegeta plot results-null.bin results-sleep.bin results-query.bin &gt; plot-all.html 测试场景 使用Java和Go编写两个REST服务，分别测试3个API，在k8s中单副本和5副本的情况。API信息如下：
+直接返回 sleep 2秒再返回 查询Elasticsearch的10000条数据，每条数据500字节 Elasticsearch集群信息
+节点数量：2 版本：7.4.1 CPU：8个Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz，每个1 core 内存：31G Kubernetes信息
+版本：1.16.15 节点数量：7「1 master, 6 worker」 指定Deployment调度到同一个节点，两个Deploymnet都分配了2G的内存
+测试步骤 将Go脚本打包好后，在同目录下创建配置文件config.ini
+[address] null = &#34;POST http://172.17.1.36:30898/hello&#34; sleep = &#34;POST http://172.17.1.36:30898/sleep&#34; query = &#34;POST http://172.17.1.36:30898/es&#34; [param] rate = 2000 其中address指的是要调用的API地址和方法，rate指的是每秒调用的次数「我这里是只调用了1s」">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://ISheepp.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "vegeta压测使用",
+      "item": "https://ISheepp.github.io/posts/vegeta/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "vegeta压测使用",
+  "name": "vegeta压测使用",
+  "description": "vegeta是一个HTTP压力测试工具，使用Go编写，用命令行交互，并且可以生成汇总和图表作为结果分析。\nhttps://github.com/tsenart/vegeta\n基本使用 详细使用方式可以参考README里的内容。可以分为两种方式使用：命令行交互和作为库引入Go程序。我这边使用了brew安装了vegeta，整个测试过程是使用Go编写了一个脚本来进行测试，具体可以参考代码片段\n我并没有使用库的形式来引入，而是使用exec.Command()函数来执行命令行。\n具体使用到的vegeta命令\nattack: 调用API的命令，rate代表每秒调用次数，duration表示调用几秒，body指的是post请求的请求体，name是指为这次测试命名「可不填」，tee是生成bin原始文件「类似raw格式照片，可以用bin转换成很多别的格式」，report是生成报告，这里是在命令行输出。 echo \u0026#34;POST http://172.17.1.36:30898/hello\u0026#34; | vegeta attack -rate=2000 -duration=1s -body=query.json -timeout=0 -name=hello | tee ./result/results-null.bin | vegeta report 生成报告文件，这里是根据bin原始文件生成txt文件 vegeta report -type=text results-query.bin \u0026gt; repost.txt 生成分析图表，使用plot可以生成可交互的图表，需要将多个结果合并到一个图表的时候需要注意，在使用第一个命令的时候务必加上-name参数为其命名。 vegeta plot results-null.bin results-sleep.bin results-query.bin \u0026gt; plot-all.html 测试场景 使用Java和Go编写两个REST服务，分别测试3个API，在k8s中单副本和5副本的情况。API信息如下：\n直接返回 sleep 2秒再返回 查询Elasticsearch的10000条数据，每条数据500字节 Elasticsearch集群信息\n节点数量：2 版本：7.4.1 CPU：8个Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz，每个1 core 内存：31G Kubernetes信息\n版本：1.16.15 节点数量：7「1 master, 6 worker」 指定Deployment调度到同一个节点，两个Deploymnet都分配了2G的内存\n测试步骤 将Go脚本打包好后，在同目录下创建配置文件config.ini\n[address] null = \u0026#34;POST http://172.17.1.36:30898/hello\u0026#34; sleep = \u0026#34;POST http://172.17.1.36:30898/sleep\u0026#34; query = \u0026#34;POST http://172.17.1.36:30898/es\u0026#34; [param] rate = 2000 其中address指的是要调用的API地址和方法，rate指的是每秒调用的次数「我这里是只调用了1s」\n",
+  "keywords": [
+    
+  ],
+  "articleBody": "vegeta是一个HTTP压力测试工具，使用Go编写，用命令行交互，并且可以生成汇总和图表作为结果分析。\nhttps://github.com/tsenart/vegeta\n基本使用 详细使用方式可以参考README里的内容。可以分为两种方式使用：命令行交互和作为库引入Go程序。我这边使用了brew安装了vegeta，整个测试过程是使用Go编写了一个脚本来进行测试，具体可以参考代码片段\n我并没有使用库的形式来引入，而是使用exec.Command()函数来执行命令行。\n具体使用到的vegeta命令\nattack: 调用API的命令，rate代表每秒调用次数，duration表示调用几秒，body指的是post请求的请求体，name是指为这次测试命名「可不填」，tee是生成bin原始文件「类似raw格式照片，可以用bin转换成很多别的格式」，report是生成报告，这里是在命令行输出。 echo \"POST http://172.17.1.36:30898/hello\" | vegeta attack -rate=2000 -duration=1s -body=query.json -timeout=0 -name=hello | tee ./result/results-null.bin | vegeta report 生成报告文件，这里是根据bin原始文件生成txt文件 vegeta report -type=text results-query.bin \u003e repost.txt 生成分析图表，使用plot可以生成可交互的图表，需要将多个结果合并到一个图表的时候需要注意，在使用第一个命令的时候务必加上-name参数为其命名。 vegeta plot results-null.bin results-sleep.bin results-query.bin \u003e plot-all.html 测试场景 使用Java和Go编写两个REST服务，分别测试3个API，在k8s中单副本和5副本的情况。API信息如下：\n直接返回 sleep 2秒再返回 查询Elasticsearch的10000条数据，每条数据500字节 Elasticsearch集群信息\n节点数量：2 版本：7.4.1 CPU：8个Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz，每个1 core 内存：31G Kubernetes信息\n版本：1.16.15 节点数量：7「1 master, 6 worker」 指定Deployment调度到同一个节点，两个Deploymnet都分配了2G的内存\n测试步骤 将Go脚本打包好后，在同目录下创建配置文件config.ini\n[address] null = \"POST http://172.17.1.36:30898/hello\" sleep = \"POST http://172.17.1.36:30898/sleep\" query = \"POST http://172.17.1.36:30898/es\" [param] rate = 2000 其中address指的是要调用的API地址和方法，rate指的是每秒调用的次数「我这里是只调用了1s」\n执行脚本，等待……\n测试结果 每个API生成了3个文件\nresults-*.bin文件：测试原始文件 report-*.txt文件：报告文件 plot-*.html文件：单个结果图表文件 首先是Java\n空接口 Requests [total, rate, throughput] 2000, 2004.21, 1996.25 Duration [total, attack, wait] 1.002s, 997.9ms, 3.98ms Latencies [min, mean, 50, 90, 95, 99, max] 2.114ms, 28.492ms, 11.283ms, 77.584ms, 90.305ms, 111.482ms, 150.836ms Bytes In [total, mean] 10000, 5.00 Bytes Out [total, mean] 0, 0.00 Success [ratio] 100.00% Status Codes [code:count] 200:2000 字段解释 Requests（请求数）：\ntotal 表示总请求数，这里是 2000。 rate 表示每秒发起的请求数，这里是 2004.21。 throughput 表示每秒成功完成的请求数，这里是 1996.25。 Duration（持续时间）：\ntotal 表示测试总时间，这里是 1.002 秒。 attack 表示攻击时间，即实际发送请求的时间，这里是 997.9 毫秒。 wait 表示在攻击期间所有请求的总等待时间，这里是 3.98 毫秒。 Latencies（响应时间）：\nmin 表示最小响应时间 mean 表示平均响应时间 50, 90, 95, 99 表示分位数「不是很懂这个指标表示的是什么」，分别是 50%，90%，95%，99% 的响应时间 max 表示最大响应时间 Bytes In（接收字节数）：\ntotal 表示所有请求的总接收字节数 mean 表示每个请求的平均接收字节数 Bytes Out（发送字节数）：\ntotal 表示所有请求的总发送字节数 mean 表示每个请求的平均发送字节数 Success（成功率）：\nratio 表示成功的请求占总请求的百分比 Status Codes（状态码）：\ncode:count 表示每个状态码出现的次数。 当我把3个结果合并在一起的时候，响应时间基本上是一个线性增长，且查询时间最后涨到了3m多\nGo sleep和空接口都相当稳定，查询接口的响应时长也比Java好了很多\n接下里是把两个服务都添加到5个副本之后的结果\nJava 只能说sleep接口的稳定性得到了提升，不会线性增长，但是查询接口的响应时间还是有点离谱\nGo 查询接口的响应时长并没有太大的提升\n总结 对于查询接口而言，可能瓶颈会出现在Elasticsearch端，这里先不测试了。\n从图表来看，Go处理并发能力确实略胜一筹。\nvegeta这个工具还有很多玩法没有去使用，相对于Jmeter，虽然命令行不是很友好，但是生成的结果相当的直观。\n",
+  "wordCount" : "210",
+  "inLanguage": "en",
+  "datePublished": "2024-01-10T12:31:34.642Z",
+  "dateModified": "2024-01-10T12:31:34.642Z",
+  "author":{
+    "@type": "Person",
+    "name": "Beaulo"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ISheepp.github.io/posts/vegeta/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Beaulo's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ISheepp.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://ISheepp.github.io/" accesskey="h" title="Beaulo&#39;s Blog (Alt + H)">Beaulo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ISheepp.github.io/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/posts/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">Posts</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      vegeta压测使用
+    </h1>
+    <div class="post-meta">
+
+<span title='2024-01-10 12:31:34.642 +0000 UTC'>January 10, 2024</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>210 words</span>&nbsp;·&nbsp;<span>Beaulo</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#基本使用">基本使用</a></li>
+    <li><a href="#测试场景">测试场景</a></li>
+    <li><a href="#测试步骤">测试步骤</a></li>
+    <li><a href="#测试结果">测试结果</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
+    </div>
+</details>
+
+  <div class="post-content md-content"><p>vegeta是一个HTTP压力测试工具，使用Go编写，用命令行交互，并且可以生成汇总和图表作为结果分析。</p>
+<p><a href="https://github.com/tsenart/vegeta">https://github.com/tsenart/vegeta</a></p>
+<h2 id="基本使用">基本使用<a hidden class="anchor" aria-hidden="true" href="#基本使用">#</a></h2>
+<p>详细使用方式可以参考README里的内容。可以分为两种方式使用：命令行交互和作为库引入Go程序。我这边使用了brew安装了vegeta，整个测试过程是使用Go编写了一个脚本来进行测试，具体可以参考<a href="https://gist.github.com/ISheepp/90cbe89c78d855e22185dc5703c77803">代码片段</a></p>
+<p>我并没有使用库的形式来引入，而是使用<code>exec.Command()</code>函数来执行命令行。</p>
+<p>具体使用到的vegeta命令</p>
+<ol>
+<li>attack: 调用API的命令，rate代表每秒调用次数，duration表示调用几秒，body指的是post请求的请求体，name是指为这次测试命名「可不填」，tee是生成bin原始文件「类似raw格式照片，可以用bin转换成很多别的格式」，report是生成报告，这里是在命令行输出。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>echo <span style="color:#e6db74">&#34;POST http://172.17.1.36:30898/hello&#34;</span> | vegeta attack -rate<span style="color:#f92672">=</span><span style="color:#ae81ff">2000</span> -duration<span style="color:#f92672">=</span>1s -body<span style="color:#f92672">=</span>query.json -timeout<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span> -name<span style="color:#f92672">=</span>hello | tee ./result/results-null.bin | vegeta report
+</span></span></code></pre></div><ol start="2">
+<li>生成报告文件，这里是根据bin原始文件生成txt文件</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vegeta report -type<span style="color:#f92672">=</span>text results-query.bin &gt; repost.txt
+</span></span></code></pre></div><ol start="3">
+<li>生成分析图表，使用plot可以生成可交互的图表，需要将多个结果合并到一个图表的时候需要注意，在使用第一个命令的时候务必加上-name参数为其命名。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>vegeta plot results-null.bin results-sleep.bin results-query.bin &gt; plot-all.html
+</span></span></code></pre></div><p><img alt="image" loading="lazy" src="./attachments/QmfUgVAmUTEmXt7Y7oUy12B2RKBADMNzxDM7wpr8PfB7cm"></p>
+<h2 id="测试场景">测试场景<a hidden class="anchor" aria-hidden="true" href="#测试场景">#</a></h2>
+<p>使用Java和Go编写两个REST服务，分别测试3个API，在k8s中单副本和5副本的情况。API信息如下：</p>
+<ol>
+<li>直接返回</li>
+<li>sleep 2秒再返回</li>
+<li>查询Elasticsearch的10000条数据，每条数据500字节</li>
+</ol>
+<p>Elasticsearch集群信息</p>
+<ul>
+<li>节点数量：2</li>
+<li>版本：7.4.1</li>
+<li>CPU：8个Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz，每个1 core</li>
+<li>内存：31G</li>
+</ul>
+<p>Kubernetes信息</p>
+<ul>
+<li>版本：1.16.15</li>
+<li>节点数量：7「1 master, 6 worker」</li>
+</ul>
+<p>指定Deployment调度到同一个节点，两个Deploymnet都分配了2G的内存</p>
+<h2 id="测试步骤">测试步骤<a hidden class="anchor" aria-hidden="true" href="#测试步骤">#</a></h2>
+<p>将Go脚本打包好后，在同目录下创建配置文件<code>config.ini</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-ini" data-lang="ini"><span style="display:flex;"><span><span style="color:#66d9ef">[address]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">null</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;POST http://172.17.1.36:30898/hello&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">sleep</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;POST http://172.17.1.36:30898/sleep&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">query</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;POST http://172.17.1.36:30898/es&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">[param]</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">rate</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">2000</span>
+</span></span></code></pre></div><p>其中address指的是要调用的API地址和方法，rate指的是每秒调用的次数「我这里是只调用了1s」</p>
+<p>执行脚本，等待……</p>
+<p><img alt="image" loading="lazy" src="./attachments/QmXhwAMxjKz6SuoRcd9cLVnNewhKMDcz4puNVfWn3uMfdT"></p>
+<h2 id="测试结果">测试结果<a hidden class="anchor" aria-hidden="true" href="#测试结果">#</a></h2>
+<p>每个API生成了3个文件</p>
+<ol>
+<li>results-*.bin文件：测试原始文件</li>
+<li>report-*.txt文件：报告文件</li>
+<li>plot-*.html文件：单个结果图表文件</li>
+</ol>
+<p>首先是Java</p>
+<ol>
+<li>空接口</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>Requests      <span style="color:#f92672">[</span>total, rate, throughput<span style="color:#f92672">]</span>         2000, 2004.21, 1996.25
+</span></span><span style="display:flex;"><span>Duration      <span style="color:#f92672">[</span>total, attack, wait<span style="color:#f92672">]</span>             1.002s, 997.9ms, 3.98ms
+</span></span><span style="display:flex;"><span>Latencies     <span style="color:#f92672">[</span>min, mean, 50, 90, 95, 99, max<span style="color:#f92672">]</span>  2.114ms, 28.492ms, 11.283ms, 77.584ms, 90.305ms, 111.482ms, 150.836ms
+</span></span><span style="display:flex;"><span>Bytes In      <span style="color:#f92672">[</span>total, mean<span style="color:#f92672">]</span>                     10000, 5.00
+</span></span><span style="display:flex;"><span>Bytes Out     <span style="color:#f92672">[</span>total, mean<span style="color:#f92672">]</span>                     0, 0.00
+</span></span><span style="display:flex;"><span>Success       <span style="color:#f92672">[</span>ratio<span style="color:#f92672">]</span>                           100.00%
+</span></span><span style="display:flex;"><span>Status Codes  <span style="color:#f92672">[</span>code:count<span style="color:#f92672">]</span>                      200:2000
+</span></span></code></pre></div><p>字段解释
+Requests（请求数）：</p>
+<ul>
+<li>total 表示总请求数，这里是 2000。</li>
+<li>rate 表示每秒发起的请求数，这里是 2004.21。</li>
+<li>throughput 表示每秒成功完成的请求数，这里是 1996.25。</li>
+</ul>
+<p>Duration（持续时间）：</p>
+<ul>
+<li>total 表示测试总时间，这里是 1.002 秒。</li>
+<li>attack 表示攻击时间，即实际发送请求的时间，这里是 997.9 毫秒。</li>
+<li>wait 表示在攻击期间所有请求的总等待时间，这里是 3.98 毫秒。</li>
+</ul>
+<p>Latencies（响应时间）：</p>
+<ul>
+<li>min 表示最小响应时间</li>
+<li>mean 表示平均响应时间</li>
+<li>50, 90, 95, 99 表示<a href="https://juejin.cn/post/6915022688746471432">分位数</a>「不是很懂这个指标表示的是什么」，分别是 50%，90%，95%，99% 的响应时间</li>
+<li>max 表示最大响应时间</li>
+</ul>
+<p>Bytes In（接收字节数）：</p>
+<ul>
+<li>total 表示所有请求的总接收字节数</li>
+<li>mean 表示每个请求的平均接收字节数</li>
+</ul>
+<p>Bytes Out（发送字节数）：</p>
+<ul>
+<li>total 表示所有请求的总发送字节数</li>
+<li>mean 表示每个请求的平均发送字节数</li>
+</ul>
+<p>Success（成功率）：</p>
+<ul>
+<li>ratio 表示成功的请求占总请求的百分比</li>
+</ul>
+<p>Status Codes（状态码）：</p>
+<ul>
+<li>code:count 表示每个状态码出现的次数。</li>
+</ul>
+<p>当我把3个结果合并在一起的时候，响应时间基本上是一个线性增长，且查询时间最后涨到了3m多</p>
+<p><img alt="vegeta-plot (1)" loading="lazy" src="./attachments/QmPgbCjAtxgCAm2uHNxDY1ZAop5P27hxzTMSHDxuERja44"></p>
+<ol start="2">
+<li>Go</li>
+</ol>
+<p>sleep和空接口都相当稳定，查询接口的响应时长也比Java好了很多</p>
+<p><img alt="vegeta-plot (2)" loading="lazy" src="./attachments/QmTHpybLtRNEpvrX3DdX2RWDiws2cAgyZAt3U4zZEw3aJy"></p>
+<p>接下里是把两个服务都添加到5个副本之后的结果</p>
+<ol>
+<li>Java</li>
+</ol>
+<p>只能说sleep接口的稳定性得到了提升，不会线性增长，但是查询接口的响应时间还是有点离谱</p>
+<p><img alt="vegeta-plot (4)" loading="lazy" src="./attachments/Qmc3HwMoofVjaibeSfJLzpkmeu7j3FLvJUdC7eD2obkufo"></p>
+<ol start="2">
+<li>Go</li>
+</ol>
+<p>查询接口的响应时长并没有太大的提升</p>
+<p><img alt="vegeta-plot (3)" loading="lazy" src="./attachments/QmaaLHCnYKdmZM5yLqBghyo7kGjC4oUAYM62rnJA66oGgv"></p>
+<h2 id="总结">总结<a hidden class="anchor" aria-hidden="true" href="#总结">#</a></h2>
+<p>对于查询接口而言，可能瓶颈会出现在Elasticsearch端，这里先不测试了。</p>
+<p>从图表来看，Go处理并发能力确实略胜一筹。</p>
+<p>vegeta这个工具还有很多玩法没有去使用，相对于Jmeter，虽然命令行不是很友好，但是生成的结果相当的直观。</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+<nav class="paginav">
+  <a class="next" href="https://ISheepp.github.io/posts/recovery-aws-ec2-emergency-mode/">
+    <span class="title">Next »</span>
+    <span>AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://ISheepp.github.io/">Beaulo&#39;s Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

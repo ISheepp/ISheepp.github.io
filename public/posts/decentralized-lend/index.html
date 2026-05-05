@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>借贷 - On Chain | Beaulo&#39;s Blog</title>
+<meta name="keywords" content="defi">
+<meta name="description" content="信贷 - 现代金融体系的神奇工具，也是形成经济周期的一大因素">
+<meta name="author" content="Beaulo">
+<link rel="canonical" href="https://ISheepp.github.io/posts/decentralized-lend/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.090f06d52e46e231eebdf90a3ba366b19694815b39f8aa73b1d67235f8e58075.css" integrity="sha256-CQ8G1S5G4jHuvfkKO6NmsZaUgVs5&#43;KpzsdZyNfjlgHU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ISheepp.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ISheepp.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ISheepp.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ISheepp.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ISheepp.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" hreflang="en" href="https://ISheepp.github.io/posts/decentralized-lend/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://ISheepp.github.io/posts/decentralized-lend/">
+  <meta property="og:site_name" content="Beaulo&#39;s Blog">
+  <meta property="og:title" content="借贷 - On Chain">
+  <meta property="og:description" content="信贷 - 现代金融体系的神奇工具，也是形成经济周期的一大因素">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2023-02-09T15:59:01+00:00">
+    <meta property="article:modified_time" content="2023-02-09T15:59:01+00:00">
+    <meta property="article:tag" content="Defi">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="借贷 - On Chain">
+  <meta name="twitter:description" content="信贷 - 现代金融体系的神奇工具，也是形成经济周期的一大因素">
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://ISheepp.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "借贷 - On Chain",
+      "item": "https://ISheepp.github.io/posts/decentralized-lend/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "借贷 - On Chain",
+  "name": "借贷 - On Chain",
+  "description": "信贷 - 现代金融体系的神奇工具，也是形成经济周期的一大因素",
+  "keywords": [
+    "defi"
+  ],
+  "articleBody": " 信贷 - 现代金融体系的神奇工具，也是形成经济周期的一大因素\n传统借贷 一般的传统借贷分为信用借贷（社保记录、银行卡流水）、抵押借贷（房产、汽车）等等，包含的角色一般有借贷人，放贷人，清算人，而违约造成的清算和放贷则一般都由银行处理。但是流程极其缓慢，比如清算房产，法拍房流程低效且复杂。\n链上借贷 稳定币，合成资产（aToken、cToken、yToken…）等都是基于此。\n角色 四个角色分别与金库（智能合约）交互，形成了一套去中心化的借贷体系。而清算人的角色在传统借贷中一般都是银行，如果借款人的钱还不上，就会交给清算人处理。\n案例 - MakerDAO MakerDAO 是铸造 $DAI 的 母公司。\n前置名词解释\n清算阈值：抵押物的价值 * 清算阈值 = 借贷能力（最多能借的钱） 健康因子：抵押物的价值 * 清算阈值 / 债务 \u003e 1 为健康，小于 1 可清算 关闭因子：清算人一次能够清算抵押物的比例 假设清算阈值 = 0.75，关闭因子 = 0.5，1 ETH = 2000 DAI，我抵押 1 ETH最多能借出1500 DAI（但是借 1500 DAI risk拉满，ETH有一点下跌就会造成清算）。所以我借出 1250DAI。此时的健康因子为1.2 。当ETH价格跌到1600时，此时的清算阈值为 1200 DAI，健康因为为0.96 \u003c 1 此时抵押物会被清算人清算。\n清算 一般分为两类：固定价差清算和拍卖清算（又分为荷兰拍卖和英式拍卖）。清算是有收益的，有一个清算价差，MakerDAO 为 13%，一般清算都不会直接UI操作提供入口，都是清算智能合约机器人来操作。\n固定价差清算 清算人从合约中得到健康因子小于1的债务可以进行清算，从合约金库中获取抵押物并偿还部分对应的债务，使得借贷人的健康因子大于1，最多只能清算不大于关闭因子的抵押物比例。以往像 AAVE 都是即刻清算，现在会有一个缓冲时间来让借款人补仓，可能是12h / 24h\n拍卖清算 拍卖清算有一个漫长的链上过程，合约会定义一个拍卖时间段，根据不同的拍卖类型来进行拍卖，不停地接受清算人的报价，直到拍卖结束（英式拍卖）。\n闪电贷 AAVE 支持闪电贷，不过要求较高，需要在一次 transaction 中完成，一般只能自己写合约，在一个 function里写完所有逻辑。\n比如有去中心化交易所 Dex A 上 ETH/USDT = 1200，Dex B 上 ETH/USDT = 1150\n我从 AAVE 借出5000 USDT，在B上买，A上卖出，最后归还，完成一次套利。\n但是现实中，闪电贷却被很多黑客利用，比如有些支持合约的去中心化交易所的价格用的是 Uniswap 的价格预估接口，先开一个空单，然后借 ETH 去 Uniswap 砸盘，然后合约平仓获利走人，归还 ETH。这种闪电贷攻击行为非常恶劣。\n循环贷 从借贷协议中借出的币同样可以在别的交易所买抵押物再次借贷，循环贷风险大，可能会造成去杠杆螺旋清算（因为清算会卖出抵押物，是一个砸盘行为）。\n",
+  "wordCount" : "100",
+  "inLanguage": "en",
+  "datePublished": "2023-02-09T15:59:01.18Z",
+  "dateModified": "2023-02-09T15:59:01.18Z",
+  "author":{
+    "@type": "Person",
+    "name": "Beaulo"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://ISheepp.github.io/posts/decentralized-lend/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Beaulo's Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://ISheepp.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+<body id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://ISheepp.github.io/" accesskey="h" title="Beaulo&#39;s Blog (Alt + H)">Beaulo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ISheepp.github.io/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/posts/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    <nav class="breadcrumbs" role="navigation" aria-label="Breadcrumb">
+            <a href="/">Home</a>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+                <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+            <a href="/posts/">Posts</a>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-right">
+        <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+</nav>
+    <h1 class="post-title entry-hint-parent">
+      借贷 - On Chain
+    </h1>
+    <div class="post-meta">
+
+<span title='2023-02-09 15:59:01.18 +0000 UTC'>February 9, 2023</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>100 words</span>&nbsp;·&nbsp;<span>Beaulo</span>
+
+</div>
+  </header> <details class="toc"  open>
+    <summary accesskey="c" title="(Alt + C)">
+        <span class="title">Table of Contents</span>
+    </summary>
+
+    <div class="inner"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#传统借贷">传统借贷</a></li>
+    <li><a href="#链上借贷">链上借贷</a>
+      <ul>
+        <li><a href="#角色">角色</a></li>
+        <li><a href="#案例---makerdao">案例 - MakerDAO</a></li>
+        <li><a href="#清算">清算</a></li>
+        <li><a href="#闪电贷">闪电贷</a></li>
+        <li><a href="#循环贷">循环贷</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</details>
+
+  <div class="post-content md-content"><blockquote>
+<p>信贷 - 现代金融体系的神奇工具，也是形成经济周期的一大因素</p>
+</blockquote>
+<h2 id="传统借贷">传统借贷<a hidden class="anchor" aria-hidden="true" href="#传统借贷">#</a></h2>
+<p>一般的传统借贷分为信用借贷（社保记录、银行卡流水）、抵押借贷（房产、汽车）等等，包含的角色一般有借贷人，放贷人，清算人，而违约造成的清算和放贷则一般都由银行处理。但是流程极其缓慢，比如清算房产，法拍房流程低效且复杂。</p>
+<h2 id="链上借贷">链上借贷<a hidden class="anchor" aria-hidden="true" href="#链上借贷">#</a></h2>
+<p>稳定币，合成资产（aToken、cToken、yToken&hellip;）等都是基于此。</p>
+<h3 id="角色">角色<a hidden class="anchor" aria-hidden="true" href="#角色">#</a></h3>
+<p><img alt="借贷角色" loading="lazy" src="/posts/decentralized-lend/attachments/bafkreicv6n75qrowp2jq63b4qkax3scn5ajtkc2pla5ntvhcurvqaa27wq.png"></p>
+<p>四个角色分别与金库（智能合约）交互，形成了一套去中心化的借贷体系。而清算人的角色在传统借贷中一般都是银行，如果借款人的钱还不上，就会交给清算人处理。</p>
+<h3 id="案例---makerdao">案例 - MakerDAO<a hidden class="anchor" aria-hidden="true" href="#案例---makerdao">#</a></h3>
+<p>MakerDAO 是铸造 $DAI 的 母公司。</p>
+<p>前置名词解释</p>
+<ol>
+<li>清算阈值：抵押物的价值 * 清算阈值 = 借贷能力（最多能借的钱）</li>
+<li>健康因子：抵押物的价值 * 清算阈值 / 债务 &gt; 1 为健康，小于 1 可清算</li>
+<li>关闭因子：清算人一次能够清算抵押物的比例</li>
+</ol>
+<p>假设清算阈值 = 0.75，关闭因子 = 0.5，1 ETH = 2000 DAI，我抵押 1 ETH最多能借出1500 DAI（但是借 1500 DAI risk拉满，ETH有一点下跌就会造成清算）。所以我借出 1250DAI。此时的健康因子为1.2 。当ETH价格跌到1600时，此时的清算阈值为 1200 DAI，健康因为为0.96 &lt; 1 此时抵押物会被清算人清算。</p>
+<p><img alt="image" loading="lazy" src="/posts/decentralized-lend/attachments/bafkreigmayt53rmqdg47qjxp673hh3pngqnfgwpnqvtntg4d6cjtgh7p3i.png"></p>
+<h3 id="清算">清算<a hidden class="anchor" aria-hidden="true" href="#清算">#</a></h3>
+<p>一般分为两类：固定价差清算和拍卖清算（又分为荷兰拍卖和英式拍卖）。清算是有收益的，有一个清算价差，MakerDAO 为 13%，一般清算都不会直接UI操作提供入口，都是清算智能合约机器人来操作。</p>
+<h4 id="固定价差清算">固定价差清算<a hidden class="anchor" aria-hidden="true" href="#固定价差清算">#</a></h4>
+<p>清算人从合约中得到健康因子小于1的债务可以进行清算，从合约金库中获取抵押物并偿还部分对应的债务，使得借贷人的健康因子大于1，最多只能清算不大于关闭因子的抵押物比例。以往像 AAVE 都是即刻清算，现在会有一个缓冲时间来让借款人补仓，可能是12h / 24h</p>
+<p><img alt="image" loading="lazy" src="/posts/decentralized-lend/attachments/bafkreifieucwv6vk7xid4a7svr635xaw3nm33iv44njl5ufkn5bbbfbmie.png"></p>
+<h4 id="拍卖清算">拍卖清算<a hidden class="anchor" aria-hidden="true" href="#拍卖清算">#</a></h4>
+<p>拍卖清算有一个漫长的链上过程，合约会定义一个拍卖时间段，根据不同的拍卖类型来进行拍卖，不停地接受清算人的报价，直到拍卖结束（英式拍卖）。</p>
+<p><img alt="image" loading="lazy" src="/posts/decentralized-lend/attachments/bafkreibuj5obpmrgkgf4p6ovoitdqvouqqd2ugdd4cxlwaa47voi3tsoyy.png"></p>
+<h3 id="闪电贷">闪电贷<a hidden class="anchor" aria-hidden="true" href="#闪电贷">#</a></h3>
+<p>AAVE 支持闪电贷，不过要求较高，需要在一次 transaction 中完成，一般只能自己写合约，在一个 function里写完所有逻辑。</p>
+<p>比如有去中心化交易所 Dex A 上 ETH/USDT = 1200，Dex B 上 ETH/USDT = 1150</p>
+<p>我从 AAVE 借出5000 USDT，在B上买，A上卖出，最后归还，完成一次套利。</p>
+<p>但是现实中，闪电贷却被很多黑客利用，比如有些支持合约的去中心化交易所的价格用的是 Uniswap 的价格预估接口，先开一个空单，然后借 ETH 去 Uniswap 砸盘，然后合约平仓获利走人，归还 ETH。这种闪电贷攻击行为非常恶劣。</p>
+<h3 id="循环贷">循环贷<a hidden class="anchor" aria-hidden="true" href="#循环贷">#</a></h3>
+<p>从借贷协议中借出的币同样可以在别的交易所买抵押物再次借贷，循环贷风险大，可能会造成去杠杆螺旋清算（因为清算会卖出抵押物，是一个砸盘行为）。</p>
+<p><img alt="image" loading="lazy" src="/posts/decentralized-lend/attachments/bafkreigmvw42f5k5r6oxc2qumawoovejvdkn7vmcz2uvf6gtcu3jkuanvq.png"></p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://ISheepp.github.io/tags/defi/">Defi</a></li>
+    </ul>
+<nav class="paginav">
+  <a class="prev" href="https://ISheepp.github.io/posts/the-meme-of-chatgpt/">
+    <span class="title">« Prev</span>
+    <span>The meme of ChatGPT</span>
+  </a>
+  <a class="next" href="https://ISheepp.github.io/posts/2022-report/">
+    <span class="title">Next »</span>
+    <span>魔幻2022</span>
+  </a>
+</nav>
+
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://ISheepp.github.io/">Beaulo&#39;s Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+<script>
+    document.querySelectorAll('pre > code').forEach((codeblock) => {
+        const container = codeblock.parentNode.parentNode;
+
+        const copybutton = document.createElement('button');
+        copybutton.classList.add('copy-code');
+        copybutton.innerHTML = 'copy';
+
+        function copyingDone() {
+            copybutton.innerHTML = 'copied!';
+            setTimeout(() => {
+                copybutton.innerHTML = 'copy';
+            }, 2000);
+        }
+
+        copybutton.addEventListener('click', (cb) => {
+            if ('clipboard' in navigator) {
+                navigator.clipboard.writeText(codeblock.textContent);
+                copyingDone();
+                return;
+            }
+
+            const range = document.createRange();
+            range.selectNodeContents(codeblock);
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            try {
+                document.execCommand('copy');
+                copyingDone();
+            } catch (e) { };
+            selection.removeRange(range);
+        });
+
+        if (container.classList.contains("highlight")) {
+            container.appendChild(copybutton);
+        } else if (container.parentNode.firstChild == container) {
+            
+        } else if (codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName == "TABLE") {
+            
+            codeblock.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(copybutton);
+        } else {
+            
+            codeblock.parentNode.appendChild(copybutton);
+        }
+    });
+</script>
+</body>
+
+</html>

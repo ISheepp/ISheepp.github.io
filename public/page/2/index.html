@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto" data-theme="auto">
+
+<head>
+	<meta name="generator" content="Hugo 0.161.1"><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Beaulo&#39;s Blog</title>
+
+<meta name="description" content="记录开发、AI Agent、创业项目和技术思考。">
+<meta name="author" content="Beaulo">
+<link rel="canonical" href="https://ISheepp.github.io/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.090f06d52e46e231eebdf90a3ba366b19694815b39f8aa73b1d67235f8e58075.css" integrity="sha256-CQ8G1S5G4jHuvfkKO6NmsZaUgVs5&#43;KpzsdZyNfjlgHU=" rel="preload stylesheet" as="style">
+<link rel="icon" href="https://ISheepp.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://ISheepp.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://ISheepp.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://ISheepp.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://ISheepp.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<link rel="alternate" type="application/rss+xml" href="https://ISheepp.github.io/index.xml" title="rss">
+<link rel="alternate" type="application/json" href="https://ISheepp.github.io/index.json" title="json">
+<link rel="alternate" hreflang="en" href="https://ISheepp.github.io/">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --code-block-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+                color-scheme: dark;
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .toc {
+                background: var(--entry);
+            }
+        }
+
+    </style>
+</noscript>
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else if (localStorage.getItem("pref-theme") === "light") {
+       document.querySelector("html").dataset.theme = 'light';
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.querySelector("html").dataset.theme = 'dark';
+    } else {
+        document.querySelector("html").dataset.theme = 'light';
+    }
+
+</script><meta property="og:url" content="https://ISheepp.github.io/">
+  <meta property="og:site_name" content="Beaulo&#39;s Blog">
+  <meta property="og:title" content="Beaulo&#39;s Blog">
+  <meta property="og:description" content="记录开发、AI Agent、创业项目和技术思考。">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Beaulo&#39;s Blog">
+  <meta name="twitter:description" content="记录开发、AI Agent、创业项目和技术思考。">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Beaulo's Blog",
+  "url": "https://ISheepp.github.io/",
+  "description": "记录开发、AI Agent、创业项目和技术思考。",
+  "logo": "https://ISheepp.github.io/favicon.ico",
+  "sameAs": [
+      "https://github.com/ISheepp", "https://twitter.com/ISheep_L", "https://www.instagram.com/isheep.p/", "mailto:lzyoutlook@gamil.com"
+  ]
+}
+</script>
+</head>
+<body class="list" id="top">
+    <header class="header">
+    <nav class="header-nav">
+        <div class="logo">
+            <a href="https://ISheepp.github.io/" accesskey="h" title="Beaulo&#39;s Blog (Alt + H)">Beaulo&#39;s Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" class="theme-toggle" accesskey="t" title="(Alt + T)" aria-label="Toggle theme">
+                    <svg class="moon" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg class="sun" xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu" class="menu">
+            <li>
+                <a href="https://ISheepp.github.io/posts/" title="文章">
+                    <span>文章</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/archives/" title="归档">
+                    <span>归档</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/tags/" title="标签">
+                    <span>标签</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/search/" title="搜索 (Alt &#43; /)" accesskey=/>
+                    <span>搜索</span>
+                </a>
+            </li>
+            <li>
+                <a href="https://ISheepp.github.io/posts/about/" title="关于">
+                    <span>关于</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main class="main"> 
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">椭圆曲线加密
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>如何生成地址？什么是非对称加密？ 生成地址的步骤 随机生成一个 256 位的私钥（32字节）通过椭圆曲线加密获取公钥公钥经过两次 hash 函数 生成 20 字节的地址 椭圆曲线加密
+其中私钥 K, 公钥P。
+在曲线上随机取一点A(x,y)，计算Kx&#43;Ky等于P。即KA…
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-10-02 06:34:42.699 +0000 UTC'>October 2, 2022</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>89 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 椭圆曲线加密" href="https://ISheepp.github.io/posts/tuo-yuan-qu-xian-jia-mi/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">二〇二一 · 迷茫 、恐慌
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p> 我们都应该为当下开心。因为未来很长一段时间里的每一年跟之后比，都会是最好的一年。
+2021 2021 7月开始，决定通过Github仓库的issue记录剩下的半年，现在有了数据就很有意思了，其中
+TODO list all todo count: 306 done: 201 undone: 105 done rate: 65.69% 完成率只有65%？wtf，效率是真的低，拖延症严重
+周记写了28篇，大多数在骂人吐槽 工作记录写了21篇，大多数是半残记录 可能最有用的数据还是TODO的完成数，希望2022年能保持高一点
+2022年的仓库开了两个action来统计
+起床记录通过ios的快捷指令记录起床时间和心情 所有的git 操作(push、add……)更新README 通过ZenHub管理更多的issue 回顾 2021年，经历了毕业，正式上工；疫情由好变差；见证了519，经历了124；了解了什么是白资、黑钱，什么是’剧本杀‘等无尽黑暗的成熟产业的运作方式；学习了现代经济系统；学习了blockchain……
+2021年3月我从上家辞职，从西湖来到滨江。究其原因无非就是我觉得双修只会让我越来越烂，前端太难、太乱了，让我写CSS简直头疼。脱离了原先的羽毛球群体，很难想象我在2个半月的时间内能在西湖区的羽毛球圈子里能有一些稳定的球友兼朋友，当然这百分之八十的功劳都是叶妈和其他小伙伴们的热情和包容。事实证明，能融入他们并不是我自己的能力，也并不是说我球打的有多好。在滨江快一年了，我没有加入任何固定的群体，一直都在乱跑，打社交球，很明显想融入一个圈子是很困难的如果没有贵人相助的话，还是非常感谢西湖的小伙伴，能在我来到江的另一边生活之后还能经常记得我，叫我打球吃饭。很抱歉我经常鸽子，我真的想好好努力回到江的那头或者是能拥有一个属于自己的交通工具，可以说我每周都会想去和他们打球，但是来回时间成本、疲惫程度真的让我很难每周跑这么远。
+2021年6月我毕业了，我的毕设——Github上clone的、毕业论文——两天肝完的。答辩一次就过了，我印象还是非常深刻，我引导了老师问我一个问题，问我是如何实现文本不可选中的状态，我说用CSS样式，然后他让我给他看代码，当时就想“哎呀真遇到这么操蛋的事情，这种东西不都是网上查的么，谁记那么牢，幸好做功课了”。总之答辩不是特别顺利，但是也让我过了。没有拍毕业照，没有跟同学们聚餐，因为我跟他们3年几乎没有讲过话，他们觉得我很奇怪，同样我也觉得他们有些人很奇怪，这种现象我在2021年体会异常深刻……总的来说学校给我留下唯一的好印象就是让我住了新造好的王子楼，其他恶心的事情不愿想起，不过我的车辆专业室友、球友之间关系都是非常好的，很多现在也一直在联系。
+2021年7月我签人生第一份劳动合同，当时看到3年，还特意让读法的同学看了下，原来是我多虑。然后经历了2周培训，现在让我评价这个培训我还是想说毫无意义且浪费时间，我学到的唯一教训就是我tm的讲话太直接了，以后不能这样，做人还是不能太方了。
+接下来的6个月，开始进入工作，对我而言，我喜欢做我在做的事情，我从事coding的唯一原因是有趣。所以说，目前任何事情都阻挠不了我。
+🏸羽球 今年打过的比赛
+5月京东杯 –》两轮游 6月尤尼克斯王者之志 –》两轮游 6月威克多双雄会 –》专业组一轮游，见到了柴彪，遗憾未与其对线 7月栎刻动平民英雄 –》一轮游 8月公司比赛，难得拿了冠军，感谢我的搭档 可以说大部分的比赛都是在上半年，下半年由于疫情比赛少，当然主要原因还是我打球变少了，一周最少3次变成了一周最多1次，体能下降很多，核心力量减弱，手臂力量缺失，膝盖无力……种种原因让我开始在完成一天的工作后开始感到疲惫、腰酸。11月份开始在家进行核心锻炼，坚持一个月后逐渐忘记这件事…虽然球打的少了，但是身体还得保护好。
+2021年我已经想清楚了，羽球对我来说已沦为社交的工具，我很难再去通过大量的训练来提升（除非1个月封闭训练），羽球是我爸可以骄傲地讲给他孙辈的故事，而我注定在接下来的几年也超越不了他。
+📕阅读 今年看过的书
+《Maven实战》 《MySQL必知必会》 《如何用一年时间获得十年的经验》Tinyfool老师，强调了终身学习的重要性 《被讨厌的勇气》没看完…… 书籍方面其实很多想看的书都没看，而且发现现在买书很难，非常困难，还可能会引狼入室，孔夫子旧书网就是这么个例子 明年想看
+《动力神话》 《不可能的技艺》 《置身事内：中国政府与经济发展》 《我在深圳当市长》 其中最后一本希望能从子彬身上看到如何用管理企业的方式管理城市，当然，最重要的是看看厉害国的黑暗。
+💵投资 2021从赌狗变成韭菜，心态变好，毕竟以前一脚飞门就是好几万，现在腰斩也毫无波澜。
+毕竟资金量太小了
+爆过仓，倒卖NFT也赚过钱，虽然总体亏本，但是发现研究白皮书是个很有意思的事情，既能看到各种天花乱坠割韭菜的技巧，也能看到项目方美好的愿景。
+没有被骗过，但总是看见有人看到空投就脑子一热授权钱包直接u被黑完。反正我认为，天上不会掉馅饼。
+感受最深的就是每到关键点位就出现多空互道傻逼的现象，生活中也是巨多这种现象，其实，把后果想清楚，能接受，那你想怎么操作就怎么操作。
+2022不碰9倍以上合约、知行合一、想好后果再做事。
+目标：
+找到一个归零币 聊天不fomo 远离所有scam 屯币不被hack 转账少交gas 好好研究项目 💻Coding 首先看下waka time 的年度统计
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2022-01-31 15:19:00 +0000 UTC'>January 31, 2022</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>105 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 二〇二一 · 迷茫 、恐慌" href="https://ISheepp.github.io/posts/2021-report/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">AMM算法
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>AMM，Defi的原理，自动化做市商，相较于传统的交易所做市商，完全由机器来决定买方和卖方的报价。</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2021-12-12 13:26:00 +0000 UTC'>December 12, 2021</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>122 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to AMM算法" href="https://ISheepp.github.io/posts/simple-amm-algorithm/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【翻译】KK的68条给年轻人的建议
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>原文
+学着从那些你不同意的，甚至冒犯你的人身上学习，看看能否从他们相信的事实中找到真相。
+满腔热情值得25点IQ
+总是设定一个最终期限，deadline可以帮你去除那些无关紧要的和普通的东西。还能避免你想把一件事情做的完美无瑕，而是做到与众不同，差异胜于完美。
+不要害怕问一个听起来很蠢的问题，因为99%的情况下，其他人也和你一样在思考同样的问题，但是却不好意思问的（羞于问出口而已）。
+善于聆听是一个超级技能，当倾听他人时，你需要经常询问“还有别的么？”，知道他们讲完了为止。
+一个有意义的年度目标是去充分了解一个话题。这样，（到了年底的时候，）你就会对一年前的无知感到难以置信。
+感恩可以解锁其他美德，而且这是你可以做的更好的事。
+请人吃饭永远不会失败，而且很容易做到，这对于老朋友和新朋友都是一个好办法。
+不要相信银弹（万能胶水）。
+经常给孩子们朗读会让你们更亲密，激发他们的想象力。
+永远不要用信用卡拆东墙补西墙。唯一可以接受的透支或债务，应该用来获取那些极可能增值的东西比如房子。大多数东西在你购买完的那一刻就开始贬值了，别为那些没有未来的事务而透支。
+pro不过是那群知道如何优雅地从错误中恢复地菜鸟而已。
+非同寻常的观点要有非同寻常的证据，才能令人信服。
+别成为一群人里最聪明的那个。和那些比你聪明的人待在一起，向他们学习。如果能找到和不同意你观点的聪明人，那就更好了。
+对话的“数字 3 原则”：想要摸清一个人的真正意图，请他就刚才所说再深入一些，如此反复，直到第三遍，你所得到的就近于真相了。
+别做最好的。做唯一的。
+大家其实都很羞涩。人们可能正等着你去向他们做自我介绍，或是给他们发邮件，或是约他们见面。大胆去做。
+如果被别人拒绝了，别往心里去。假设他们和你一样忙，一样腾不出手来，一样无暇分心。稍后再试一次。第二次的成功率超乎你想象。
+习惯的意义在于无需再为某类行为纠结，不用再为要不要做它而费思量。做就是了。讲真话和用牙线都属于好习惯。
+及时回应是表示尊重的一种方式。
+在你年轻的时候，至少花六个月到一年的时间，尽可能穷地过日子，尽可能少地拥有身外之物，居陋室而箪食瓢饮，以体验你可能会经历的最穷困潦倒的生活。这样，当你在将来需要行冒险之事时，就不至于为最糟糕的情况而忧心不已。
+相信我，这世上没有“他们”
+越有兴趣了解他人，他人就会发现你越有趣。要成为有趣的人，先要对别人感兴趣。
+尽你所能行慷慨之事。没人会在死前后悔给出去太多。
+想做好一件事，做就是了。想把一件事做到令人称颂，那就再来一遍，再来一遍，再来一遍。把事情做到极致的秘诀在于不停地重做。
+黄金法则永远不会让你失望。它是所有其他美德的基础。（注：英文中，“黄金法则”是指应该用自己希望被对待的方式来对待他人。）
+如果你在房间里遍寻某样东西并最终找到的话，那么用完后不要放回你找到它的地方，而是放到你最初找它的地方。
+存钱和投资都是好习惯。几十年如一日不假思索地进行定期小额投资，是一条致富之道。
+犯错乃是人性。难的是责己。承认错误，勇于担责，并尽力弥补——没有什么比这更可贵的了。是自己搞砸的，就该坦承。这反而能彰显你的强大。
+永远不要在亚洲陷入地面战争。
+你既可以专注于服务你的客户或听众，也可以专注于打败你的竞争对手。两者都行得通。但专注于服务你的客户会让你走得更远。
+在场。坚持在场。某个成功人士说过：99% 的成功只不过是因为在场。
+将创造和改进分开。你不可能在写作的同时进行编辑，也不可能在凿刻的同时进行打磨，更不可能在制造的同时进行分析。如果你这么做，求善之心就会打断创造之意。创新时就要忘掉已有方案；勾勒草图时就不能太着眼于细处。写作时，先打草稿而不要去抠细节。在新事物之初，创意的思想必须得到无拘无束的释放。
+如果你从未跌倒过，那么你也就从未努力过。
+也许宇宙中最违反直觉的真理就是，你给予他人越多，你收获的就越多。这是智慧的起点。
+朋友胜过金钱。用钱能办到的事情，朋友可以做得更好。很多时候，自己有条船不如有个有船的朋友。
+相信我，你很难欺骗一个诚实的人。
+当你找不到一样东西时，它往往就在上次现身之处的一臂之内。仔细搜寻这个范围，你就能找到它。
+你的所作所为定义了你——既不是你所说的，也不是你所信的，更不是你所支持的，而是你花费时间于其上的。
+如果你把电源线、充电器什么的丢在或落在某个地方，不妨去问问你的酒店。绝大多数酒店都会有满满一抽屉的电源线、数据线和充电器——都是其他人落下的，没准儿其中就有你的。酒店也并不介意你借用后随身带走。
+仇恨是一种对被仇恨者并无卵用的诅咒。它只会毒害仇恨者。把你的怨恨当作毒药一样丢掉吧。
+没有最好，只有更好。个人的天分分配不公平，但不论高低，自身的提升都永无止境。
+任何一项大工程（修房子、拍电影、开发 app）完成度为 90% 的时候，你都要做好心理准备：剩余的大量细节工作会占掉你另一段与之前相当的时间。
+离世时，除了名声，你什么都带不走。
+上岁数之前，尽可能多地参加葬礼并听听人们的谈话。没人会谈论死者的成就。人们记住的只有死者的人品。
+我认为只有普通人大多数是这样的。
+你购买实体商品时所花的每一元钱，将来都要再花一元钱去维修、保养，或是在它报废后处理掉它。
+任何真实之物都源于虚构之意。想象是宇宙中最强大的力量，也是你能够日益精进的能力。生命中可以因不知众人所知而获益的能力，仅此一项。
+当危机和灾难来袭时，别错过他们。没有问题，就没有进步。
+度假时，先跳过城市，去路线中最偏远的地方。这样你就能最大程度地体验到异域风情带给你的冲击。而在返程的路上，你则可以享受熟悉的城市所带给你的舒适。
+当你被邀请在未来的某个时间点做某件事情时，问问自己：如果这件事情明天就启动，你会否接受？绝大多数邀约都经不住这种迫切性检验。
+不要在邮件里对他人品头论足——如果这些话你不会当面说给那些人听的话。要知道，他们早晚会读到你的这些评论。
+如果你只是迫切需要一份工作，那么对老板来说，你不过是又一个问题。如果你能解决老板的很多问题，那你自然能得到这份工作。要得到一份工作，需要像老板一样去想问题。
+艺术藏身于你所遗漏之处。
+拥有物品很少能带给你极大的满足感。但拥有体验则能。
+研究的“数字 7 原则”：当你愿意就一个问题深入七层时，总能找到你想要的答案。如果你求教的第一层人不知道，那么就问问他们应该去找谁。如此追索下去。到第七层时，通常都会如愿以偿。
+如何道歉？快速，具体，真诚。
+不要在电话上答应任何请求或提议。所谓的紧急不过是个假象。
+当一个人对你粗鄙、无礼、刻薄、甚至是无耻下流时，当他们有病就好。这有利于你对他生出同情心，从而缓解冲突。
+清除杂物，为真正重要的东西腾出空间。
+做一个真正的断舍离大师
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2021-10-10 20:25:41.058 +0000 UTC'>October 10, 2021</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>87 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 【翻译】KK的68条给年轻人的建议" href="https://ISheepp.github.io/posts/kk-advice-for-teenager/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【转载】Status 还是 State
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>Status 还是 State
+代码中 state 和 status 区别：
+有状态迁移关系：state 没有状态迁移关系：status 例子：
+交通灯状态： red -&gt; green -&gt; yellow 付款结果：success / failed </p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2021-10-02 14:47:41.149 +0000 UTC'>October 2, 2021</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>20 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 【转载】Status 还是 State" href="https://ISheepp.github.io/posts/status-or-state/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【转载】 2010年的房地产调控，我们收获了什么？写在房价暴涨前
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>2010年的房地产调控，我们收获了什么？写在房价暴涨前 原仓库 备份防删库
+kkndme_tianya（持续更新中…） 天涯神贴「2010年的房地产调控，我们收获了什么？写在房价暴涨前」脱水版，内容时间顺序和原贴保持一致，原贴中的优质非楼主写的内容，添加了引用格式便于区分。
+「2010年的房地产调控，我们收获了什么？写在房价暴涨前」里面写的内容，相信每一个站在 2021 年的我们看过后都会觉得怎么没有早点看到这个帖子。
+欢迎关注微信公众号沈正方，我会在我的个人微信公众号沈正方 里写一些我对这篇帖子内容的思考，欢迎一起讨论。
+房地产调控表面上看起来的理由有三条 1、人人都有居住权 2、房子是用来住的，不是用来炒的 3、房子太贵了 最被提及与泡沫有关的是以下两点： 第一：中国的房价甚至高于某些发达国家的房价。 第二：租售比严重不合理，空置率太高，人均收入太低，早晚要崩盘。 4、房价上涨造成物价上涨，人民生活变得困难 房地产调控的真正意图（通过垄断获取利益最大化：国富民穷） 说到房产泡沫的问题 1、先说说官方的统计数据。(选择性失明) 房地产调控工具：房产税？ 垄断还可以解决一个问题：社会稳定。 如何垄断房屋、房租？ 国家垄断带来的影响 公租房问题 如何解决建公租房的钱从哪儿来的问题？ 通过征税调节贫富差距是耍流氓（因为富的人负责制定政策，富的人不会让政策针对自己） 房价什么时候会涨 为人民服务就是瞎掰 房租问题 粮食问题 什么是傻空？ 什么是真买不起房？ 分析问题要深入 从贵阳的现状看中国的未来 货币贬值 房价可能的下跌方式 房产投资的问题 买房时机 关于调控 普通人该怎么办？ 体制外人员养老确实是个问题 懂政策的重要性 存钱不如存房子、存木头、存树 政府不考虑民生 再谈买房时机 利益才是zf行为的指挥棒 买房应该关注什么？ 流氓无产者 政府调控的目的与启示 个人的智慧和才干决定了个人的命运 金钱至上 供求关系 拆迁补偿 执政者如何治国 10 年房地产调控 关于房贷 关于商铺投资 关于房产税 关于拆迁 买房和不买房的差距 为什么现在租售比这么低？ 房产交易历史 契税的历史 廉租房的历史 历史上买房最好的朝代 未来房地产市场的发展 房产到期 买学区房问题 人口普查 昆山 买房争取一步到位 收入稳定的家庭如何买房 为什么人口红利消失，未来的房子还看涨 意大利的住房模式 中国的学术 精英的财产 中国的新闻不可信 通货膨胀和房价的关系 自住买房 中国的朝代更替 聊聊俄罗斯 毛太阳的往事 富人越富、穷人越穷 通货膨胀的形成原因 有外来人口和没有外来人口的区别 首付提高的逻辑 政府搬迁 kkndme聊北宋、唐朝 王安石的青苗法之国家出政策的动机 什么是社会公平 还是有很多有钱人 双轨制之体制内的福利 开发商思维 农民政权的缺点 郑州有前景 公园地产是稀缺资源 张献忠屠川 洪秀全、黄巢、李自成 朱元璋 曹参治国 晁错 民营小企业的老板和打工者 郭解 2010年的中国房地产 精英人群的平均收入决定房价 内地不是香港、海南 历史是一面镜子 买房一次性到位比较好 外汇管制 一线和二线 吕后篡权 小产权房 商铺和住宅 体制内外 2010年的上海 买房：物业与房贷 收紧住房贷款 奸臣蔡京 体制内的28原则 贾谊 kkndme 推荐的历史书 年轻人要早买房 不要低估通货膨胀 二三线城市与重庆 城区和郊区 守着金碗要饭吃 人制的社会，人就是制度 准公务员的好处 二三线城市的发展靠拆迁 一个忽悠了几亿中国人的伪概念：所谓“中国房地产泡沫” 拆迁补偿 城市底层 垄断企业 农村自来水 袁盎 二三线城市，选新城还是老城 在中国，普通人手上闲钱不多的人被剥削 三分天注定七分靠打拼 人的前程有的时候不掌握在自己手里 河南郑州 与 洛阳 杭州 西安 与 重庆 谢国中「空置率」 打工不如有一技之长的小老板 一线、二线的生活 房子不属于市场经济（阴谋论的角度） 什么是好的政策 房地产调控表面上看起来的理由有三条： 1）人人都有居住权。 2）房子是用来住的，不是用来炒的。 3）房子太贵了 1）租售比严重不合理 2）空置率太高 3）人均收入太低，早晚要崩盘。 4）房价上涨造成物价上涨，人民生活变得困难。 1、人人都有居住权 任志强说的并没有错，居者有其屋并不等于人人享有商品房的产权。居住的房屋也不等于商品房。
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2021-09-04 03:42:00 +0000 UTC'>September 4, 2021</span>&nbsp;·&nbsp;<span>14 min</span>&nbsp;·&nbsp;<span>2844 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 【转载】 2010年的房地产调控，我们收获了什么？写在房价暴涨前" href="https://ISheepp.github.io/posts/2010-estate/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">【转载】内燃机原理
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>内燃机原理解释动图
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2021-08-21 11:21:00 +0000 UTC'>August 21, 2021</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>word</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 【转载】内燃机原理" href="https://ISheepp.github.io/posts/engine/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">Docker安装各种环境
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>使用docker安装一些中间件</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2021-04-18 09:49:00 +0000 UTC'>April 18, 2021</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>160 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to Docker安装各种环境" href="https://ISheepp.github.io/posts/docker-install-anything/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">2020年终总结
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>2020对很多人来说是一定无法忘记的一年，对我更是如此
+考研 可能今年做过最大的决定就是9月份决定不考研想直接去工作了，其实家里估计暑假就看出来了，在9月开学去火车站的路上就挺想说的终究还是不敢。他们每天说那些鸡汤我是真的一点都听不进去，也侧面反映了我们家很少能面对面好好的交流未来或者是复盘，总是依靠文字，但能保证看得进去吗？今天又重新翻了猪窝的聊天记录，字里行间看到的还是他们的无奈。
+同学都觉得我‘放弃’可惜，每次我都说我这是止损。好好想了下，一个是我暑假偷懒了，天天晚上打球，白天想着晚上怎么打，落后了很多进度。最重要的是我怕了，感觉没有技术，基础也薄弱，没考上能干嘛呢，回家吗？那个连打球都不会进步的地方早已放弃了。计算机确实卷，但是我觉得都没什么好怕的，就像每次跟宁海生活的朋友说我规划的未来一样，永远都是劝退我，要么就是说我看不起宁海。我对别人的看法已经无所谓了，反正说这些话能让他们开心的话那也算积德了。
+生活 整个大三过的很快，经历了最长的寒假，所以说今年在家里的时间也很长，很多想做的事情，一件也没有做成。比如学习框架、和爸爸学做菜，练球，练核心……最好的时间段都被我拿来在床上和球场上。就每年好像都是这种死循环，所有我才没有成功过吧。就跟玩游戏一样，我也是玩不好的那种，打球更不用说了，十几年了都是这样没有任何球路。
+下半年回到学校后，我被老学院的辅导员直接强行赶出老寝室换到楼上的现学院的寝室。上学期我们还商量的很好说是需要我搬会提前通知我，这样来看他跟土匪有什么区别呢？只知道完成任务然后舔上级。整个四年学校给我最好的印象可能就是让我住到了刚造好的王子楼了吧，其他是真的毫无人性可言，教育看起来也是早已崩塌的那种。
+今年下半年很幸运，车辆的一个同学给我申请到了实验室的一个座位，接下来3个月我就是寝室食堂实验室球场，也在结课的那个礼拜顺利的找到了实习。能找到一个喜欢交流技术同样喜欢打球的人是真的三生有幸，感谢这个同学带我入坑计算机。
+工作 面试的那天我就感觉非常糟糕，地铁上我还非常自信，甚至想好了一大串话来吹嘘我的个人项目和憧憬。到了之后就是一连串的基础问题被问倒了，框架等技术几乎没问，回去之后我也反思了很多。能做出东西、只是会用还是太浅了，基础才是基石。
+2020也就350左右的提交量而且大部分都是划水提交，真想好好做个开源项目的时候是在下半年，可惜后来就去实习了，发现自己及其菜，希望21年能好好开发一个好的开源项目。
+每周的写写代码时间也变长了，实习前其实一直就是在CRUD。这两个月跟我的mentor也学到了非常多，总体感觉就是跟不上他的思想，永远在他后面用最烂的解决办法解决问题。
+21年春招希望可以认真把握一下。
+💻🏸 影视 年初看完了《纸钞屋》最新季，真不喜欢这种拉屎拉到一般截断的感觉
+年度最佳番剧《进击的巨人》
+暑假诺兰月看了3部烧脑片，二刷《盗梦空间》、《星际穿越》，《信条》只看了一遍，没看懂。
+8月看了《八佰》，10月《夺冠》（有种前几年看李宗伟的感觉）、跨年夜《送你一所小红花》
+游戏 20年游戏玩的不多，台式机一直放在学校吃灰……不过回学校就玩了几天就不想玩了
+只狼3周目 彩虹六号终于上白金一次 2077（2小时hhh） 胡闹厨房2（就是吵架厨房） 音乐 Youtube music真的香，自从看了1million，听歌就是看着手机听了
+年度歌单
+摄影 卖了相机和无人机之后就没有拍视频拍照片的欲望了，可能我也不是这块料吧，当时还是冲动了，像是买了个玩具，买来就吃灰。以后有机会的话希望能报班学习一下。暂时也拿不出闲钱和时间搞这些了。
+羽球 20年应该算是打的最多的一年了，也是大运会后最燃的一年。最好的练球时光已经过去了，再也没有了，不过也没什么好后悔的了，希望以后打球能带点脑子，学习一下父亲的打法。
+🐏 最后是感谢来到城西之后新认识的朋友们啦，大家人都很好，竟然又遇到了老乡。感觉从小到大没有一段社交是我从零开始经营的，可能这也是一种幸运吧，承蒙大家照顾了。
+感谢陪我玩游戏的室友
+感谢陪我打球的朋友们
+感谢父母理解和尊重我的决定。
+2021，希望能变得自律，向着目标前进！
+</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2021-02-02 10:12:00 +0000 UTC'>February 2, 2021</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>39 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 2020年终总结" href="https://ISheepp.github.io/posts/2020-report/"></a>
+</article>
+
+<article class="post-entry"> 
+  <header class="entry-header">
+    <h2 class="entry-hint-parent">搬家
+    </h2>
+  </header>
+  <div class="entry-content">
+    <p>11月29日, 搬到了实习公司旁边, 花了几乎一整天的时间. 本该当天就想写完这段时间的一点想法. 但是搬完家实在是太累了. 而且路上发生了一点事让我不太想去回想. 今天星期五, 感受了四天开发的氛围. 躺在床上,感觉还是要记录下来. 虽然回忆的过程很痛苦.
+出发 早上8点租了一辆联动云的共享长城. 车况还不错, 开起来也比较紧凑, 一个人开车没有家人的唠叨会有点野, 不过我做所有事还是会有一个底线. 所以说开的再怎么野我也会保障自己基本的安全 避免不必要的事故.
+杭州的周末, 高架上车是真的多. 不知道平时工作日路况怎么样, 反正星期天我感觉在高架上堵了很久, 还不如走下面来的快. 以前就在V2EX上看到有杭州的老哥说上班宁可绕远路也不走高架. 可能这就是大城市吧. 希望杭州的地铁早点能造完, 交通会便利很多.
+路上 在堵车的时候遇到了两个追尾事件, 其中有一起就发生在我旁边, 具体几辆车追尾我也不清楚, 就听到一声很重的撞击声. 假如我在那个车道的话可能我就是不幸的那个人了, 毕竟是共享汽车, 出了车祸会很麻烦. 还有一起是已经发生了, 导致高架上堵车堵了很久, 4辆连追, 人应该都没事. 总之我很庆幸我的父亲以前不停的在我旁边唠叨, 教会我的那些很基础但是很有用的一些驾驶技巧.
+在堵车的时候, 我一边憧憬着工作以后的生活, 一边又回想起了家里的事, 终于忍不住把这两个月的情绪发泄出来了. 在车里哭了出来, 以前在学校只是会鼻子很酸, 但是我都忍住了. 没想到在车里一个人的时候还是没忍住, 想着想着就哭出来了. 想想这两年, 为什么天天聊天的人突然就冷漠了呢, 感觉当了两年的工具人, 可能也是我爸说的那样, 对有些感情看的太重了. 我过多的把我的快乐倾注在某个人身上, 突然的不联系, 会让我很不快乐. 我就是没想到为什么人会变的那么快呢, 为什么我那么容易可以被代替. 这两个月有时候一想起来人很难受. 打球的时候想起来, 就会消极比赛, 吃饭的时候想起来, 就会莫名其妙的吃不下去, 睡觉前想起来, 就会辗转反侧睡不着. 不过这些我想时间都会帮助我克服的. 毕竟在删了好友后, 前几天还是会很不习惯, 但是现在过了快两个礼拜了, 也习惯了, 估计她也无所谓了吧. 我更不理解的是在删了她之后为什么还要打电话去我妈那里呢, 有必要么,? 还说不想失去我这个弟弟, 为什么做人可以这么贪呢? ? 假如我还在为考研努力的话, 可能我的心态已经要崩了. 归根结底, 我还是太把她当一回事了, 我跟家里的耦合性太高了. 明明是不可能的, 我应该早就果断点想明白的, 是我太贪了. 希望接下来能尽快融入新的环境, 认识新的朋友, 过去的就让他过去. 可能我忘不了她, 因为太多东西已经深入我人里面了, 但我会尽量不去想以前的事. 上次回家的生日就当是最后一次正常的见面了吧.
+...</p>
+  </div>
+  <footer class="entry-footer">
+
+<span title='2020-12-05 10:11:00 +0000 UTC'>December 5, 2020</span>&nbsp;·&nbsp;<span>1 min</span>&nbsp;·&nbsp;<span>112 words</span>&nbsp;·&nbsp;<span>Beaulo</span></footer>
+  <a class="entry-link" aria-label="post link to 搬家" href="https://ISheepp.github.io/posts/migrate/"></a>
+</article>
+<footer class="page-footer">
+  <nav class="pagination">
+    <a class="prev" href="https://ISheepp.github.io/">
+      «&nbsp;Prev&nbsp;
+    </a>
+    <a class="next" href="https://ISheepp.github.io/page/3/">Next&nbsp;&nbsp;»
+    </a>
+  </nav>
+</footer>
+    </main>
+    
+<footer class="footer">
+        <span>&copy; 2026 <a href="https://ISheepp.github.io/">Beaulo&#39;s Blog</a></span> · 
+
+    
+    
+    <span>
+        Powered by
+        <a href="https://gohugo.io/?utm_source=papermod" rel="noopener" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" id="top-link" class="top-link hidden" aria-label="go to top" title="Go to Top (Alt + G)" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevrons-up">
+        <polyline points="17 11 12 6 7 11"></polyline>
+        <polyline points="17 18 12 13 7 18"></polyline>
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu');
+    if (menu) {
+        
+        const scrollPosition = localStorage.getItem("menu-scroll-position");
+        if (scrollPosition) {
+            menu.scrollLeft = parseInt(scrollPosition, 10);
+        }
+        
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var toplink = document.getElementById("top-link");
+    window.onscroll = function () {
+        const scrollThreshold = window.innerHeight;
+        if (document.body.scrollTop > scrollThreshold || document.documentElement.scrollTop > scrollThreshold) {
+            toplink.classList.remove("hidden");
+        } else {
+            toplink.classList.add("hidden");
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        const html = document.querySelector("html");
+        if (html.dataset.theme === "dark") {
+            html.dataset.theme = 'light';
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            html.dataset.theme = 'dark';
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

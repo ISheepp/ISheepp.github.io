@@ -2,18 +2,834 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Posts on Beaulo&#39;s Blog</title>
-    <link>http://localhost:1313/posts/</link>
+    <link>https://ISheepp.github.io/posts/</link>
     <description>Recent content in Posts on Beaulo&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 05 May 2026 13:00:00 +0900</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Wed, 10 Jan 2024 12:31:34 +0000</lastBuildDate>
+    <atom:link href="https://ISheepp.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Hello World</title>
-      <link>http://localhost:1313/posts/hello-world/</link>
-      <pubDate>Tue, 05 May 2026 13:00:00 +0900</pubDate>
-      <guid>http://localhost:1313/posts/hello-world/</guid>
-      <description>&lt;p&gt;这是我的第一篇 Hugo 博客。&lt;/p&gt;</description>
+      <title>vegeta压测使用</title>
+      <link>https://ISheepp.github.io/posts/vegeta/</link>
+      <pubDate>Wed, 10 Jan 2024 12:31:34 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/vegeta/</guid>
+      <description>&lt;p&gt;vegeta是一个HTTP压力测试工具，使用Go编写，用命令行交互，并且可以生成汇总和图表作为结果分析。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;https://github.com/tsenart/vegeta&#34;&gt;https://github.com/tsenart/vegeta&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&#34;基本使用&#34;&gt;基本使用&lt;/h2&gt;
+&lt;p&gt;详细使用方式可以参考README里的内容。可以分为两种方式使用：命令行交互和作为库引入Go程序。我这边使用了brew安装了vegeta，整个测试过程是使用Go编写了一个脚本来进行测试，具体可以参考&lt;a href=&#34;https://gist.github.com/ISheepp/90cbe89c78d855e22185dc5703c77803&#34;&gt;代码片段&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;我并没有使用库的形式来引入，而是使用&lt;code&gt;exec.Command()&lt;/code&gt;函数来执行命令行。&lt;/p&gt;
+&lt;p&gt;具体使用到的vegeta命令&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;attack: 调用API的命令，rate代表每秒调用次数，duration表示调用几秒，body指的是post请求的请求体，name是指为这次测试命名「可不填」，tee是生成bin原始文件「类似raw格式照片，可以用bin转换成很多别的格式」，report是生成报告，这里是在命令行输出。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;POST http://172.17.1.36:30898/hello&amp;#34;&lt;/span&gt; | vegeta attack -rate&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;2000&lt;/span&gt; -duration&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;1s -body&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;query.json -timeout&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;0&lt;/span&gt; -name&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;hello | tee ./result/results-null.bin | vegeta report
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;生成报告文件，这里是根据bin原始文件生成txt文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vegeta report -type&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;text results-query.bin &amp;gt; repost.txt
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;3&#34;&gt;
+&lt;li&gt;生成分析图表，使用plot可以生成可交互的图表，需要将多个结果合并到一个图表的时候需要注意，在使用第一个命令的时候务必加上-name参数为其命名。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;vegeta plot results-null.bin results-sleep.bin results-query.bin &amp;gt; plot-all.html
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmfUgVAmUTEmXt7Y7oUy12B2RKBADMNzxDM7wpr8PfB7cm&#34;&gt;&lt;/p&gt;
+&lt;h2 id=&#34;测试场景&#34;&gt;测试场景&lt;/h2&gt;
+&lt;p&gt;使用Java和Go编写两个REST服务，分别测试3个API，在k8s中单副本和5副本的情况。API信息如下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;直接返回&lt;/li&gt;
+&lt;li&gt;sleep 2秒再返回&lt;/li&gt;
+&lt;li&gt;查询Elasticsearch的10000条数据，每条数据500字节&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Elasticsearch集群信息&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;节点数量：2&lt;/li&gt;
+&lt;li&gt;版本：7.4.1&lt;/li&gt;
+&lt;li&gt;CPU：8个Intel(R) Xeon(R) Silver 4114 CPU @ 2.20GHz，每个1 core&lt;/li&gt;
+&lt;li&gt;内存：31G&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Kubernetes信息&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;版本：1.16.15&lt;/li&gt;
+&lt;li&gt;节点数量：7「1 master, 6 worker」&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;指定Deployment调度到同一个节点，两个Deploymnet都分配了2G的内存&lt;/p&gt;
+&lt;h2 id=&#34;测试步骤&#34;&gt;测试步骤&lt;/h2&gt;
+&lt;p&gt;将Go脚本打包好后，在同目录下创建配置文件&lt;code&gt;config.ini&lt;/code&gt;&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-ini&#34; data-lang=&#34;ini&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;[address]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;null&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;POST http://172.17.1.36:30898/hello&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;sleep&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;POST http://172.17.1.36:30898/sleep&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;query&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;POST http://172.17.1.36:30898/es&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;[param]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;rate&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;2000&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中address指的是要调用的API地址和方法，rate指的是每秒调用的次数「我这里是只调用了1s」&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AWS EC2 Linux 实例进入紧急模式该如何不删除实例并恢复</title>
+      <link>https://ISheepp.github.io/posts/recovery-aws-ec2-emergency-mode/</link>
+      <pubDate>Wed, 03 Jan 2024 11:26:30 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/recovery-aws-ec2-emergency-mode/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.aws.amazon.com/zh_cn/AWSEC2/latest/UserGuide/ebs-using-volumes.html#ebs-mount-after-reboot&#34;&gt;正确处理重启实例自动挂载卷的方式&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;起因&#34;&gt;起因&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;操作系统Amazon Linux 2023&lt;/li&gt;
+&lt;li&gt;实例类型t2.micro&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;想给EC2挂载一个新卷，但是重启实例的时候发现挂载的卷不见了，然后网上找了下如何重启自动挂载。试了下修改&lt;code&gt;/etc/fstab&lt;/code&gt;文件，然后重启发现ssh一直连不上，看了下日志才发现进入紧急模式&amp;hellip;交互界面也进不去了「很明显第一次就改坏了」&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/Qmcua5nThgJTaa3Hiv6ev2gShKhLYPzD31LDVqH5KtwJ5e&#34;&gt;
+一开始我以为是我的proxy出了问题，不过关闭之后还是连不上&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmZdWiyaxwwTCpMzpvb8aqvvFn3eobqSMxjNPx298DHGdr&#34;&gt;&lt;/p&gt;
+&lt;p&gt;打开系统日志&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmNNM3Se2dxnyY52ceu5QB4e8aQu6BBfV25XX5Xq3eyn5X&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmRZoZSQGSEEnJNkbExafjomJGpHqt6jpCjBesBBdkahhK&#34;&gt;&lt;/p&gt;
+&lt;p&gt;但是AWS也提供了启动失败的解决方案，下面有一行小字&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmWDy3QHPVqiMjgQFtjSYHQJ5ocyQNg2PHe1J139EKHcg3&#34;&gt;&lt;/p&gt;
+&lt;p&gt;结果&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmbyheZ91wACkYg7QCsYTGLw2E1WFFZPdSD8rJF82QCsjH&#34;&gt;&lt;/p&gt;
+&lt;p&gt;一开始我一直在看文档，查找哪种类型能支持，去更改实例类型，但是不知道为什么还是连接不上&amp;hellip;最后找到了一种通过临时启动一个用于恢复的实例来把改坏的文件修改回去的方法。&lt;/p&gt;
+&lt;h2 id=&#34;恢复方式&#34;&gt;恢复方式&lt;/h2&gt;
+&lt;p&gt;基本上分为这几步
+1.停止启动失败的实例
+2. 从启动失败的实例分离root卷
+3. 在同个区内创建新的EC2实例
+4. 挂载root卷到新的实例
+5. 修改&lt;code&gt;/etc/fstab&lt;/code&gt;文件&lt;/p&gt;
+&lt;h3 id=&#34;停止实例&#34;&gt;停止实例&lt;/h3&gt;
+&lt;p&gt;等待停止即可，目的是为了分离卷
+&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmcVZxSVcutWLaKikz9twFK76a8VAmXnEv9Lap5SkZwXL8&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;分离卷&#34;&gt;分离卷&lt;/h3&gt;
+&lt;p&gt;找到挂载在根「/」目录下的卷，点击分离&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmTxwDExyeEPLVgNsYpoTp8iwdYUUjuusDm26W5PJBCuwx&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;启动一个新的实例&#34;&gt;启动一个新的实例&lt;/h3&gt;
+&lt;p&gt;配置就最简单的就行，目的只是为了挂载上一步分离出来的卷&lt;/p&gt;
+&lt;p&gt;记得要指定子网「目的是选择和卷一样的可用区，比如我的就是us-west-1b」&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmTfyac18hCVcdow9LtLCCHDuTdDC265uvR3vRFwm6aqBQ&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;挂载卷&#34;&gt;挂载卷&lt;/h3&gt;
+&lt;p&gt;在AWS管理页面挂载刚刚分离的卷到新的实例上，并ssh到新的实例挂载&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmYL5iDc1Dvio5Jm4Q6NuEkiG8LEkR3jef82Lkk8VEakjo&#34;&gt;&lt;/p&gt;
+&lt;p&gt;这里就能看到我们刚刚改错的内容了&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmVKPW37AGLcZ2tsvooussPWoh7TyZ2Wqs4zw4TkCThf5q&#34;&gt;&lt;/p&gt;
+&lt;p&gt;使用vim直接修改fstab文件，改好之后分离卷，挂载回启动不了的实例。注意挂载回去的时候名字输入xvda「与之前一样，目前我看到的AWS默认根卷都是这个名字」&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmaZKcS28GdNN33rRQEFjhk47vggj5pzWq2ZHbdwfSjXSo&#34;&gt;&lt;/p&gt;
+&lt;p&gt;最后启动老的实例，刚刚新建的实例可以删除了&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;image&#34; loading=&#34;lazy&#34; src=&#34;./attachments/QmUWGc7asoUnKe2Fkyqo6nKf9sEWMNfnYmrJYki9MGJp75&#34;&gt;
+成功！&lt;/p&gt;
+&lt;h2 id=&#34;参考&#34;&gt;参考&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&#34;https://repost.aws/zh-Hans/knowledge-center/ec2-linux-emergency-mode&#34;&gt;排查 EC2 Linux 实例处于紧急模式的问题 | AWS &lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>特种兵🏸️</title>
+      <link>https://ISheepp.github.io/posts/te-zhong-bing/</link>
+      <pubDate>Sat, 11 Nov 2023 06:43:57 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/te-zhong-bing/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;gaming、badminton filled vacation&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;国庆还是一如既往地躺在家里，陪伴家人和休息，游戏和打球。从我目前的状态来看，做这几件事情非常的舒服，也很解压。&lt;/p&gt;
+&lt;p&gt;换了一个金属保持器，现在只需要晚上睡觉的时候戴一下就可以了，白天可以解放牙齿了。&lt;/p&gt;
+&lt;p&gt;假期一直在玩&lt;a href=&#34;https://store.steampowered.com/app/527230/For_The_King/&#34;&gt;FTK&lt;/a&gt;，消磨时间的好游戏。&lt;/p&gt;
+&lt;p&gt;临走前买了一台Marshall Stanmore III放在家里，可以让父母听播客或者放音乐，出发前一小时拿到货，稍微把玩了一下。不过对我自己来讲似乎已经对这些东西暂时没有兴趣，声音么就听个响。&lt;/p&gt;
+&lt;h2 id=&#34;heading&#34;&gt;🏸️&lt;/h2&gt;
+&lt;p&gt;算上请假我放了9天，回来要连上6天。第一天上班就出差，满打满算一天搞定。现在有些摆烂，以前我会把出差排的很紧，想尽快完成任务。我猜以前应该是好奇和激情所驱动吧……&lt;/p&gt;
+&lt;p&gt;第一个周末就安排了2天的早球，打早球有个好处就是不会睡懒觉，增加了一天的时间，早上打完中午洗澡吃饭下午晚上还有大把的时间来做想做的时候。以往我都是起床就快中午了，然后晚上打球，就是说只有下午的时间是自己的了。&lt;/p&gt;
+&lt;p&gt;第一周就断了两根线&amp;hellip;然后买了一支新拍，小戴的白金利爪，很是好看。&lt;/p&gt;
+&lt;p&gt;第二周也算是两个早球，周六回学校参加了比赛，很幸运拿到了冠军，白嫖了一支拍子。
+&lt;img alt=&#34;IMG_9677&#34; loading=&#34;lazy&#34; src=&#34;https://ISheepp.github.io/posts/te-zhong-bing/attachments/QmYG1ADdM9NR1NsnTSNGoNYek9rKdwXLUXFcKFRDWW3iLi.jpeg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;周日早上也是约了早球，打完后来到城北参加下午场。下午这场算社交球吧，没什么对抗，但也正好让我休息一下，和朋友们叙叙旧。&lt;/p&gt;
+&lt;p&gt;至此算是连续20天没睡过懒觉了，但是高强度的打球让身体有点吃不消。推拿师傅手一捏就说两侧腰怎么按起来不太一样😅&lt;/p&gt;
+&lt;p&gt;现在只剩下一块拍子没断线了，打算休息一段时间「天气冷了开始摆烂」，只在家里锻炼下核心好了。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>挫与乐：五六月记录</title>
+      <link>https://ISheepp.github.io/posts/setback-joy/</link>
+      <pubDate>Mon, 26 Jun 2023 12:48:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/setback-joy/</guid>
+      <description>&lt;p&gt;这两个月过的飞快，工作上发生的事情恍如隔世。 今年开始就没有 Code for fun 了，而是 Report for kpi……&lt;/p&gt;
+&lt;p&gt;工作#&lt;/p&gt;
+&lt;p&gt;五一回来后，组内发生了一些比较大的人事变动，直接后果就是会议增多，文档工作飙升；此外每天早上早起了半小时只因 9 点一定要坐到工位上「25…&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>久违的小长假</title>
+      <link>https://ISheepp.github.io/posts/jiu-wei-de-xiao-chang-jia/</link>
+      <pubDate>Thu, 04 May 2023 14:48:21 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/jiu-wei-de-xiao-chang-jia/</guid>
+      <description>&lt;p&gt;我已经长达 6 年保持几乎每个月回次家，而这次时隔长达 3 个多月 今年的五一假期放了 6 天，也是能自由出行的第一个小长假，高铁像早高峰的地铁一样拥挤。我没有出去旅行，没有写代码，回家打了一场比赛，高速练车，维系社交、家庭关系，休息……&lt;/p&gt;
+&lt;p&gt;🏸️ 羽球、练车&lt;/p&gt;
+&lt;p&gt;假期头两天参加了…&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>The meme of ChatGPT</title>
+      <link>https://ISheepp.github.io/posts/the-meme-of-chatgpt/</link>
+      <pubDate>Sun, 26 Mar 2023 13:20:55 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/the-meme-of-chatgpt/</guid>
+      <description>GPT对于我这种略懂技术、会写代码；不会讲话、茶艺不精的人会造成什么impact</description>
+    </item>
+    <item>
+      <title>借贷 - On Chain</title>
+      <link>https://ISheepp.github.io/posts/decentralized-lend/</link>
+      <pubDate>Thu, 09 Feb 2023 15:59:01 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/decentralized-lend/</guid>
+      <description>信贷 - 现代金融体系的神奇工具，也是形成经济周期的一大因素</description>
+    </item>
+    <item>
+      <title>魔幻2022</title>
+      <link>https://ISheepp.github.io/posts/2022-report/</link>
+      <pubDate>Wed, 28 Dec 2022 13:31:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/2022-report/</guid>
+      <description>今年是魔幻的一年</description>
+    </item>
+    <item>
+      <title>感染Covid经历</title>
+      <link>https://ISheepp.github.io/posts/infect-covid/</link>
+      <pubDate>Tue, 20 Dec 2022 20:56:36 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/infect-covid/</guid>
+      <description>终于来了！</description>
+    </item>
+    <item>
+      <title>我眼中的防疫</title>
+      <link>https://ISheepp.github.io/posts/covid--in-my-eye/</link>
+      <pubDate>Sun, 11 Dec 2022 13:57:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/covid--in-my-eye/</guid>
+      <description>面对命中注定的Covid</description>
+    </item>
+    <item>
+      <title>椭圆曲线加密</title>
+      <link>https://ISheepp.github.io/posts/tuo-yuan-qu-xian-jia-mi/</link>
+      <pubDate>Sun, 02 Oct 2022 06:34:42 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/tuo-yuan-qu-xian-jia-mi/</guid>
+      <description>&lt;p&gt;如何生成地址？什么是非对称加密？ 生成地址的步骤
+随机生成一个 256 位的私钥（32字节）通过椭圆曲线加密获取公钥公钥经过两次 hash 函数 生成 20 字节的地址
+椭圆曲线加密&lt;/p&gt;
+&lt;p&gt;其中私钥 K, 公钥P。&lt;/p&gt;
+&lt;p&gt;在曲线上随机取一点A(x,y)，计算Kx+Ky等于P。即KA…&lt;/p&gt;
+</description>
+    </item>
+    <item>
+      <title>About ISheep</title>
+      <link>https://ISheepp.github.io/posts/about/</link>
+      <pubDate>Thu, 29 Sep 2022 02:39:09 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/about/</guid>
+      <description>bio: crypto test</description>
+    </item>
+    <item>
+      <title>二〇二一 · 迷茫 、恐慌</title>
+      <link>https://ISheepp.github.io/posts/2021-report/</link>
+      <pubDate>Mon, 31 Jan 2022 15:19:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/2021-report/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;我们都应该为当下开心。因为未来很长一段时间里的每一年跟之后比，都会是最好的一年。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;2021&#34;&gt;2021&lt;/h2&gt;
+&lt;p&gt;2021 7月开始，决定通过&lt;a href=&#34;https://github.com/isheepp/2021&#34;&gt;&lt;strong&gt;Github仓库&lt;/strong&gt;&lt;/a&gt;的issue记录剩下的半年，现在有了数据就很有意思了，其中&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;TODO list&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-text-size-adjust:none;&#34;&gt;&lt;code class=&#34;language-java&#34; data-lang=&#34;java&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;all todo count: 306
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;done: 201
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;undone: 105
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;done rate: 65.&lt;span style=&#34;color:#a6e22e&#34;&gt;69&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;%&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;完成率只有65%？wtf，效率是真的低，拖延症严重&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;周记写了28篇，大多数在骂人吐槽&lt;/li&gt;
+&lt;li&gt;工作记录写了21篇，大多数是半残记录&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可能最有用的数据还是TODO的完成数，希望2022年能保持高一点&lt;/p&gt;
+&lt;p&gt;2022年的&lt;a href=&#34;https://github.com/isheepp/2022&#34;&gt;&lt;strong&gt;仓库&lt;/strong&gt;&lt;/a&gt;开了两个action来统计&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://github.com/isheepp/2022/issues/12&#34;&gt;&lt;strong&gt;起床记录&lt;/strong&gt;&lt;/a&gt;通过ios的快捷指令记录起床时间和心情&lt;/li&gt;
+&lt;li&gt;所有的git 操作(push、add……)更新README&lt;/li&gt;
+&lt;li&gt;通过ZenHub管理更多的issue&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;回顾&#34;&gt;回顾&lt;/h2&gt;
+&lt;p&gt;2021年，经历了毕业，正式上工；疫情由好变差；见证了519，经历了124；了解了什么是白资、黑钱，什么是&amp;rsquo;&lt;a href=&#34;https://zh.wikipedia.org/wiki/%E7%94%B5%E4%BF%A1%E8%AF%88%E9%AA%97&#34;&gt;&lt;strong&gt;剧本杀&lt;/strong&gt;&lt;/a&gt;&amp;lsquo;等无尽黑暗的成熟产业的运作方式；学习了&lt;a href=&#34;https://www.youtube.com/watch?v=rFV7wdEX-Mo&#34;&gt;&lt;strong&gt;现代经济系统&lt;/strong&gt;&lt;/a&gt;；学习了blockchain……&lt;/p&gt;
+&lt;p&gt;2021年3月我从上家辞职，从西湖来到滨江。究其原因无非就是我觉得双修只会让我越来越烂，前端太难、太乱了，让我写CSS简直头疼。脱离了原先的羽毛球群体，很难想象我在2个半月的时间内能在西湖区的羽毛球圈子里能有一些稳定的球友兼朋友，当然这百分之八十的功劳都是叶妈和其他小伙伴们的热情和包容。事实证明，能融入他们并不是我自己的能力，也并不是说我球打的有多好。在滨江快一年了，我没有加入任何固定的群体，一直都在乱跑，打社交球，很明显想融入一个圈子是很困难的如果没有贵人相助的话，还是非常感谢西湖的小伙伴，能在我来到江的另一边生活之后还能经常记得我，叫我打球吃饭。很抱歉我经常鸽子，我真的想好好努力回到江的那头或者是能拥有一个属于自己的交通工具，可以说我每周都会想去和他们打球，但是来回时间成本、疲惫程度真的让我很难每周跑这么远。&lt;/p&gt;
+&lt;p&gt;2021年6月我毕业了，我的毕设——Github上clone的、毕业论文——两天肝完的。答辩一次就过了，我印象还是非常深刻，我引导了老师问我一个问题，问我是如何实现文本不可选中的状态，我说用CSS样式，然后他让我给他看代码，当时就想“哎呀真遇到这么操蛋的事情，这种东西不都是网上查的么，谁记那么牢，幸好做功课了”。总之答辩不是特别顺利，但是也让我过了。没有拍毕业照，没有跟同学们聚餐，因为我跟他们3年几乎没有讲过话，他们觉得我很奇怪，同样我也觉得他们有些人很奇怪，这种现象我在2021年体会异常深刻……总的来说学校给我留下唯一的好印象就是让我住了新造好的王子楼，其他恶心的事情不愿想起，不过我的车辆专业室友、球友之间关系都是非常好的，很多现在也一直在联系。&lt;/p&gt;
+&lt;p&gt;2021年7月我签人生第一份劳动合同，当时看到3年，还特意让读法的同学看了下，原来是我多虑。然后经历了2周&lt;strong&gt;培训&lt;/strong&gt;，现在让我评价这个培训我还是想说毫无意义且浪费时间，我学到的唯一教训就是我tm的讲话太直接了，以后不能这样，做人还是不能太方了。&lt;/p&gt;
+&lt;p&gt;接下来的6个月，开始进入工作，对我而言，我喜欢做我在做的事情，我从事coding的唯一原因是有趣。所以说，目前任何事情都阻挠不了我。&lt;/p&gt;
+&lt;h2 id=&#34;羽球&#34;&gt;🏸羽球&lt;/h2&gt;
+&lt;p&gt;今年打过的比赛&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;5月京东杯   &amp;ndash;》两轮游&lt;/li&gt;
+&lt;li&gt;6月尤尼克斯王者之志 &amp;ndash;》两轮游&lt;/li&gt;
+&lt;li&gt;6月威克多双雄会   &amp;ndash;》专业组一轮游，见到了柴彪，遗憾未与其对线&lt;/li&gt;
+&lt;li&gt;7月栎刻动平民英雄 &amp;ndash;》一轮游&lt;/li&gt;
+&lt;li&gt;8月公司比赛，难得拿了冠军，感谢我的搭档&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;可以说大部分的比赛都是在上半年，下半年由于疫情比赛少，当然主要原因还是我打球变少了，一周最少3次变成了一周最多1次，体能下降很多，核心力量减弱，手臂力量缺失，膝盖无力……种种原因让我开始在完成一天的工作后开始感到疲惫、腰酸。11月份开始在家进行核心锻炼，坚持一个月后逐渐忘记这件事&amp;hellip;虽然球打的少了，但是身体还得保护好。&lt;/p&gt;
+&lt;p&gt;2021年我已经想清楚了，羽球对我来说已沦为社交的工具，我很难再去通过大量的训练来提升（除非1个月封闭训练），羽球是我爸可以骄傲地讲给他孙辈的故事，而我注定在接下来的几年也超越不了他。&lt;/p&gt;
+&lt;h2 id=&#34;阅读&#34;&gt;📕阅读&lt;/h2&gt;
+&lt;p&gt;今年看过的书&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;《Maven实战》&lt;/li&gt;
+&lt;li&gt;《MySQL必知必会》&lt;/li&gt;
+&lt;li&gt;《如何用一年时间获得十年的经验》Tinyfool老师，强调了终身学习的重要性&lt;/li&gt;
+&lt;li&gt;《被讨厌的勇气》没看完……&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;书籍方面其实很多想看的书都没看，而且发现现在买书很难，非常困难，还可能会引狼入室，孔夫子旧书网就是这么个例子
+明年想看&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://book.douban.com/subject/30333767/&#34;&gt; 《动力神话》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://www.amazon.com/Art-Impossible-Peak-Performance-Primer/dp/0062977539&#34;&gt;《不可能的技艺》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://book.douban.com/subject/35546622/&#34;&gt;《置身事内：中国政府与经济发展》&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://book.douban.com/subject/35231636/&#34;&gt;《我在深圳当市长》&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;其中最后一本希望能从子彬身上看到如何用管理企业的方式管理城市，当然，最重要的是看看厉害国的黑暗。&lt;/p&gt;
+&lt;h2 id=&#34;投资&#34;&gt;💵投资&lt;/h2&gt;
+&lt;p&gt;2021从赌狗变成韭菜，心态变好，毕竟以前一脚飞门就是好几万，现在腰斩也毫无波澜。&lt;/p&gt;
+&lt;p&gt;毕竟资金量太小了&lt;/p&gt;
+&lt;p&gt;爆过仓，倒卖NFT也赚过钱，虽然总体亏本，但是发现研究白皮书是个很有意思的事情，既能看到各种天花乱坠割韭菜的技巧，也能看到项目方美好的愿景。&lt;/p&gt;
+&lt;p&gt;没有被骗过，但总是看见有人看到空投就脑子一热授权钱包直接u被黑完。反正我认为，天上不会掉馅饼。&lt;/p&gt;
+&lt;p&gt;感受最深的就是每到关键点位就出现多空互道傻逼的现象，生活中也是巨多这种现象，其实，把后果想清楚，能接受，那你想怎么操作就怎么操作。&lt;/p&gt;
+&lt;p&gt;2022不碰9倍以上合约、知行合一、想好后果再做事。&lt;/p&gt;
+&lt;p&gt;目标：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;找到一个归零币&lt;/li&gt;
+&lt;li&gt;聊天不fomo&lt;/li&gt;
+&lt;li&gt;远离所有scam&lt;/li&gt;
+&lt;li&gt;屯币不被hack&lt;/li&gt;
+&lt;li&gt;转账少交gas&lt;/li&gt;
+&lt;li&gt;好好研究项目&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;coding&#34;&gt;💻Coding&lt;/h2&gt;
+&lt;p&gt;首先看下waka time 的&lt;a href=&#34;https://wakatime.com/a-look-back-at-2021/c6540739-c623-4453-a671-de80f848b5ac/fvngneenxj&#34;&gt;&lt;strong&gt;年度统计&lt;/strong&gt;&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>AMM算法</title>
+      <link>https://ISheepp.github.io/posts/simple-amm-algorithm/</link>
+      <pubDate>Sun, 12 Dec 2021 13:26:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/simple-amm-algorithm/</guid>
+      <description>AMM，Defi的原理，自动化做市商，相较于传统的交易所做市商，完全由机器来决定买方和卖方的报价。</description>
+    </item>
+    <item>
+      <title>【翻译】KK的68条给年轻人的建议</title>
+      <link>https://ISheepp.github.io/posts/kk-advice-for-teenager/</link>
+      <pubDate>Sun, 10 Oct 2021 20:25:41 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/kk-advice-for-teenager/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://kk.org/thetechnium/68-bits-of-unsolicited-advice/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;学着从那些你不同意的，甚至冒犯你的人身上学习，看看能否从他们相信的事实中找到真相。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;满腔热情值得25点IQ&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;总是设定一个最终期限，deadline可以帮你去除那些无关紧要的和普通的东西。&lt;strong&gt;还能避免你想把一件事情做的完美无瑕，而是做到与众不同，差异胜于完美。&lt;/strong&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;不要害怕问一个听起来很蠢的问题，因为99%的情况下，其他人也和你一样在思考同样的问题，但是却不好意思问的（羞于问出口而已）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;善于聆听是一个超级技能，当倾听他人时，你需要经常询问“还有别的么？”，知道他们讲完了为止。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;一个有意义的年度目标是去充分了解一个话题。这样，（到了年底的时候，）你就会对一年前的无知感到难以置信。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;感恩可以解锁其他美德，而且这是你可以做的更好的事。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;请人吃饭永远不会失败，而且很容易做到，这对于老朋友和新朋友都是一个好办法。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;不要相信银弹（万能胶水）。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;经常给孩子们朗读会让你们更亲密，激发他们的想象力。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;永远不要用信用卡拆东墙补西墙。唯一可以接受的透支或债务，应该用来获取那些极可能增值的东西比如房子。大多数东西在你购买完的那一刻就开始贬值了，别为那些没有未来的事务而透支。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;pro不过是那群知道如何优雅地从错误中恢复地菜鸟而已。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;非同寻常的观点要有非同寻常的证据，才能令人信服。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;别成为一群人里最聪明的那个。和那些比你聪明的人待在一起，向他们学习。如果能找到和不同意你观点的聪明人，那就更好了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对话的“数字 3 原则”：想要摸清一个人的真正意图，请他就刚才所说再深入一些，如此反复，直到第三遍，你所得到的就近于真相了。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;别做最好的。做唯一的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;大家其实都很羞涩。人们可能正等着你去向他们做自我介绍，或是给他们发邮件，或是约他们见面。大胆去做。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果被别人拒绝了，别往心里去。假设他们和你一样忙，一样腾不出手来，一样无暇分心。稍后再试一次。第二次的成功率超乎你想象。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;习惯的意义在于无需再为某类行为纠结，不用再为要不要做它而费思量。做就是了。讲真话和用牙线都属于好习惯。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;及时回应是表示尊重的一种方式。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在你年轻的时候，至少花六个月到一年的时间，尽可能穷地过日子，尽可能少地拥有身外之物，居陋室而箪食瓢饮，以体验你可能会经历的最穷困潦倒的生活。这样，当你在将来需要行冒险之事时，就不至于为最糟糕的情况而忧心不已。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;相信我，这世上没有“他们”&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;越有兴趣了解他人，他人就会发现你越有趣。要成为有趣的人，先要对别人感兴趣。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;尽你所能行慷慨之事。没人会在死前后悔给出去太多。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;想做好一件事，做就是了。想把一件事做到令人称颂，那就再来一遍，再来一遍，再来一遍。把事情做到极致的秘诀在于不停地重做。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;黄金法则永远不会让你失望。它是所有其他美德的基础。（注：英文中，“黄金法则”是指应该用自己希望被对待的方式来对待他人。）&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果你在房间里遍寻某样东西并最终找到的话，那么用完后不要放回你找到它的地方，而是放到你最初找它的地方。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;存钱和投资都是好习惯。几十年如一日不假思索地进行定期小额投资，是一条致富之道。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;犯错乃是人性。难的是责己。承认错误，勇于担责，并尽力弥补——没有什么比这更可贵的了。是自己搞砸的，就该坦承。这反而能彰显你的强大。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;永远不要在亚洲陷入地面战争。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;你既可以专注于服务你的客户或听众，也可以专注于打败你的竞争对手。两者都行得通。但专注于服务你的客户会让你走得更远。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;在场。坚持在场。某个成功人士说过：99% 的成功只不过是因为在场。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将创造和改进分开。你不可能在写作的同时进行编辑，也不可能在凿刻的同时进行打磨，更不可能在制造的同时进行分析。如果你这么做，求善之心就会打断创造之意。创新时就要忘掉已有方案；勾勒草图时就不能太着眼于细处。写作时，先打草稿而不要去抠细节。在新事物之初，创意的思想必须得到无拘无束的释放。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果你从未跌倒过，那么你也就从未努力过。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;也许宇宙中最违反直觉的真理就是，你给予他人越多，你收获的就越多。这是智慧的起点。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;朋友胜过金钱。用钱能办到的事情，朋友可以做得更好。很多时候，自己有条船不如有个有船的朋友。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;相信我，你很难欺骗一个诚实的人。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当你找不到一样东西时，它往往就在上次现身之处的一臂之内。仔细搜寻这个范围，你就能找到它。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;你的所作所为定义了你——既不是你所说的，也不是你所信的，更不是你所支持的，而是你花费时间于其上的。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果你把电源线、充电器什么的丢在或落在某个地方，不妨去问问你的酒店。绝大多数酒店都会有满满一抽屉的电源线、数据线和充电器——都是其他人落下的，没准儿其中就有你的。酒店也并不介意你借用后随身带走。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;仇恨是一种对被仇恨者并无卵用的诅咒。它只会毒害仇恨者。把你的怨恨当作毒药一样丢掉吧。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;没有最好，只有更好。个人的天分分配不公平，但不论高低，自身的提升都永无止境。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;任何一项大工程（修房子、拍电影、开发 app）完成度为 90% 的时候，你都要做好心理准备：剩余的大量细节工作会占掉你另一段与之前相当的时间。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;离世时，除了名声，你什么都带不走。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;上岁数之前，尽可能多地参加葬礼并听听人们的谈话。没人会谈论死者的成就。人们记住的只有死者的人品。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我认为只有普通人大多数是这样的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;你购买实体商品时所花的每一元钱，将来都要再花一元钱去维修、保养，或是在它报废后处理掉它。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;任何真实之物都源于虚构之意。想象是宇宙中最强大的力量，也是你能够日益精进的能力。生命中可以因不知众人所知而获益的能力，仅此一项。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当危机和灾难来袭时，别错过他们。没有问题，就没有进步。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;度假时，先跳过城市，去路线中最偏远的地方。这样你就能最大程度地体验到异域风情带给你的冲击。而在返程的路上，你则可以享受熟悉的城市所带给你的舒适。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当你被邀请在未来的某个时间点做某件事情时，问问自己：如果这件事情明天就启动，你会否接受？绝大多数邀约都经不住这种迫切性检验。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;不要在邮件里对他人品头论足——如果这些话你不会当面说给那些人听的话。要知道，他们早晚会读到你的这些评论。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如果你只是迫切需要一份工作，那么对老板来说，你不过是又一个问题。如果你能解决老板的很多问题，那你自然能得到这份工作。要得到一份工作，需要像老板一样去想问题。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;艺术藏身于你所遗漏之处。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;拥有物品很少能带给你极大的满足感。但拥有体验则能。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;研究的“数字 7 原则”：当你愿意就一个问题深入七层时，总能找到你想要的答案。如果你求教的第一层人不知道，那么就问问他们应该去找谁。如此追索下去。到第七层时，通常都会如愿以偿。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;如何道歉？快速，具体，真诚。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;不要在电话上答应任何请求或提议。所谓的紧急不过是个假象。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;当一个人对你粗鄙、无礼、刻薄、甚至是无耻下流时，当他们有病就好。这有利于你对他生出同情心，从而缓解冲突。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;清除杂物，为真正重要的东西腾出空间。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;做一个真正的断舍离大师&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【转载】Status 还是 State</title>
+      <link>https://ISheepp.github.io/posts/status-or-state/</link>
+      <pubDate>Sat, 02 Oct 2021 14:47:41 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/status-or-state/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://liqiang.io/post/status-or-state-fa70399e&#34;&gt;Status 还是 State&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;代码中 state 和 status 区别：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;有状态迁移关系：state&lt;/li&gt;
+&lt;li&gt;没有状态迁移关系：status&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;例子：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;交通灯状态： red -&amp;gt; green -&amp;gt; yellow&lt;/li&gt;
+&lt;li&gt;付款结果：success / failed&lt;/li&gt;
+&lt;/ul&gt;</description>
+    </item>
+    <item>
+      <title>【转载】 2010年的房地产调控，我们收获了什么？写在房价暴涨前</title>
+      <link>https://ISheepp.github.io/posts/2010-estate/</link>
+      <pubDate>Sat, 04 Sep 2021 03:42:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/2010-estate/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;http://bbs.tianya.cn/post-house-252774-1.shtml&#34;&gt;2010年的房地产调控，我们收获了什么？写在房价暴涨前&lt;/a&gt;
+&lt;a href=&#34;https://github.com/shenzhengfang/kkndme_tianya&#34;&gt;原仓库&lt;/a&gt; 备份防删库&lt;/p&gt;
+&lt;h1 id=&#34;kkndme_tianya持续更新中&#34;&gt;kkndme_tianya（持续更新中&amp;hellip;）&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;天涯神贴&lt;a href=&#34;http://bbs.tianya.cn/post-house-252774-1.shtml&#34;&gt;「2010年的房地产调控，我们收获了什么？写在房价暴涨前」&lt;/a&gt;脱水版，内容时间顺序和原贴保持一致，原贴中的优质非楼主写的内容，添加了引用格式便于区分。&lt;/p&gt;
+&lt;p&gt;「2010年的房地产调控，我们收获了什么？写在房价暴涨前」里面写的内容，相信每一个站在 2021 年的我们看过后都会觉得怎么没有早点看到这个帖子。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;欢迎关注微信公众号&lt;code&gt;沈正方&lt;/code&gt;&lt;/strong&gt;，我会在我的&lt;strong&gt;个人微信公众号&lt;code&gt;沈正方&lt;/code&gt;&lt;/strong&gt; 里写一些我对这篇帖子内容的思考，欢迎一起讨论。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E5%9C%B0%E4%BA%A7%E8%B0%83%E6%8E%A7%E8%A1%A8%E9%9D%A2%E4%B8%8A%E7%9C%8B%E8%B5%B7%E6%9D%A5%E7%9A%84%E7%90%86%E7%94%B1%E6%9C%89%E4%B8%89%E6%9D%A1&#34;&gt;房地产调控表面上看起来的理由有三条&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#1%E4%BA%BA%E4%BA%BA%E9%83%BD%E6%9C%89%E5%B1%85%E4%BD%8F%E6%9D%83&#34;&gt;1、人人都有居住权&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#2%E6%88%BF%E5%AD%90%E6%98%AF%E7%94%A8%E6%9D%A5%E4%BD%8F%E7%9A%84%E4%B8%8D%E6%98%AF%E7%94%A8%E6%9D%A5%E7%82%92%E7%9A%84&#34;&gt;2、房子是用来住的，不是用来炒的&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#3%E6%88%BF%E5%AD%90%E5%A4%AA%E8%B4%B5%E4%BA%86&#34;&gt;3、房子太贵了&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%9C%80%E8%A2%AB%E6%8F%90%E5%8F%8A%E4%B8%8E%E6%B3%A1%E6%B2%AB%E6%9C%89%E5%85%B3%E7%9A%84%E6%98%AF%E4%BB%A5%E4%B8%8B%E4%B8%A4%E7%82%B9&#34;&gt;最被提及与泡沫有关的是以下两点：&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#%E7%AC%AC%E4%B8%80%E4%B8%AD%E5%9B%BD%E7%9A%84%E6%88%BF%E4%BB%B7%E7%94%9A%E8%87%B3%E9%AB%98%E4%BA%8E%E6%9F%90%E4%BA%9B%E5%8F%91%E8%BE%BE%E5%9B%BD%E5%AE%B6%E7%9A%84%E6%88%BF%E4%BB%B7&#34;&gt;第一：中国的房价甚至高于某些发达国家的房价。&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E7%AC%AC%E4%BA%8C%E7%A7%9F%E5%94%AE%E6%AF%94%E4%B8%A5%E9%87%8D%E4%B8%8D%E5%90%88%E7%90%86%E7%A9%BA%E7%BD%AE%E7%8E%87%E5%A4%AA%E9%AB%98%E4%BA%BA%E5%9D%87%E6%94%B6%E5%85%A5%E5%A4%AA%E4%BD%8E%E6%97%A9%E6%99%9A%E8%A6%81%E5%B4%A9%E7%9B%98&#34;&gt;第二：租售比严重不合理，空置率太高，人均收入太低，早晚要崩盘。&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#4%E6%88%BF%E4%BB%B7%E4%B8%8A%E6%B6%A8%E9%80%A0%E6%88%90%E7%89%A9%E4%BB%B7%E4%B8%8A%E6%B6%A8%E4%BA%BA%E6%B0%91%E7%94%9F%E6%B4%BB%E5%8F%98%E5%BE%97%E5%9B%B0%E9%9A%BE&#34;&gt;4、房价上涨造成物价上涨，人民生活变得困难&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E5%9C%B0%E4%BA%A7%E8%B0%83%E6%8E%A7%E7%9A%84%E7%9C%9F%E6%AD%A3%E6%84%8F%E5%9B%BE%E9%80%9A%E8%BF%87%E5%9E%84%E6%96%AD%E8%8E%B7%E5%8F%96%E5%88%A9%E7%9B%8A%E6%9C%80%E5%A4%A7%E5%8C%96%E5%9B%BD%E5%AF%8C%E6%B0%91%E7%A9%B7&#34;&gt;房地产调控的真正意图（通过垄断获取利益最大化：国富民穷）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E8%AF%B4%E5%88%B0%E6%88%BF%E4%BA%A7%E6%B3%A1%E6%B2%AB%E7%9A%84%E9%97%AE%E9%A2%98&#34;&gt;说到房产泡沫的问题&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#1%E5%85%88%E8%AF%B4%E8%AF%B4%E5%AE%98%E6%96%B9%E7%9A%84%E7%BB%9F%E8%AE%A1%E6%95%B0%E6%8D%AE%E9%80%89%E6%8B%A9%E6%80%A7%E5%A4%B1%E6%98%8E&#34;&gt;1、先说说官方的统计数据。(选择性失明)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E5%9C%B0%E4%BA%A7%E8%B0%83%E6%8E%A7%E5%B7%A5%E5%85%B7%E6%88%BF%E4%BA%A7%E7%A8%8E&#34;&gt;房地产调控工具：房产税？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%9E%84%E6%96%AD%E8%BF%98%E5%8F%AF%E4%BB%A5%E8%A7%A3%E5%86%B3%E4%B8%80%E4%B8%AA%E9%97%AE%E9%A2%98%E7%A4%BE%E4%BC%9A%E7%A8%B3%E5%AE%9A&#34;&gt;垄断还可以解决一个问题：社会稳定。&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%A6%82%E4%BD%95%E5%9E%84%E6%96%AD%E6%88%BF%E5%B1%8B%E6%88%BF%E7%A7%9F&#34;&gt;如何垄断房屋、房租？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%9B%BD%E5%AE%B6%E5%9E%84%E6%96%AD%E5%B8%A6%E6%9D%A5%E7%9A%84%E5%BD%B1%E5%93%8D&#34;&gt;国家垄断带来的影响&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%85%AC%E7%A7%9F%E6%88%BF%E9%97%AE%E9%A2%98&#34;&gt;公租房问题&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%A6%82%E4%BD%95%E8%A7%A3%E5%86%B3%E5%BB%BA%E5%85%AC%E7%A7%9F%E6%88%BF%E7%9A%84%E9%92%B1%E4%BB%8E%E5%93%AA%E5%84%BF%E6%9D%A5%E7%9A%84%E9%97%AE%E9%A2%98&#34;&gt;如何解决建公租房的钱从哪儿来的问题？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E9%80%9A%E8%BF%87%E5%BE%81%E7%A8%8E%E8%B0%83%E8%8A%82%E8%B4%AB%E5%AF%8C%E5%B7%AE%E8%B7%9D%E6%98%AF%E8%80%8D%E6%B5%81%E6%B0%93%E5%9B%A0%E4%B8%BA%E5%AF%8C%E7%9A%84%E4%BA%BA%E8%B4%9F%E8%B4%A3%E5%88%B6%E5%AE%9A%E6%94%BF%E7%AD%96%E5%AF%8C%E7%9A%84%E4%BA%BA%E4%B8%8D%E4%BC%9A%E8%AE%A9%E6%94%BF%E7%AD%96%E9%92%88%E5%AF%B9%E8%87%AA%E5%B7%B1&#34;&gt;通过征税调节贫富差距是耍流氓（因为富的人负责制定政策，富的人不会让政策针对自己）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E4%BB%B7%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E4%BC%9A%E6%B6%A8&#34;&gt;房价什么时候会涨&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%BA%E4%BA%BA%E6%B0%91%E6%9C%8D%E5%8A%A1%E5%B0%B1%E6%98%AF%E7%9E%8E%E6%8E%B0&#34;&gt;为人民服务就是瞎掰&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E7%A7%9F%E9%97%AE%E9%A2%98&#34;&gt;房租问题&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E7%B2%AE%E9%A3%9F%E9%97%AE%E9%A2%98&#34;&gt;粮食问题&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%80%E4%B9%88%E6%98%AF%E5%82%BB%E7%A9%BA&#34;&gt;什么是傻空？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%80%E4%B9%88%E6%98%AF%E7%9C%9F%E4%B9%B0%E4%B8%8D%E8%B5%B7%E6%88%BF&#34;&gt;什么是真买不起房？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%88%86%E6%9E%90%E9%97%AE%E9%A2%98%E8%A6%81%E6%B7%B1%E5%85%A5&#34;&gt;分析问题要深入&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%8E%E8%B4%B5%E9%98%B3%E7%9A%84%E7%8E%B0%E7%8A%B6%E7%9C%8B%E4%B8%AD%E5%9B%BD%E7%9A%84%E6%9C%AA%E6%9D%A5&#34;&gt;从贵阳的现状看中国的未来&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E8%B4%A7%E5%B8%81%E8%B4%AC%E5%80%BC&#34;&gt;货币贬值&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E4%BB%B7%E5%8F%AF%E8%83%BD%E7%9A%84%E4%B8%8B%E8%B7%8C%E6%96%B9%E5%BC%8F&#34;&gt;房价可能的下跌方式&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E4%BA%A7%E6%8A%95%E8%B5%84%E7%9A%84%E9%97%AE%E9%A2%98&#34;&gt;房产投资的问题&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B9%B0%E6%88%BF%E6%97%B6%E6%9C%BA&#34;&gt;买房时机&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%85%B3%E4%BA%8E%E8%B0%83%E6%8E%A7&#34;&gt;关于调控&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%99%AE%E9%80%9A%E4%BA%BA%E8%AF%A5%E6%80%8E%E4%B9%88%E5%8A%9E&#34;&gt;普通人该怎么办？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BD%93%E5%88%B6%E5%A4%96%E4%BA%BA%E5%91%98%E5%85%BB%E8%80%81%E7%A1%AE%E5%AE%9E%E6%98%AF%E4%B8%AA%E9%97%AE%E9%A2%98&#34;&gt;体制外人员养老确实是个问题&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%87%82%E6%94%BF%E7%AD%96%E7%9A%84%E9%87%8D%E8%A6%81%E6%80%A7&#34;&gt;懂政策的重要性&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%AD%98%E9%92%B1%E4%B8%8D%E5%A6%82%E5%AD%98%E6%88%BF%E5%AD%90%E5%AD%98%E6%9C%A8%E5%A4%B4%E5%AD%98%E6%A0%91&#34;&gt;存钱不如存房子、存木头、存树&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%94%BF%E5%BA%9C%E4%B8%8D%E8%80%83%E8%99%91%E6%B0%91%E7%94%9F&#34;&gt;政府不考虑民生&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%86%8D%E8%B0%88%E4%B9%B0%E6%88%BF%E6%97%B6%E6%9C%BA&#34;&gt;再谈买房时机&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%88%A9%E7%9B%8A%E6%89%8D%E6%98%AFzf%E8%A1%8C%E4%B8%BA%E7%9A%84%E6%8C%87%E6%8C%A5%E6%A3%92&#34;&gt;利益才是zf行为的指挥棒&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B9%B0%E6%88%BF%E5%BA%94%E8%AF%A5%E5%85%B3%E6%B3%A8%E4%BB%80%E4%B9%88&#34;&gt;买房应该关注什么？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%B5%81%E6%B0%93%E6%97%A0%E4%BA%A7%E8%80%85&#34;&gt;流氓无产者&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%94%BF%E5%BA%9C%E8%B0%83%E6%8E%A7%E7%9A%84%E7%9B%AE%E7%9A%84%E4%B8%8E%E5%90%AF%E7%A4%BA&#34;&gt;政府调控的目的与启示&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%AA%E4%BA%BA%E7%9A%84%E6%99%BA%E6%85%A7%E5%92%8C%E6%89%8D%E5%B9%B2%E5%86%B3%E5%AE%9A%E4%BA%86%E4%B8%AA%E4%BA%BA%E7%9A%84%E5%91%BD%E8%BF%90&#34;&gt;个人的智慧和才干决定了个人的命运&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E9%87%91%E9%92%B1%E8%87%B3%E4%B8%8A&#34;&gt;金钱至上&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BE%9B%E6%B1%82%E5%85%B3%E7%B3%BB&#34;&gt;供求关系&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%8B%86%E8%BF%81%E8%A1%A5%E5%81%BF&#34;&gt;拆迁补偿&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%89%A7%E6%94%BF%E8%80%85%E5%A6%82%E4%BD%95%E6%B2%BB%E5%9B%BD&#34;&gt;执政者如何治国&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#10-%E5%B9%B4%E6%88%BF%E5%9C%B0%E4%BA%A7%E8%B0%83%E6%8E%A7&#34;&gt;10 年房地产调控&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%85%B3%E4%BA%8E%E6%88%BF%E8%B4%B7&#34;&gt;关于房贷&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%85%B3%E4%BA%8E%E5%95%86%E9%93%BA%E6%8A%95%E8%B5%84&#34;&gt;关于商铺投资&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%85%B3%E4%BA%8E%E6%88%BF%E4%BA%A7%E7%A8%8E&#34;&gt;关于房产税&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%85%B3%E4%BA%8E%E6%8B%86%E8%BF%81&#34;&gt;关于拆迁&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B9%B0%E6%88%BF%E5%92%8C%E4%B8%8D%E4%B9%B0%E6%88%BF%E7%9A%84%E5%B7%AE%E8%B7%9D&#34;&gt;买房和不买房的差距&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%BA%E4%BB%80%E4%B9%88%E7%8E%B0%E5%9C%A8%E7%A7%9F%E5%94%AE%E6%AF%94%E8%BF%99%E4%B9%88%E4%BD%8E&#34;&gt;为什么现在租售比这么低？&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E4%BA%A7%E4%BA%A4%E6%98%93%E5%8E%86%E5%8F%B2&#34;&gt;房产交易历史&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%A5%91%E7%A8%8E%E7%9A%84%E5%8E%86%E5%8F%B2&#34;&gt;契税的历史&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%BB%89%E7%A7%9F%E6%88%BF%E7%9A%84%E5%8E%86%E5%8F%B2&#34;&gt;廉租房的历史&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%8E%86%E5%8F%B2%E4%B8%8A%E4%B9%B0%E6%88%BF%E6%9C%80%E5%A5%BD%E7%9A%84%E6%9C%9D%E4%BB%A3&#34;&gt;历史上买房最好的朝代&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%9C%AA%E6%9D%A5%E6%88%BF%E5%9C%B0%E4%BA%A7%E5%B8%82%E5%9C%BA%E7%9A%84%E5%8F%91%E5%B1%95&#34;&gt;未来房地产市场的发展&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E4%BA%A7%E5%88%B0%E6%9C%9F&#34;&gt;房产到期&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B9%B0%E5%AD%A6%E5%8C%BA%E6%88%BF%E9%97%AE%E9%A2%98&#34;&gt;买学区房问题&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BA%BA%E5%8F%A3%E6%99%AE%E6%9F%A5&#34;&gt;人口普查&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%98%86%E5%B1%B1&#34;&gt;昆山&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B9%B0%E6%88%BF%E4%BA%89%E5%8F%96%E4%B8%80%E6%AD%A5%E5%88%B0%E4%BD%8D&#34;&gt;买房争取一步到位&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%94%B6%E5%85%A5%E7%A8%B3%E5%AE%9A%E7%9A%84%E5%AE%B6%E5%BA%AD%E5%A6%82%E4%BD%95%E4%B9%B0%E6%88%BF&#34;&gt;收入稳定的家庭如何买房&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BA%BA%E5%8F%A3%E7%BA%A2%E5%88%A9%E6%B6%88%E5%A4%B1%E6%9C%AA%E6%9D%A5%E7%9A%84%E6%88%BF%E5%AD%90%E8%BF%98%E7%9C%8B%E6%B6%A8&#34;&gt;为什么人口红利消失，未来的房子还看涨&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%84%8F%E5%A4%A7%E5%88%A9%E7%9A%84%E4%BD%8F%E6%88%BF%E6%A8%A1%E5%BC%8F&#34;&gt;意大利的住房模式&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%AD%E5%9B%BD%E7%9A%84%E5%AD%A6%E6%9C%AF&#34;&gt;中国的学术&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E7%B2%BE%E8%8B%B1%E7%9A%84%E8%B4%A2%E4%BA%A7&#34;&gt;精英的财产&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%AD%E5%9B%BD%E7%9A%84%E6%96%B0%E9%97%BB%E4%B8%8D%E5%8F%AF%E4%BF%A1&#34;&gt;中国的新闻不可信&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E9%80%9A%E8%B4%A7%E8%86%A8%E8%83%80%E5%92%8C%E6%88%BF%E4%BB%B7%E7%9A%84%E5%85%B3%E7%B3%BB&#34;&gt;通货膨胀和房价的关系&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E8%87%AA%E4%BD%8F%E4%B9%B0%E6%88%BF&#34;&gt;自住买房&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%AD%E5%9B%BD%E7%9A%84%E6%9C%9D%E4%BB%A3%E6%9B%B4%E6%9B%BF&#34;&gt;中国的朝代更替&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E8%81%8A%E8%81%8A%E4%BF%84%E7%BD%97%E6%96%AF&#34;&gt;聊聊俄罗斯&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%AF%9B%E5%A4%AA%E9%98%B3%E7%9A%84%E5%BE%80%E4%BA%8B&#34;&gt;毛太阳的往事&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%AF%8C%E4%BA%BA%E8%B6%8A%E5%AF%8C%E7%A9%B7%E4%BA%BA%E8%B6%8A%E7%A9%B7&#34;&gt;富人越富、穷人越穷&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E9%80%9A%E8%B4%A7%E8%86%A8%E8%83%80%E7%9A%84%E5%BD%A2%E6%88%90%E5%8E%9F%E5%9B%A0&#34;&gt;通货膨胀的形成原因&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%9C%89%E5%A4%96%E6%9D%A5%E4%BA%BA%E5%8F%A3%E5%92%8C%E6%B2%A1%E6%9C%89%E5%A4%96%E6%9D%A5%E4%BA%BA%E5%8F%A3%E7%9A%84%E5%8C%BA%E5%88%AB&#34;&gt;有外来人口和没有外来人口的区别&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E9%A6%96%E4%BB%98%E6%8F%90%E9%AB%98%E7%9A%84%E9%80%BB%E8%BE%91&#34;&gt;首付提高的逻辑&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%94%BF%E5%BA%9C%E6%90%AC%E8%BF%81&#34;&gt;政府搬迁&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#kkndme%E8%81%8A%E5%8C%97%E5%AE%8B%E5%94%90%E6%9C%9D&#34;&gt;kkndme聊北宋、唐朝&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E7%8E%8B%E5%AE%89%E7%9F%B3%E7%9A%84%E9%9D%92%E8%8B%97%E6%B3%95%E4%B9%8B%E5%9B%BD%E5%AE%B6%E5%87%BA%E6%94%BF%E7%AD%96%E7%9A%84%E5%8A%A8%E6%9C%BA&#34;&gt;王安石的青苗法之国家出政策的动机&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%80%E4%B9%88%E6%98%AF%E7%A4%BE%E4%BC%9A%E5%85%AC%E5%B9%B3&#34;&gt;什么是社会公平&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E8%BF%98%E6%98%AF%E6%9C%89%E5%BE%88%E5%A4%9A%E6%9C%89%E9%92%B1%E4%BA%BA&#34;&gt;还是有很多有钱人&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%8F%8C%E8%BD%A8%E5%88%B6%E4%B9%8B%E4%BD%93%E5%88%B6%E5%86%85%E7%9A%84%E7%A6%8F%E5%88%A9&#34;&gt;双轨制之体制内的福利&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%BC%80%E5%8F%91%E5%95%86%E6%80%9D%E7%BB%B4&#34;&gt;开发商思维&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%86%9C%E6%B0%91%E6%94%BF%E6%9D%83%E7%9A%84%E7%BC%BA%E7%82%B9&#34;&gt;农民政权的缺点&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E9%83%91%E5%B7%9E%E6%9C%89%E5%89%8D%E6%99%AF&#34;&gt;郑州有前景&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%85%AC%E5%9B%AD%E5%9C%B0%E4%BA%A7%E6%98%AF%E7%A8%80%E7%BC%BA%E8%B5%84%E6%BA%90&#34;&gt;公园地产是稀缺资源&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%BC%A0%E7%8C%AE%E5%BF%A0%E5%B1%A0%E5%B7%9D&#34;&gt;张献忠屠川&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%B4%AA%E7%A7%80%E5%85%A8%E9%BB%84%E5%B7%A2%E6%9D%8E%E8%87%AA%E6%88%90&#34;&gt;洪秀全、黄巢、李自成&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%9C%B1%E5%85%83%E7%92%8B&#34;&gt;朱元璋&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%9B%B9%E5%8F%82%E6%B2%BB%E5%9B%BD&#34;&gt;曹参治国&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%99%81%E9%94%99&#34;&gt;晁错&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%B0%91%E8%90%A5%E5%B0%8F%E4%BC%81%E4%B8%9A%E7%9A%84%E8%80%81%E6%9D%BF%E5%92%8C%E6%89%93%E5%B7%A5%E8%80%85&#34;&gt;民营小企业的老板和打工者&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E9%83%AD%E8%A7%A3&#34;&gt;郭解&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#2010%E5%B9%B4%E7%9A%84%E4%B8%AD%E5%9B%BD%E6%88%BF%E5%9C%B0%E4%BA%A7&#34;&gt;2010年的中国房地产&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E7%B2%BE%E8%8B%B1%E4%BA%BA%E7%BE%A4%E7%9A%84%E5%B9%B3%E5%9D%87%E6%94%B6%E5%85%A5%E5%86%B3%E5%AE%9A%E6%88%BF%E4%BB%B7&#34;&gt;精英人群的平均收入决定房价&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%86%85%E5%9C%B0%E4%B8%8D%E6%98%AF%E9%A6%99%E6%B8%AF%E6%B5%B7%E5%8D%97&#34;&gt;内地不是香港、海南&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%8E%86%E5%8F%B2%E6%98%AF%E4%B8%80%E9%9D%A2%E9%95%9C%E5%AD%90&#34;&gt;历史是一面镜子&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B9%B0%E6%88%BF%E4%B8%80%E6%AC%A1%E6%80%A7%E5%88%B0%E4%BD%8D%E6%AF%94%E8%BE%83%E5%A5%BD&#34;&gt;买房一次性到位比较好&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%A4%96%E6%B1%87%E7%AE%A1%E5%88%B6&#34;&gt;外汇管制&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%80%E7%BA%BF%E5%92%8C%E4%BA%8C%E7%BA%BF&#34;&gt;一线和二线&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%90%95%E5%90%8E%E7%AF%A1%E6%9D%83&#34;&gt;吕后篡权&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%B0%8F%E4%BA%A7%E6%9D%83%E6%88%BF&#34;&gt;小产权房&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%95%86%E9%93%BA%E5%92%8C%E4%BD%8F%E5%AE%85&#34;&gt;商铺和住宅&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BD%93%E5%88%B6%E5%86%85%E5%A4%96&#34;&gt;体制内外&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#2010%E5%B9%B4%E7%9A%84%E4%B8%8A%E6%B5%B7&#34;&gt;2010年的上海&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B9%B0%E6%88%BF%E7%89%A9%E4%B8%9A%E4%B8%8E%E6%88%BF%E8%B4%B7&#34;&gt;买房：物业与房贷&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%94%B6%E7%B4%A7%E4%BD%8F%E6%88%BF%E8%B4%B7%E6%AC%BE&#34;&gt;收紧住房贷款&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%A5%B8%E8%87%A3%E8%94%A1%E4%BA%AC&#34;&gt;奸臣蔡京&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BD%93%E5%88%B6%E5%86%85%E7%9A%8428%E5%8E%9F%E5%88%99&#34;&gt;体制内的28原则&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E8%B4%BE%E8%B0%8A&#34;&gt;贾谊&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#kkndme-%E6%8E%A8%E8%8D%90%E7%9A%84%E5%8E%86%E5%8F%B2%E4%B9%A6&#34;&gt;kkndme 推荐的历史书&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%B9%B4%E8%BD%BB%E4%BA%BA%E8%A6%81%E6%97%A9%E4%B9%B0%E6%88%BF&#34;&gt;年轻人要早买房&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%8D%E8%A6%81%E4%BD%8E%E4%BC%B0%E9%80%9A%E8%B4%A7%E8%86%A8%E8%83%80&#34;&gt;不要低估通货膨胀&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BA%8C%E4%B8%89%E7%BA%BF%E5%9F%8E%E5%B8%82%E4%B8%8E%E9%87%8D%E5%BA%86&#34;&gt;二三线城市与重庆&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%9F%8E%E5%8C%BA%E5%92%8C%E9%83%8A%E5%8C%BA&#34;&gt;城区和郊区&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%AE%88%E7%9D%80%E9%87%91%E7%A2%97%E8%A6%81%E9%A5%AD%E5%90%83&#34;&gt;守着金碗要饭吃&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BA%BA%E5%88%B6%E7%9A%84%E7%A4%BE%E4%BC%9A%E4%BA%BA%E5%B0%B1%E6%98%AF%E5%88%B6%E5%BA%A6&#34;&gt;人制的社会，人就是制度&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%87%86%E5%85%AC%E5%8A%A1%E5%91%98%E7%9A%84%E5%A5%BD%E5%A4%84&#34;&gt;准公务员的好处&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BA%8C%E4%B8%89%E7%BA%BF%E5%9F%8E%E5%B8%82%E7%9A%84%E5%8F%91%E5%B1%95%E9%9D%A0%E6%8B%86%E8%BF%81&#34;&gt;二三线城市的发展靠拆迁&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%80%E4%B8%AA%E5%BF%BD%E6%82%A0%E4%BA%86%E5%87%A0%E4%BA%BF%E4%B8%AD%E5%9B%BD%E4%BA%BA%E7%9A%84%E4%BC%AA%E6%A6%82%E5%BF%B5%E6%89%80%E8%B0%93%E4%B8%AD%E5%9B%BD%E6%88%BF%E5%9C%B0%E4%BA%A7%E6%B3%A1%E6%B2%AB&#34;&gt;一个忽悠了几亿中国人的伪概念：所谓“中国房地产泡沫”&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%8B%86%E8%BF%81%E8%A1%A5%E5%81%BF&#34;&gt;拆迁补偿&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%9F%8E%E5%B8%82%E5%BA%95%E5%B1%82&#34;&gt;城市底层&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%9E%84%E6%96%AD%E4%BC%81%E4%B8%9A&#34;&gt;垄断企业&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%86%9C%E6%9D%91%E8%87%AA%E6%9D%A5%E6%B0%B4&#34;&gt;农村自来水&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E8%A2%81%E7%9B%8E&#34;&gt;袁盎&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BA%8C%E4%B8%89%E7%BA%BF%E5%9F%8E%E5%B8%82%E9%80%89%E6%96%B0%E5%9F%8E%E8%BF%98%E6%98%AF%E8%80%81%E5%9F%8E&#34;&gt;二三线城市，选新城还是老城&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E5%9C%A8%E4%B8%AD%E5%9B%BD%E6%99%AE%E9%80%9A%E4%BA%BA%E6%89%8B%E4%B8%8A%E9%97%B2%E9%92%B1%E4%B8%8D%E5%A4%9A%E7%9A%84%E4%BA%BA%E8%A2%AB%E5%89%A5%E5%89%8A&#34;&gt;在中国，普通人手上闲钱不多的人被剥削&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%89%E5%88%86%E5%A4%A9%E6%B3%A8%E5%AE%9A%E4%B8%83%E5%88%86%E9%9D%A0%E6%89%93%E6%8B%BC&#34;&gt;三分天注定七分靠打拼&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BA%BA%E7%9A%84%E5%89%8D%E7%A8%8B%E6%9C%89%E7%9A%84%E6%97%B6%E5%80%99%E4%B8%8D%E6%8E%8C%E6%8F%A1%E5%9C%A8%E8%87%AA%E5%B7%B1%E6%89%8B%E9%87%8C&#34;&gt;人的前程有的时候不掌握在自己手里&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%B2%B3%E5%8D%97%E9%83%91%E5%B7%9E-%E4%B8%8E-%E6%B4%9B%E9%98%B3&#34;&gt;河南郑州 与 洛阳&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%9D%AD%E5%B7%9E&#34;&gt;杭州&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E8%A5%BF%E5%AE%89-%E4%B8%8E-%E9%87%8D%E5%BA%86&#34;&gt;西安 与 重庆&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E8%B0%A2%E5%9B%BD%E4%B8%AD%E7%A9%BA%E7%BD%AE%E7%8E%87&#34;&gt;谢国中「空置率」&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%89%93%E5%B7%A5%E4%B8%8D%E5%A6%82%E6%9C%89%E4%B8%80%E6%8A%80%E4%B9%8B%E9%95%BF%E7%9A%84%E5%B0%8F%E8%80%81%E6%9D%BF&#34;&gt;打工不如有一技之长的小老板&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%B8%80%E7%BA%BF%E4%BA%8C%E7%BA%BF%E7%9A%84%E7%94%9F%E6%B4%BB&#34;&gt;一线、二线的生活&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E6%88%BF%E5%AD%90%E4%B8%8D%E5%B1%9E%E4%BA%8E%E5%B8%82%E5%9C%BA%E7%BB%8F%E6%B5%8E%E9%98%B4%E8%B0%8B%E8%AE%BA%E7%9A%84%E8%A7%92%E5%BA%A6&#34;&gt;房子不属于市场经济（阴谋论的角度）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#%E4%BB%80%E4%B9%88%E6%98%AF%E5%A5%BD%E7%9A%84%E6%94%BF%E7%AD%96&#34;&gt;什么是好的政策&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;房地产调控表面上看起来的理由有三条&#34;&gt;房地产调控表面上看起来的理由有三条：&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;1）人人都有居住权。&lt;/li&gt;
+&lt;li&gt;2）房子是用来住的，不是用来炒的。&lt;/li&gt;
+&lt;li&gt;3）房子太贵了
+&lt;ul&gt;
+&lt;li&gt;1）租售比严重不合理&lt;/li&gt;
+&lt;li&gt;2）空置率太高&lt;/li&gt;
+&lt;li&gt;3）人均收入太低，早晚要崩盘。&lt;/li&gt;
+&lt;li&gt;4）房价上涨造成物价上涨，人民生活变得困难。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;1人人都有居住权&#34;&gt;1、人人都有居住权&lt;/h3&gt;
+&lt;p&gt;任志强说的并没有错，居者有其屋并不等于人人享有商品房的产权。居住的房屋也不等于商品房。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>【转载】内燃机原理</title>
+      <link>https://ISheepp.github.io/posts/engine/</link>
+      <pubDate>Sat, 21 Aug 2021 11:21:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/engine/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://ciechanow.ski/internal-combustion-engine/&#34;&gt;内燃机原理解释动图&lt;/a&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Docker安装各种环境</title>
+      <link>https://ISheepp.github.io/posts/docker-install-anything/</link>
+      <pubDate>Sun, 18 Apr 2021 09:49:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/docker-install-anything/</guid>
+      <description>使用docker安装一些中间件</description>
+    </item>
+    <item>
+      <title>2020年终总结</title>
+      <link>https://ISheepp.github.io/posts/2020-report/</link>
+      <pubDate>Tue, 02 Feb 2021 10:12:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/2020-report/</guid>
+      <description>&lt;p&gt;2020对很多人来说是一定无法忘记的一年，对我更是如此&lt;/p&gt;
+&lt;h2 id=&#34;考研&#34;&gt;考研&lt;/h2&gt;
+&lt;p&gt;可能今年做过最大的决定就是9月份决定不考研想直接去工作了，其实家里估计暑假就看出来了，在9月开学去火车站的路上就挺想说的终究还是不敢。他们每天说那些鸡汤我是真的一点都听不进去，也侧面反映了我们家很少能面对面好好的交流未来或者是复盘，总是依靠文字，但能保证看得进去吗？今天又重新翻了猪窝的聊天记录，字里行间看到的还是他们的无奈。&lt;/p&gt;
+&lt;p&gt;同学都觉得我‘放弃’可惜，每次我都说我这是止损。好好想了下，一个是我暑假偷懒了，天天晚上打球，白天想着晚上怎么打，落后了很多进度。最重要的是我怕了，感觉没有技术，基础也薄弱，没考上能干嘛呢，回家吗？那个连打球都不会进步的地方早已放弃了。计算机确实卷，但是我觉得都没什么好怕的，就像每次跟宁海生活的朋友说我规划的未来一样，永远都是劝退我，要么就是说我看不起宁海。我对别人的看法已经无所谓了，反正说这些话能让他们开心的话那也算积德了。&lt;/p&gt;
+&lt;h2 id=&#34;生活&#34;&gt;生活&lt;/h2&gt;
+&lt;p&gt;整个大三过的很快，经历了最长的寒假，所以说今年在家里的时间也很长，很多想做的事情，一件也没有做成。比如学习框架、和爸爸学做菜，练球，练核心……最好的时间段都被我拿来在床上和球场上。就每年好像都是这种死循环，所有我才没有成功过吧。就跟玩游戏一样，我也是玩不好的那种，打球更不用说了，十几年了都是这样没有任何球路。&lt;/p&gt;
+&lt;p&gt;下半年回到学校后，我被老学院的辅导员直接强行赶出老寝室换到楼上的现学院的寝室。上学期我们还商量的很好说是需要我搬会提前通知我，这样来看他跟土匪有什么区别呢？只知道完成任务然后舔上级。整个四年学校给我最好的印象可能就是让我住到了刚造好的王子楼了吧，其他是真的毫无人性可言，教育看起来也是早已崩塌的那种。&lt;/p&gt;
+&lt;p&gt;今年下半年很幸运，车辆的一个同学给我申请到了实验室的一个座位，接下来3个月我就是寝室食堂实验室球场，也在结课的那个礼拜顺利的找到了实习。能找到一个喜欢交流技术同样喜欢打球的人是真的三生有幸，感谢这个同学带我入坑计算机。&lt;/p&gt;
+&lt;h2 id=&#34;工作&#34;&gt;工作&lt;/h2&gt;
+&lt;p&gt;面试的那天我就感觉非常糟糕，地铁上我还非常自信，甚至想好了一大串话来吹嘘我的个人项目和憧憬。到了之后就是一连串的基础问题被问倒了，框架等技术几乎没问，回去之后我也反思了很多。能做出东西、只是会用还是太浅了，基础才是基石。&lt;/p&gt;
+&lt;p&gt;2020也就350左右的提交量而且大部分都是划水提交，真想好好做个开源项目的时候是在下半年，可惜后来就去实习了，发现自己及其菜，希望21年能好好开发一个好的开源项目。&lt;/p&gt;
+&lt;p&gt;每周的写写代码时间也变长了，实习前其实一直就是在CRUD。这两个月跟我的mentor也学到了非常多，总体感觉就是跟不上他的思想，永远在他后面用最烂的解决办法解决问题。&lt;/p&gt;
+&lt;p&gt;21年春招希望可以认真把握一下。&lt;/p&gt;
+&lt;h2 id=&#34;heading&#34;&gt;💻🏸&lt;/h2&gt;
+&lt;h3 id=&#34;影视&#34;&gt;影视&lt;/h3&gt;
+&lt;p&gt;年初看完了《纸钞屋》最新季，真不喜欢这种拉屎拉到一般截断的感觉&lt;/p&gt;
+&lt;p&gt;年度最佳番剧《进击的巨人》&lt;/p&gt;
+&lt;p&gt;暑假诺兰月看了3部烧脑片，二刷《盗梦空间》、《星际穿越》，《信条》只看了一遍，没看懂。&lt;/p&gt;
+&lt;p&gt;8月看了《八佰》，10月《夺冠》（有种前几年看李宗伟的感觉）、跨年夜《送你一所小红花》&lt;/p&gt;
+&lt;h3 id=&#34;游戏&#34;&gt;游戏&lt;/h3&gt;
+&lt;p&gt;20年游戏玩的不多，台式机一直放在学校吃灰……不过回学校就玩了几天就不想玩了&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;只狼3周目&lt;/li&gt;
+&lt;li&gt;彩虹六号终于上白金一次&lt;/li&gt;
+&lt;li&gt;2077（2小时hhh）&lt;/li&gt;
+&lt;li&gt;胡闹厨房2（就是吵架厨房）&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;音乐&#34;&gt;音乐&lt;/h3&gt;
+&lt;p&gt;Youtube music真的香，自从看了1million，听歌就是看着手机听了&lt;/p&gt;
+&lt;p&gt;年度歌单&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;2020歌单&#34; loading=&#34;lazy&#34; src=&#34;https://ISheepp.github.io/posts/2020-report/attachments/bafybeictz6eafajdvbdjlied3e4e7iqhio23zp345tlbcppyszkz3q7j3u.png&#34;&gt;&lt;/p&gt;
+&lt;h3 id=&#34;摄影&#34;&gt;摄影&lt;/h3&gt;
+&lt;p&gt;卖了相机和无人机之后就没有拍视频拍照片的欲望了，可能我也不是这块料吧，当时还是冲动了，像是买了个玩具，买来就吃灰。以后有机会的话希望能报班学习一下。暂时也拿不出闲钱和时间搞这些了。&lt;/p&gt;
+&lt;h3 id=&#34;羽球&#34;&gt;羽球&lt;/h3&gt;
+&lt;p&gt;20年应该算是打的最多的一年了，也是大运会后最燃的一年。最好的练球时光已经过去了，再也没有了，不过也没什么好后悔的了，希望以后打球能带点脑子，学习一下父亲的打法。&lt;/p&gt;
+&lt;h2 id=&#34;heading-1&#34;&gt;🐏&lt;/h2&gt;
+&lt;p&gt;最后是感谢来到城西之后新认识的朋友们啦，大家人都很好，竟然又遇到了老乡。感觉从小到大没有一段社交是我从零开始经营的，可能这也是一种幸运吧，承蒙大家照顾了。&lt;/p&gt;
+&lt;p&gt;感谢陪我玩游戏的室友&lt;/p&gt;
+&lt;p&gt;感谢陪我打球的朋友们&lt;/p&gt;
+&lt;p&gt;感谢父母理解和尊重我的决定。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;2021，希望能变得自律，向着目标前进！&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>搬家</title>
+      <link>https://ISheepp.github.io/posts/migrate/</link>
+      <pubDate>Sat, 05 Dec 2020 10:11:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/migrate/</guid>
+      <description>&lt;p&gt;11月29日, 搬到了实习公司旁边, 花了几乎一整天的时间. 本该当天就想写完这段时间的一点想法. 但是搬完家实在是太累了. 而且路上发生了一点事让我不太想去回想. 今天星期五, 感受了四天开发的氛围. 躺在床上,感觉还是要记录下来. 虽然回忆的过程很痛苦.&lt;/p&gt;
+&lt;h2 id=&#34;出发&#34;&gt;出发&lt;/h2&gt;
+&lt;p&gt;早上8点租了一辆联动云的共享长城. 车况还不错, 开起来也比较紧凑, 一个人开车没有家人的唠叨会有点野, 不过我做所有事还是会有一个底线. 所以说开的再怎么野我也会保障自己基本的安全 避免不必要的事故.&lt;/p&gt;
+&lt;p&gt;杭州的周末, 高架上车是真的多. 不知道平时工作日路况怎么样, 反正星期天我感觉在高架上堵了很久, 还不如走下面来的快. 以前就在V2EX上看到有杭州的老哥说上班宁可绕远路也不走高架. 可能这就是大城市吧. 希望杭州的地铁早点能造完, 交通会便利很多.&lt;/p&gt;
+&lt;h2 id=&#34;路上&#34;&gt;路上&lt;/h2&gt;
+&lt;p&gt;在堵车的时候遇到了两个追尾事件, 其中有一起就发生在我旁边, 具体几辆车追尾我也不清楚, 就听到一声很重的撞击声. 假如我在那个车道的话可能我就是不幸的那个人了, 毕竟是共享汽车, 出了车祸会很麻烦. 还有一起是已经发生了, 导致高架上堵车堵了很久, 4辆连追, 人应该都没事. 总之我很庆幸我的父亲以前不停的在我旁边唠叨, 教会我的那些很基础但是很有用的一些驾驶技巧.&lt;/p&gt;
+&lt;p&gt;在堵车的时候, 我一边憧憬着工作以后的生活, 一边又回想起了家里的事, 终于忍不住把这两个月的情绪发泄出来了. 在车里哭了出来, 以前在学校只是会鼻子很酸, 但是我都忍住了. 没想到在车里一个人的时候还是没忍住, 想着想着就哭出来了. 想想这两年, 为什么天天聊天的人突然就冷漠了呢, 感觉当了两年的工具人, 可能也是我爸说的那样, 对有些感情看的太重了. 我过多的把我的快乐倾注在某个人身上, 突然的不联系, 会让我很不快乐. 我就是没想到为什么人会变的那么快呢, 为什么我那么容易可以被代替. 这两个月有时候一想起来人很难受. 打球的时候想起来, 就会消极比赛, 吃饭的时候想起来, 就会莫名其妙的吃不下去, 睡觉前想起来, 就会辗转反侧睡不着. 不过这些我想时间都会帮助我克服的. 毕竟在删了好友后, 前几天还是会很不习惯, 但是现在过了快两个礼拜了, 也习惯了, 估计她也无所谓了吧. 我更不理解的是在删了她之后为什么还要打电话去我妈那里呢, 有必要么,? 还说不想失去我这个弟弟, 为什么做人可以这么贪呢? ? 假如我还在为考研努力的话, 可能我的心态已经要崩了. 归根结底, 我还是太把她当一回事了, 我跟家里的耦合性太高了. 明明是不可能的, 我应该早就果断点想明白的, 是我太贪了. 希望接下来能尽快融入新的环境, 认识新的朋友, 过去的就让他过去.  可能我忘不了她, 因为太多东西已经深入我人里面了, 但我会尽量不去想以前的事. 上次回家的生日就当是最后一次正常的见面了吧.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>五月是你的太阳</title>
+      <link>https://ISheepp.github.io/posts/may-your-sun/</link>
+      <pubDate>Tue, 02 Jun 2020 10:06:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/may-your-sun/</guid>
+      <description>&lt;ul&gt;
+&lt;li&gt;服&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;本来应该&lt;del&gt;昨天&lt;/del&gt;前天(啊又拖了一天)写五月总结的，结果快乐打球一拖就忘记了 {{doge}} ，(昨天看视频看过头了)今天来总结并规划一下六月份的计划。&lt;/p&gt;
+&lt;p&gt;上次定的计划是五月完成线性代数的复习和二刷1800的高数部分，不过直到昨天我才刚刚看到二次型&lt;/p&gt;
+&lt;p&gt;，总的来说就是这个月的计划并没有完成。可能跟开学时间也有关系（7号回学校，之前给自己放了一礼拜的假）&lt;/p&gt;
+&lt;p&gt;花了两个礼拜写了高数，最后一个礼拜效率不是很高，球打得多，溜出去也多。不过再给我一礼拜的话应该还是能完成，其实给的量还是ok的&lt;/p&gt;
+&lt;h2 id=&#34;heading&#34;&gt;🕶&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;前两天看到Linus换了新电脑，价值3w左右&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;很荣幸我跟大神用的是同样的显卡，可以看出Linus已经拥抱AMD了（AMD YES！）&lt;/p&gt;
+&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;马斯克终于得到了认可，我一直很喜欢他，他给我的感觉就是在为人类的未来做好规划。假如有生之年能去外星球我会毫不犹豫的选择去看看即使可能是单程票。我从小到大没什么冒险精神，但是毕竟在地狱统治好过在天堂服侍。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;六月规划&#34;&gt;六月规划&lt;/h2&gt;
+&lt;p&gt;六月份需要应付一下期末考，还有暑期的几个大作业要完成。感觉在图书馆的效率还不是特别高，每天早上7点10分到了之后不小睡一会儿就会没什么精神，然后就是花在听歌上的时间比较长。&lt;/p&gt;
+&lt;p&gt;6月份打算把660写起来，然后看看正确率，英语的话还是每天一篇阅读找找感觉，每天看Unbox带英文字幕的都能看懂，为啥经济学人的文章就这么难懂呢；然后每天晚上回寝室看一个徐涛的视频。&lt;/p&gt;
+&lt;p&gt;月底的时候可以把1800标记的两遍都做错的题目再看一下，然后线性代数还需要将整体架构理一下思路。线性代数这个东西看起来内容很少而且很固定，但是做题时却完全没有手感，想不到方法，估计还没有建立起一套做题方法的体系。&lt;/p&gt;
+&lt;p&gt;R6的话等新赛季来了可以认真打一下定级，定完就和室友偶尔快乐休闲。&lt;/p&gt;
+&lt;h2 id=&#34;heading-1&#34;&gt;🖱&lt;/h2&gt;
+&lt;p&gt;五月整体过的还行，但是我发现我好像确实比较记仇，就算是屁大点的事情有时也会想好久。看似外面现在挺乱的，这个时候不能幸灾乐祸，而是要提升自己。今天去看了学长的推优答辩，顺便在办公室看了一下其他人的论文，不得不说强的很强，水的看一眼就知道是买的，不过其实几个月前我也打算明年买毕设的 {{doge}}现在想想真不想做还不如从gayhub上clone一个来的实在。&lt;/p&gt;
+&lt;h2 id=&#34;heading-2&#34;&gt;🏸&lt;/h2&gt;
+&lt;p&gt;虽然脚差不多是好了，但是打球的时候明显会感觉到我会害怕头顶区的球，所以这个月我的反手过渡能力反而提升了不少。虽然缺少了一些直接的进攻，不过也算让自己的防守范围变大了，毕竟创造进攻机会才是最重要的而不是一拍干死。&lt;/p&gt;
+&lt;p&gt;还是感觉打球缺少球路的变化，缺少一些组织进攻的想象力。虽然网上满是什么控网抢攻，拉吊突击各种现成的打法，但是要创造出自己的打法才是最好的。可能大脑也决定了一些上限，不然我应该不会在这学校读书了吧。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>假期复盘</title>
+      <link>https://ISheepp.github.io/posts/vacation-summary/</link>
+      <pubDate>Sat, 02 May 2020 10:05:00 +0000</pubDate>
+      <guid>https://ISheepp.github.io/posts/vacation-summary/</guid>
+      <description>&lt;p&gt;下礼拜就开学了，在经历了史上最长假期后想记录一下自己的一些想法&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2 id=&#34;思考&#34;&gt;思考&lt;/h2&gt;
+&lt;p&gt;其实我大三开学就有了考研的打算，不过还只是一个简单的想法并没有去花太多时间去研究，那段时间也大部分在查漏补缺之前落下的课程。在搭了自己的博客之后也陆续的看到了很多的技术大牛，有的人甚至还在高中，就能写出自己的博客框架。这让我对技术的认知和家庭的影响有了很大的改变，也让我怀疑现在开始努力迟了么？是不是从小就落后一些好的家庭教育的同学呢？在B站还看到一个上幼儿园的小朋友拿着iPad在做swift语法教学，更让我想起了我那么小的时候在干嘛呢？&lt;/p&gt;
+&lt;p&gt;我小时候也算是蛮早接触电脑的吧，可能是小学一年级或者更早，家里买了一台大屁股显示器的电脑。也可能是家里几个哥哥的影响，电脑在我印象中就是拿来玩游戏的，我并不能像linus小时候一样在爷爷的带领下去“玩”计算机底层的东西。这在我家庭是不现实的，甚至大多数家庭应该都不现实。毕竟2000年初的中国也不是大部分家庭有linus这样的背景的，虽然我对父亲买电脑的原因、甚至工作的内容都很模糊，但是小时候我哪儿会想这些呢，对每天晚上能玩一会儿游戏就很开心。&lt;/p&gt;
+&lt;p&gt;接下来的记忆就有点模糊，只记得后来家里换了台配置好点的台式机和一台索尼VAIO的笔记本电脑（ 现在几乎看不到这个品牌 ）。那是我第一次见到笔电，就感觉挺神奇的。后来自己有了一台笔记本，我还清楚的记得是Lenovo的，win7系统。当时我误认为了是vista，因为在去别人家的时候看到过这种新潮的交互界面，比xp确实酷多了。这时候应该是初中，然后就开始了每天先拼了命把作业写完然后开始游戏时间。从小我就不太喜欢玩网游，一直玩的是破解版的那些单机游戏，那时候也没有版权的意识，就觉得很好玩。还记得每年快到生日的时候就是新的COD快发售的时候，那段时间会很兴奋。我从4一直玩到9。但是唯独也没有想过游戏是怎么做的。&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;VAIO&#34; loading=&#34;lazy&#34; src=&#34;https://ISheepp.github.io/posts/vacation-summary/attachments/bafybeihdqsvoirgw2cma5kt2npb6a5ycauvgmpl6hec5fck4v5dsxfrtcm.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;高中之后还是那台Lenovo，玩的少了，大家都开始玩MOBA游戏，为了融入大家我会跟着他们玩，但是始终我不太喜欢玩MOBA游戏。其实高中是我过的最快乐的几年，遇到了最松的班主任，也认识了很多深交的同学。上了大学之后一度认为大学比高中还累。可能我上了一个不好的学校，但是我完全不后悔高中快乐了三年。&lt;/p&gt;
+&lt;h3 id=&#34;考研or工作&#34;&gt;考研or工作&lt;/h3&gt;
+&lt;p&gt;但是想到这里还是会对自己的学历感到一些自卑。说是说计算机讲究技术，不看重学历，但是在中国这个社会，要选拔出人才，怎么可能不看学历呢。就像字节跳动的面试，上来就是给你一大堆算法题，要我在这一轮就直接GG了。可能几年的工作经历确实比一个研究生学历来的重要。不过要是几年的工作经历并不是做一个完整的项目，而是每天CRUD，复制粘贴那种只需要三个键的经历。那跟荒废两年有什么不同。学校开设的中软班我当时非常想去，说白了其实就是个培训班，早点适应企业开发就是了，但是确实是个挺好的机会，但是我想着想着就错过了报名时间(￣_,￣ )所以也只能走考研这条路了，希望能在当前的大环境下走的顺利。&lt;/p&gt;
+&lt;h2 id=&#34;学习&#34;&gt;学习&lt;/h2&gt;
+&lt;p&gt;讲道理将近4个月没玩游戏还是有点难受，不过也过来了。数学把基础部分看了一遍，题目也刷了一遍。但是总感觉效率不是很高，可能在家也有原因。&lt;/p&gt;
+&lt;p&gt;英语并没有背单词，背单词太痛苦了，还不如看文章把不认识的记下来好点。看完刘晓燕的长难句，稀里糊涂的记了一大堆笔记。突然有点想念高中英语老师。长难句属于几乎分离不出结构，看懂的话要看感觉。&lt;/p&gt;
+&lt;p&gt;政治没有开始。&lt;/p&gt;
+&lt;p&gt;专业课匆匆看了一遍，毕竟是去年上过的。不过数据结构我学的还是很烂，有待加强。&lt;/p&gt;
+&lt;h3 id=&#34;5月6月&#34;&gt;5月6月&lt;/h3&gt;
+&lt;p&gt;完成基础部分的学习&lt;/p&gt;
+&lt;p&gt;数学三大块：极限、中值定理、定积分（体积有点弱）&lt;/p&gt;
+&lt;p&gt;（证明题很弱，构造函数想不出，方法想不出）&lt;/p&gt;
+&lt;p&gt;专业课脱离键盘&lt;/p&gt;
+&lt;p&gt;英语多看文章吧，真题可以做起来了&lt;/p&gt;
+&lt;h2 id=&#34;一点想法&#34;&gt;一点想法&lt;/h2&gt;
+&lt;p&gt;其实我是很讨厌政治话题的，不过在当前环境下让我出乎意料的是：全世界有那么多国家针对中国。其实一开始我感觉几个外交发言人的言语过于激烈，后来仔细想了下也正是他们在保护中国，不然又要重蹈覆辙。我是认为只有共产党是适合中国国情的，墙也是应该存在的。以后还是少看点这些东西了，Twitter卸载&lt;/p&gt;
+&lt;h2 id=&#34;剧&#34;&gt;剧&lt;/h2&gt;
+&lt;p&gt;没游戏玩剧还是能看，毕竟脚扭了躺床上还是要做点事情&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;纸房子，教授还是一如既往的出乎意料&lt;/li&gt;
+&lt;li&gt;李尸朝鲜，看解说还是自己看来的舒服，三胖可以搞点生死草77&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;希望接下来不是这种状态了&amp;hellip;&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>
