@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>转载 on Beaulo&#39;s Blog</title>
-    <link>https://ISheepp.github.io/tags/%E8%BD%AC%E8%BD%BD/</link>
+    <link>http://localhost:1313/tags/%E8%BD%AC%E8%BD%BD/</link>
     <description>Recent content in 转载 on Beaulo&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 10 Oct 2021 20:25:41 +0000</lastBuildDate>
-    <atom:link href="https://ISheepp.github.io/tags/%E8%BD%AC%E8%BD%BD/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/%E8%BD%AC%E8%BD%BD/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>【翻译】KK的68条给年轻人的建议</title>
-      <link>https://ISheepp.github.io/posts/kk-advice-for-teenager/</link>
+      <link>http://localhost:1313/posts/kk-advice-for-teenager/</link>
       <pubDate>Sun, 10 Oct 2021 20:25:41 +0000</pubDate>
-      <guid>https://ISheepp.github.io/posts/kk-advice-for-teenager/</guid>
+      <guid>http://localhost:1313/posts/kk-advice-for-teenager/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://kk.org/thetechnium/68-bits-of-unsolicited-advice/&#34;&gt;原文&lt;/a&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -199,9 +199,9 @@
     </item>
     <item>
       <title>【转载】Status 还是 State</title>
-      <link>https://ISheepp.github.io/posts/status-or-state/</link>
+      <link>http://localhost:1313/posts/status-or-state/</link>
       <pubDate>Sat, 02 Oct 2021 14:47:41 +0000</pubDate>
-      <guid>https://ISheepp.github.io/posts/status-or-state/</guid>
+      <guid>http://localhost:1313/posts/status-or-state/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://liqiang.io/post/status-or-state-fa70399e&#34;&gt;Status 还是 State&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;代码中 state 和 status 区别：&lt;/p&gt;
 &lt;ul&gt;
@@ -216,9 +216,9 @@
     </item>
     <item>
       <title>【转载】 2010年的房地产调控，我们收获了什么？写在房价暴涨前</title>
-      <link>https://ISheepp.github.io/posts/2010-estate/</link>
+      <link>http://localhost:1313/posts/2010-estate/</link>
       <pubDate>Sat, 04 Sep 2021 03:42:00 +0000</pubDate>
-      <guid>https://ISheepp.github.io/posts/2010-estate/</guid>
+      <guid>http://localhost:1313/posts/2010-estate/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;http://bbs.tianya.cn/post-house-252774-1.shtml&#34;&gt;2010年的房地产调控，我们收获了什么？写在房价暴涨前&lt;/a&gt;
 &lt;a href=&#34;https://github.com/shenzhengfang/kkndme_tianya&#34;&gt;原仓库&lt;/a&gt; 备份防删库&lt;/p&gt;
 &lt;h1 id=&#34;kkndme_tianya持续更新中&#34;&gt;kkndme_tianya（持续更新中&amp;hellip;）&lt;/h1&gt;
@@ -398,9 +398,9 @@
     </item>
     <item>
       <title>【转载】内燃机原理</title>
-      <link>https://ISheepp.github.io/posts/engine/</link>
+      <link>http://localhost:1313/posts/engine/</link>
       <pubDate>Sat, 21 Aug 2021 11:21:00 +0000</pubDate>
-      <guid>https://ISheepp.github.io/posts/engine/</guid>
+      <guid>http://localhost:1313/posts/engine/</guid>
       <description>&lt;p&gt;&lt;a href=&#34;https://ciechanow.ski/internal-combustion-engine/&#34;&gt;内燃机原理解释动图&lt;/a&gt;&lt;/p&gt;</description>
     </item>
   </channel>

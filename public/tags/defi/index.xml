@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Defi on Beaulo&#39;s Blog</title>
-    <link>https://ISheepp.github.io/tags/defi/</link>
+    <link>http://localhost:1313/tags/defi/</link>
     <description>Recent content in Defi on Beaulo&#39;s Blog</description>
     <generator>Hugo</generator>
     <language>zh-cn</language>
     <lastBuildDate>Thu, 09 Feb 2023 15:59:01 +0000</lastBuildDate>
-    <atom:link href="https://ISheepp.github.io/tags/defi/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/defi/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>借贷 - On Chain</title>
-      <link>https://ISheepp.github.io/posts/decentralized-lend/</link>
+      <link>http://localhost:1313/posts/decentralized-lend/</link>
       <pubDate>Thu, 09 Feb 2023 15:59:01 +0000</pubDate>
-      <guid>https://ISheepp.github.io/posts/decentralized-lend/</guid>
+      <guid>http://localhost:1313/posts/decentralized-lend/</guid>
       <description>信贷 - 现代金融体系的神奇工具，也是形成经济周期的一大因素</description>
     </item>
   </channel>
