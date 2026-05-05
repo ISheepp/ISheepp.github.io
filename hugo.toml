@@ -1,3 +1,63 @@
-baseURL = 'https://example.org/'
-locale = 'en-us'
-title = 'My New Hugo Project'
+baseURL = "https://ISheepp.github.io/"
+languageCode = "zh-cn"
+title = "Beaulo's Blog"
+theme = "PaperMod"
+
+[pagination]
+pagerSize = 10
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
+
+[params]
+env = "production"
+description = "记录开发、AI Agent、创业项目和技术思考。"
+author = "Beaulo"
+defaultTheme = "auto"
+ShowReadingTime = true
+ShowShareButtons = false
+ShowCodeCopyButtons = true
+ShowPostNavLinks = true
+ShowBreadCrumbs = true
+ShowToc = true
+TocOpen = true
+ShowWordCount = true
+ShowRssButtonInSectionTermList = true
+UseHugoToc = true
+disableSpecial1stPost = false
+
+[params.homeInfoParams]
+Title = "Hi, 我是 Beaulo 👋"
+Content = "这里记录我的开发经验、AI Agent 实践、Go 后端、React Native、创业项目和一些技术思考。"
+
+[[params.socialIcons]]
+name = "github"
+url = "https://github.com/ISheepp"
+
+[[menu.main]]
+identifier = "posts"
+name = "文章"
+url = "/posts/"
+weight = 10
+
+[[menu.main]]
+identifier = "archives"
+name = "归档"
+url = "/archives/"
+weight = 20
+
+[[menu.main]]
+identifier = "tags"
+name = "标签"
+url = "/tags/"
+weight = 30
+
+[[menu.main]]
+identifier = "search"
+name = "搜索"
+url = "/search/"
+weight = 40
+
+[outputs]
+home = ["HTML", "RSS", "JSON"]
